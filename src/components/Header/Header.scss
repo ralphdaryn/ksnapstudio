@@ -1,0 +1,142 @@
+/* Mobile-first, BEM */
+.header {
+  --h-pad: 1rem;
+  --max-w: 1200px;
+  --gap: 1.25rem;
+
+  background: #fff;
+  border-bottom: 1px solid #eee;
+
+  &__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0.75rem var(--h-pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap);
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  &__logo {
+    display: block;
+    height: 40px;
+    width: auto;
+  }
+
+  /* Hamburger toggle */
+  &__toggle {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0.5rem;
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  &__burger {
+    position: relative;
+    display: inline-block;
+    width: 26px;
+    height: 2px;
+    background: #111;
+  }
+
+  &__burger::before,
+  &__burger::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 26px;
+    height: 2px;
+    background: #111;
+  }
+
+  &__burger::before {
+    top: -7px;
+  }
+
+  &__burger::after {
+    top: 7px;
+  }
+
+  /* Nav (mobile collapsed by default) */
+  &__nav {
+    position: absolute;
+    inset: 64px 0 auto 0; /* drops below header on mobile */
+    background: #fff;
+    border-top: 1px solid #eee;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease, transform 150ms ease;
+  }
+
+  &__nav--open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0.75rem var(--h-pad);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  &__link {
+    display: block;
+    padding: 0.5rem 0.25rem;
+    text-decoration: none;
+    color: #111;
+    font-weight: 500;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+      outline: none;
+    }
+  }
+
+  /* Desktop */
+  @media (min-width: 768px) {
+    &__toggle {
+      display: none;
+    }
+
+    &__nav {
+      position: static;
+      inset: auto;
+      border-top: 0;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      background: transparent;
+    }
+
+    &__list {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0;
+    }
+
+    &__link {
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+
+      &:hover,
+      &:focus {
+        background: #f4f4f5;
+        text-decoration: none;
+      }
+    }
+  }
+}

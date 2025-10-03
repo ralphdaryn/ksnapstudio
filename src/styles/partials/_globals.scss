@@ -1,0 +1,72 @@
+/* src/styles/global.scss */
+@use "./colors";
+@use "./mixins" as *;
+@use "./fonts";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: "EBGaramond", serif;
+  color: var(--text, #1f2328);
+  background: var(--bg, #ffffff);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent, #776c5d);
+  outline-offset: 2px;
+}
+
+/* App wrapper */
+.app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}

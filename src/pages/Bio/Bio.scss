@@ -1,0 +1,19 @@
+/* src/pages/Bio/Bio.scss */
+.bio {
+  --max-w: 900px;
+  padding: 2rem 1rem;
+  background: #fafafa;
+
+  &__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  &__text {
+    color: #444;
+    line-height: 1.7;
+  }
+}

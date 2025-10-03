@@ -1,0 +1,53 @@
+/* src/pages/Packages/Packages.scss */
+.packages {
+  --max-w: 1100px;
+  padding: 2rem 1rem;
+
+  &__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  &__card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 1rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  &__name {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  &__price {
+    font-weight: 700;
+  }
+  &__desc {
+    color: #555;
+  }
+
+  &__btn {
+    justify-self: start;
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    border: 1px solid #111;
+    color: #fff;
+    background: #111;
+    text-decoration: none;
+  }
+}

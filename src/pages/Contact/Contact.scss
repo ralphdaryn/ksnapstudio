@@ -1,0 +1,46 @@
+/* src/pages/Contact/Contact.scss */
+.contact {
+  --max-w: 720px;
+  padding: 2rem 1rem;
+
+  &__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  &__form {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  &__field {
+    display: grid;
+    gap: 0.35rem;
+  }
+  &__label {
+    font-weight: 600;
+  }
+  &__input,
+  &__textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    font: inherit;
+    background: #fff;
+  }
+
+  &__btn {
+    justify-self: start;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #111;
+    color: #fff;
+    background: #111;
+    cursor: pointer;
+  }
+}

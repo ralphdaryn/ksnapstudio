@@ -1,0 +1,40 @@
+/* src/styles/_mixins.scss */
+
+/* Breakpoints (mobile-first) */
+$bp-tablet: 768px;
+$bp-desktop: 1280px;
+
+@mixin tablet {
+  @media (min-width: $bp-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $bp-desktop) {
+    @content;
+  }
+}
+
+/* Screen-reader only (a11y) */
+@mixin sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+/* Centered container helper */
+@mixin container($max: 1100px, $pad: 16px) {
+  max-width: $max;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $pad;
+  padding-right: $pad;
+}
