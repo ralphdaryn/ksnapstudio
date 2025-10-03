@@ -191,7 +191,6 @@ export default function Main() {
             <Link className="main__link" to="/portfolio">
               View full gallery →
             </Link>
-
             {SMUGMUG_URL ? (
               <a
                 className="main__link"
@@ -215,29 +214,49 @@ export default function Main() {
         </div>
       </section>
 
-      {/* REVIEWS (Google) */}
+      {/* REVIEWS + TESTIMONIALS (combined) */}
       <section id="reviews" className="main__section">
         <div className="main__container">
-          <h2 className="main__section-title">Reviews</h2>
-          {GOOGLE_REVIEW_URL ? (
-            <a
-              className="main__btn main__btn--outline"
-              href={GOOGLE_REVIEW_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Leave a Google Review
-            </a>
-          ) : (
-            <button
-              className="main__btn main__btn--outline"
-              type="button"
-              disabled
-              title="Link coming soon"
-            >
-              Leave a Google Review
-            </button>
-          )}
+          <h2 className="main__section-title">
+            Reviews &amp; What Clients Say
+          </h2>
+
+          <div className="main__reviews">
+            <div className="main__reviews-cta">
+              {GOOGLE_REVIEW_URL ? (
+                <a
+                  className="main__btn main__btn--outline"
+                  href={GOOGLE_REVIEW_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Leave a Google Review
+                </a>
+              ) : (
+                <button
+                  className="main__btn main__btn--outline"
+                  type="button"
+                  disabled
+                  title="Link coming soon"
+                >
+                  Leave a Google Review
+                </button>
+              )}
+              <p className="main__reviews-note">
+                We value every story. Share yours or browse what others loved.
+              </p>
+            </div>
+
+            <ul className="main__quotes">
+              {TESTIMONIALS.map((t, i) => (
+                <li key={i} className="main__quote">
+                  <blockquote className="main__quote-text">
+                    “{t.text}”
+                  </blockquote>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -253,20 +272,6 @@ export default function Main() {
               </details>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section id="testimonials" className="main__section">
-        <div className="main__container">
-          <h2 className="main__section-title">What Clients Say</h2>
-          <ul className="main__quotes">
-            {TESTIMONIALS.map((t, i) => (
-              <li key={i} className="main__quote">
-                <blockquote className="main__quote-text">“{t.text}”</blockquote>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
