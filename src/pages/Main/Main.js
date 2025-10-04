@@ -211,7 +211,6 @@ export default function Main() {
       <section id="packages" className="main__section">
         <div className="main__container">
           <h2 className="main__section-title">Packages</h2>
-
           <ul className="main__cards">
             {PACKAGE_CATEGORIES.map(({ key, title, items }) => (
               <li key={key} className="main__card">
