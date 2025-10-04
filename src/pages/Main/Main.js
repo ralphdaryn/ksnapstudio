@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import "./Main.scss";
 
 // Put your real links here when ready:
-const SMUGMUG_URL = ""; // e.g., "https://ksnapstudio.smugmug.com"
 const GOOGLE_REVIEW_URL = ""; // e.g., "https://g.page/r/xxxxxxx/review"
 
 // Package categories (no prices per client request)
@@ -114,7 +113,7 @@ export default function Main() {
         </div>
       </section>
 
-      {/* BIO (Intro) */}
+      {/* BIO */}
       <section id="bio" className="main__section main__section--alt">
         <div className="main__container">
           <h2 className="main__section-title">About KSnap Studio</h2>
@@ -136,43 +135,10 @@ export default function Main() {
         </div>
       </section>
 
-      {/* PACKAGES PREVIEW (no prices) */}
-      <section id="packages" className="main__section">
-        <div className="main__container">
-          <h2 className="main__section-title">Packages</h2>
-
-          <ul className="main__cards">
-            {PACKAGE_CATEGORIES.map(({ key, title, items }) => (
-              <li key={key} className="main__card">
-                <h3 className="main__card-title">{title}</h3>
-                <ul className="main__card-list">
-                  {items.map((t, i) => (
-                    <li key={i} className="main__card-item">
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-                <div className="main__card-note">
-                  Add-ons: extra hours, second shooter, videographer —{" "}
-                  <span>inquire for options</span>.
-                </div>
-                <Link className="main__card-btn" to="/contact">
-                  Book Now
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <Link className="main__link" to="/packages">
-            See full details →
-          </Link>
-        </div>
-      </section>
-
       {/* PORTFOLIO PREVIEW */}
       <section id="portfolio" className="main__section main__section--alt">
         <div className="main__container">
-          <h2 className="main__section-title">Portfolio</h2>
+          <h2 className="main__section-title">Gallery</h2>
 
           <div className="main__media-list">
             {PORTFOLIO_SAMPLE.map((img) => (
@@ -191,25 +157,6 @@ export default function Main() {
             <Link className="main__link" to="/portfolio">
               View full gallery →
             </Link>
-            {SMUGMUG_URL ? (
-              <a
-                className="main__link"
-                href={SMUGMUG_URL}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Open SmugMug Portfolio ↗
-              </a>
-            ) : (
-              <button
-                className="main__link main__link--button"
-                type="button"
-                disabled
-                title="Link coming soon"
-              >
-                Open SmugMug Portfolio ↗
-              </button>
-            )}
           </div>
         </div>
       </section>
@@ -257,6 +204,39 @@ export default function Main() {
               ))}
             </ul>
           </div>
+        </div>
+      </section>
+
+      {/* PACKAGES PREVIEW (no prices) */}
+      <section id="packages" className="main__section">
+        <div className="main__container">
+          <h2 className="main__section-title">Packages</h2>
+
+          <ul className="main__cards">
+            {PACKAGE_CATEGORIES.map(({ key, title, items }) => (
+              <li key={key} className="main__card">
+                <h3 className="main__card-title">{title}</h3>
+                <ul className="main__card-list">
+                  {items.map((t, i) => (
+                    <li key={i} className="main__card-item">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div className="main__card-note">
+                  Add-ons: extra hours, second shooter, videographer —{" "}
+                  <span>inquire for options</span>.
+                </div>
+                <Link className="main__card-btn" to="/contact">
+                  Book Now
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <Link className="main__link" to="/packages">
+            See full details →
+          </Link>
         </div>
       </section>
 
