@@ -39,7 +39,7 @@ const Header = () => {
             </li>
             <li className="header__item">
               <a className="header__link" href="/gallery">
-                Portfolio
+                Gallery
               </a>
             </li>
             <li className="header__item">
