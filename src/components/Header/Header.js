@@ -44,7 +44,7 @@ const Header = () => {
             </li>
             <li className="header__item">
               <a className="header__link" href="/about">
-                Bio
+                About
               </a>
             </li>
             <li className="header__item">
