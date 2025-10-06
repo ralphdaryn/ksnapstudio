@@ -1,10 +1,18 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
+
+// Local hero images (file paths relative to this file: src/pages/Main.jsx)
+import hero1 from "../../assets/images/hero1.jpg";
+import hero2 from "../../assets/images/hero2.jpg";
+import hero3 from "../../assets/images/hero3.jpg";
 
 // Put your real links here when ready:
 const GOOGLE_REVIEW_URL = ""; // e.g., "https://g.page/r/xxxxxxx/review"
 
-// Package categories (no prices per client request)
+// 3 background slides for the hero
+const HERO_SLIDES = [hero1, hero2, hero3];
+
 const PACKAGE_CATEGORIES = [
   {
     key: "weddings",
@@ -91,10 +99,78 @@ const TESTIMONIALS = [
 ];
 
 export default function Main() {
+  // Carousel state
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  // Fit mode per slide: "cover" (default) or "contain" (for portrait/extreme ratios)
+  const [fitModes, setFitModes] = useState(
+    Array(HERO_SLIDES.length).fill("cover")
+  );
+
+  // Auto-rotate every 5s
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeroIndex((i) => (i + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Preload and detect aspect ratios to decide cover vs contain
+  useEffect(() => {
+    let isMounted = true;
+    const loaders = HERO_SLIDES.map(
+      (src, idx) =>
+        new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () =>
+            resolve({ idx, w: img.naturalWidth, h: img.naturalHeight });
+          img.onerror = () => resolve({ idx, w: 0, h: 0 }); // fallback
+          img.src = src;
+        })
+    );
+
+    Promise.all(loaders).then((results) => {
+      if (!isMounted) return;
+      const modes = Array(HERO_SLIDES.length).fill("cover");
+      results.forEach(({ idx, w, h }) => {
+        if (!w || !h) return;
+        const ar = w / h;
+        // If strongly portrait or ultra-wide, prefer contain to preserve composition
+        if (ar < 0.95 || ar > 2.0) {
+          modes[idx] = "contain";
+        }
+      });
+      setFitModes(modes);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const goTo = (idx) => setHeroIndex(idx % HERO_SLIDES.length);
+
   return (
     <main className="main">
       {/* HERO */}
       <section className="main__hero">
+        {/* Background carousel (behind content) */}
+        <div className="main__hero-carousel" aria-hidden="true">
+          {HERO_SLIDES.map((src, idx) => (
+            <div
+              key={idx}
+              className={`main__hero-slide ${
+                idx === heroIndex ? "main__hero-slide--active" : ""
+              } ${
+                fitModes[idx] === "contain" ? "main__hero-slide--contain" : ""
+              }`}
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+          <div className="main__hero-overlay" />
+        </div>
+
+        {/* Existing content (unchanged) */}
         <div className="main__container">
           <h1 className="main__title">K.Snap.Studio</h1>
           <p className="main__tagline">Capturing Moments, Creating Memories</p>
@@ -109,6 +185,27 @@ export default function Main() {
             <Link className="main__btn" to="/contact">
               Book Now
             </Link>
+          </div>
+
+          {/* Dots */}
+          <div
+            className="main__hero-dots"
+            role="tablist"
+            aria-label="Hero slides"
+          >
+            {HERO_SLIDES.map((_, i) => (
+              <button
+                key={i}
+                role="tab"
+                aria-selected={i === heroIndex}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`main__hero-dot ${
+                  i === heroIndex ? "main__hero-dot--active" : ""
+                }`}
+                onClick={() => goTo(i)}
+                type="button"
+              />
+            ))}
           </div>
         </div>
       </section>

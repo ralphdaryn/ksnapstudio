@@ -47,6 +47,8 @@
 
   /* HERO */
   &__hero {
+    position: relative; /* allow absolute bg */
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,6 +63,48 @@
     }
     @include desktop {
       min-height: 76vh;
+    }
+
+    /* Make hero title/tagline/subtitle pop on top of images */
+    .main__title,
+    .main__tagline,
+    .main__subtitle {
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 6px 24px rgba(0, 0, 0, 0.45);
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.25);
+      text-wrap: balance;
+    }
+
+    .main__title {
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .main__tagline {
+      font-weight: 600;
+      opacity: 0.98;
+    }
+    .main__subtitle {
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 500;
+    }
+
+    /* Buttons: lift over photography */
+    .main__btn {
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      border-color: rgba(255, 255, 255, 0.7);
+
+      &--primary {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+      }
+      &--outline {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(2px);
+      }
     }
   }
 
@@ -86,7 +130,6 @@
     flex-wrap: wrap;
     gap: 0.6rem;
     justify-content: center;
-
     @include tablet {
       gap: 0.75rem;
     }
@@ -145,8 +188,7 @@
     color: var(--muted);
     line-height: 1.7;
     max-width: 70ch;
-    margin: 0;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
   }
   &__text--em {
     font-weight: 600;
@@ -159,9 +201,8 @@
     margin: 1rem 0 0;
     padding: 0;
     display: grid;
-    grid-template-columns: 1fr; /* mobile */
+    grid-template-columns: 1fr;
     gap: 0.9rem;
-
     @include tablet {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.1rem;
@@ -200,7 +241,6 @@
   &__card-title {
     font-size: 1.08rem;
     margin: 0;
-
     @include tablet {
       padding-bottom: 0.35rem;
       border-bottom: 1px solid var(--line);
@@ -211,7 +251,6 @@
     padding-left: 1.25rem;
     margin: 0;
     color: var(--muted);
-
     @include tablet {
       li {
         margin: 0.25rem 0;
@@ -223,7 +262,7 @@
     color: var(--muted);
   }
   &__card-btn {
-    margin-top: auto; /* equal bottom alignment */
+    margin-top: auto;
     align-self: flex-start;
     padding: 0.55rem 0.95rem;
     border-radius: 10px;
@@ -231,7 +270,6 @@
     color: #fff;
     background: #111;
     text-decoration: none;
-
     @include tablet {
       padding: 0.6rem 1rem;
     }
@@ -241,9 +279,8 @@
   &__media-list {
     margin-top: 1rem;
     display: grid;
-    grid-template-columns: 1fr; /* mobile */
+    grid-template-columns: 1fr;
     gap: 0.75rem;
-
     @include tablet {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -276,15 +313,13 @@
     margin-top: 0.75rem;
   }
 
-  /* REVIEWS + TESTIMONIALS (combined) */
+  /* REVIEWS + TESTIMONIALS */
   &__reviews {
     display: grid;
     gap: 1rem;
-    align-items: start; /* mobile: stacked */
-    /* mobile stays 1 column */
-
+    align-items: start;
     @include tablet {
-      grid-template-columns: 300px 1fr; /* CTA + list */
+      grid-template-columns: 300px 1fr;
       gap: 1.1rem;
     }
     @include desktop {
@@ -308,15 +343,13 @@
     line-height: 1.6;
   }
 
-  /* testimonials */
   &__quotes {
     list-style: none;
     margin: 0.5rem 0 0;
     padding: 0;
     display: grid;
-    grid-template-columns: 1fr; /* mobile */
+    grid-template-columns: 1fr;
     gap: 0.75rem;
-
     @include tablet {
       grid-template-columns: 1fr;
       gap: 0.9rem;
@@ -343,7 +376,6 @@
     display: grid;
     gap: 0.5rem;
     margin-top: 0.5rem;
-
     @include tablet {
       gap: 0.6rem;
     }
@@ -357,7 +389,6 @@
     border-radius: 10px;
     background: #fff;
     padding: 0.5rem 0.75rem;
-
     &[open] {
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
     }
@@ -372,5 +403,102 @@
     color: var(--muted);
     padding: 0.25rem 0 0.5rem;
     margin: 0;
+  }
+
+  /* ===========================
+     HERO CAROUSEL (BEM)
+     =========================== */
+  &__hero-carousel {
+    position: absolute;
+    inset: 0;
+    z-index: 0; /* content container sits above */
+  }
+
+  &__hero-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover; /* default */
+    background-position: center center; /* keep center in view */
+    background-repeat: no-repeat; /* avoid tiling */
+    opacity: 0;
+    transform: scale(1.02); /* subtle zoom for depth */
+    transition: opacity 600ms ease, transform 1200ms ease;
+
+    &--active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* When an image is portrait or ultra-wide, preserve proportions (letterbox if needed) */
+    &--contain {
+      background-size: contain;
+      background-color: #000; /* hidden by overlay; ensures clean edges if visible */
+    }
+  }
+
+  /* stronger gradient overlay for text readability */
+  &__hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.28) 40%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+    pointer-events: none;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.35);
+  }
+
+  /* lift the hero content above bg */
+  &__hero > .main__container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Dots */
+  &__hero-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+    @include tablet {
+      gap: 0.5rem;
+      margin-top: 1.1rem;
+    }
+    @include desktop {
+      margin-top: 1.2rem;
+    }
+  }
+  &__hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: 0;
+    background: rgba(255, 255, 255, 0.55);
+    opacity: 0.9;
+    cursor: pointer;
+    transition: transform 120ms ease, background 120ms ease;
+    &--active {
+      width: 16px;
+      background: #fff;
+    }
+    &:hover {
+      transform: translateY(-1px);
+    }
+    @include tablet {
+      width: 9px;
+      height: 9px;
+      &--active {
+        width: 18px;
+      }
+    }
+    @include desktop {
+      width: 10px;
+      height: 10px;
+      &--active {
+        width: 20px;
+      }
+    }
   }
 }
