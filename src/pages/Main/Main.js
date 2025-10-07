@@ -1,3 +1,6 @@
+// =====================
+// src/pages/Main.jsx
+// =====================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
@@ -7,10 +10,14 @@ import hero1 from "../../assets/images/hero1.jpg";
 import hero2 from "../../assets/images/hero2.jpg";
 import hero3 from "../../assets/images/hero3.jpg";
 
+// Testimonial images (place your client picks here)
+import testi1 from "../../assets/images/testimonial1.jpg"; // Celina
+import testi2 from "../../assets/images/testimonial2.jpg"; // M & L
+
 // Put your real links here when ready:
 const GOOGLE_REVIEW_URL = ""; // e.g., "https://g.page/r/xxxxxxx/review"
 
-// 3 background slides for the hero
+// 3 background slides for the hero (keep your three files)
 const HERO_SLIDES = [hero1, hero2, hero3];
 
 const PACKAGE_CATEGORIES = [
@@ -46,7 +53,6 @@ const PACKAGE_CATEGORIES = [
   },
 ];
 
-// Sample images (replace with your assets)
 const PORTFOLIO_SAMPLE = [
   {
     id: 1,
@@ -62,6 +68,24 @@ const PORTFOLIO_SAMPLE = [
     id: 3,
     src: "https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=800&auto=format&fit=crop",
     alt: "Portrait scene",
+  },
+];
+
+/** Updated to include author + image per client brief */
+const TESTIMONIALS = [
+  {
+    id: "celina",
+    name: "Celina",
+    text: "We are soooooo obsessed!!! These photos are so bright and airy, and truly in the moment. Thank you for doing such an amazing job — these memories will last forever!",
+    img: testi1,
+    alt: "Celina portrait for testimonial",
+  },
+  {
+    id: "m-and-l",
+    name: "M & L",
+    text: "From the moment I met Kishan, my anxiety disappeared. He made me feel comfortable, directed me with ease, and turned my wedding anniversary photos into a dreamy highlight of my year.",
+    img: testi2,
+    alt: "M & L close-up under the veil (photo #88)",
   },
 ];
 
@@ -86,15 +110,6 @@ const FAQ = [
   {
     q: "What’s included in my package?",
     a: "Professional edits, private gallery, consultation, and more.",
-  },
-];
-
-const TESTIMONIALS = [
-  {
-    text: "We are soooooo obsessed!!! These photos are so bright and airy, and truly in the moment. Thank you for doing such an amazing job — these memories will last forever!",
-  },
-  {
-    text: "From the moment I met Kishan, my anxiety disappeared. He made me feel comfortable, directed me with ease, and turned my wedding anniversary photos into a dreamy highlight of my year.",
   },
 ];
 
@@ -124,7 +139,7 @@ export default function Main() {
           const img = new Image();
           img.onload = () =>
             resolve({ idx, w: img.naturalWidth, h: img.naturalHeight });
-          img.onerror = () => resolve({ idx, w: 0, h: 0 }); // fallback
+          img.onerror = () => resolve({ idx, w: 0, h: 0 });
           img.src = src;
         })
     );
@@ -135,10 +150,7 @@ export default function Main() {
       results.forEach(({ idx, w, h }) => {
         if (!w || !h) return;
         const ar = w / h;
-        // If strongly portrait or ultra-wide, prefer contain to preserve composition
-        if (ar < 0.95 || ar > 2.0) {
-          modes[idx] = "contain";
-        }
+        if (ar < 0.95 || ar > 2.0) modes[idx] = "contain";
       });
       setFitModes(modes);
     });
@@ -258,7 +270,7 @@ export default function Main() {
         </div>
       </section>
 
-      {/* REVIEWS + TESTIMONIALS (combined) */}
+      {/* REVIEWS + TESTIMONIALS (aesthetic overlay style) */}
       <section id="reviews" className="main__section">
         <div className="main__container">
           <h2 className="main__section-title">
@@ -266,7 +278,12 @@ export default function Main() {
           </h2>
 
           <div className="main__reviews">
-            <div className="main__reviews-cta">
+            {/* Left: CTA card */}
+            <div
+              className="main__reviews-cta"
+              role="region"
+              aria-label="Leave a review"
+            >
               {GOOGLE_REVIEW_URL ? (
                 <a
                   className="main__btn main__btn--outline"
@@ -289,14 +306,30 @@ export default function Main() {
               <p className="main__reviews-note">
                 We value every story. Share yours or browse what others loved.
               </p>
+              <p className="main__reviews-fyi">Featured: Celina · M &amp; L</p>
             </div>
 
+            {/* Right: testimonials on top of images (overlay cards) */}
             <ul className="main__quotes">
-              {TESTIMONIALS.map((t, i) => (
-                <li key={i} className="main__quote">
-                  <blockquote className="main__quote-text">
-                    “{t.text}”
-                  </blockquote>
+              {TESTIMONIALS.map((t) => (
+                <li key={t.id} className="main__quote">
+                  <figure className="main__tcard">
+                    <img
+                      src={t.img}
+                      alt={t.alt}
+                      className="main__tcard-img"
+                      loading="lazy"
+                    />
+                    <span aria-hidden="true" className="main__tcard-quote">
+                      &#8220;
+                    </span>
+                    <figcaption className="main__tcard-body">
+                      <blockquote className="main__quote-text">
+                        “{t.text}”
+                      </blockquote>
+                      <div className="main__quote-meta">— {t.name}</div>
+                    </figcaption>
+                  </figure>
                 </li>
               ))}
             </ul>

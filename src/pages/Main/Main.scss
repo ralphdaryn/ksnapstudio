@@ -1,3 +1,6 @@
+/* =====================
+   src/pages/Main.scss
+   ===================== */
 @use "../../styles/partials/mixins" as *; // expects: tablet(), desktop()
 /* Mobile-first defaults; enhance at tablet/desktop */
 
@@ -52,7 +55,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 62vh; /* mobile */
+    min-height: 62vh;
     text-align: center;
     background: var(--bg);
     padding: calc(var(--pad-y) + 0.75rem) 0;
@@ -89,11 +92,9 @@
       font-weight: 500;
     }
 
-    /* Buttons: lift over photography */
     .main__btn {
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
       border-color: rgba(255, 255, 255, 0.7);
-
       &--primary {
         background: #111;
         color: #fff;
@@ -146,6 +147,7 @@
     text-decoration: none;
     transition: transform 120ms ease, box-shadow 120ms ease,
       background 120ms ease;
+
     &:hover {
       transform: translateY(-1px);
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
@@ -202,6 +204,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.9rem;
+
     @include tablet {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.1rem;
@@ -250,6 +253,7 @@
     padding-left: 1.25rem;
     margin: 0;
     color: var(--muted);
+
     @include tablet {
       li {
         margin: 0.25rem 0;
@@ -269,6 +273,7 @@
     color: #fff;
     background: #111;
     text-decoration: none;
+
     @include tablet {
       padding: 0.6rem 1rem;
     }
@@ -280,6 +285,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.75rem;
+
     @include tablet {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -312,11 +318,14 @@
     margin-top: 0.75rem;
   }
 
-  /* REVIEWS + TESTIMONIALS */
+  /* ===========================
+        REVIEWS + TESTIMONIALS
+        =========================== */
   &__reviews {
     display: grid;
     gap: 1rem;
     align-items: start;
+
     @include tablet {
       grid-template-columns: 300px 1fr;
       gap: 1.1rem;
@@ -341,40 +350,127 @@
     color: var(--muted);
     line-height: 1.6;
   }
+  &__reviews-fyi {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #888;
+  }
 
+  /* Keep the same UL element but restyle items as image-overlay cards */
   &__quotes {
     list-style: none;
     margin: 0.5rem 0 0;
     padding: 0;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.75rem;
-    @include tablet {
-      grid-template-columns: 1fr;
-      gap: 0.9rem;
-    }
+    gap: 0.9rem;
+
     @include desktop {
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
   }
   &__quote {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 1rem;
-  }
-  &__quote-text {
-    margin: 0;
-    color: var(--ink);
-    line-height: 1.7;
+    padding: 0;
+    border: 0;
+    background: transparent; /* the figure handles visuals */
   }
 
-  /* FAQ */
+  /* Testimonial image card */
+  &__tcard {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    isolation: isolate; /* keep overlay and text contained */
+    aspect-ratio: 16 / 11; /* mobile - a bit taller to ensure faces fit */
+    border: 1px solid var(--line);
+    background: #000;
+
+    @include tablet {
+      aspect-ratio: 3 / 2;
+    } /* wider on larger screens */
+  }
+  &__tcard-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; /* center composition */
+    transform: scale(1.02);
+    transition: transform 300ms ease;
+  }
+  .main__tcard:hover .main__tcard-img {
+    transform: scale(1.05);
+  }
+
+  /* soft gradient overlay for text readability */
+  &__tcard::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.35) 45%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* decorative opening quote mark */
+  &__tcard-quote {
+    position: absolute;
+    top: 0.3rem;
+    left: 0.5rem;
+    font-size: 4rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.45);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    z-index: 1;
+
+    @include tablet {
+      font-size: 5rem;
+      top: 0.2rem;
+      left: 0.6rem;
+    }
+  }
+
+  &__tcard-body {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 0rem;
+    color: #fff;
+    z-index: 1;
+
+    @include tablet {
+      padding: 1.1rem;
+    }
+    @include desktop {
+      padding: 1.2rem 1.25rem;
+    }
+  }
+  &__quote-text {
+    margin: 0 0 0.35rem;
+    color: #fff;
+    line-height: 1.6;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  }
+  &__quote-meta {
+    font-size: 0.95rem;
+    opacity: 0.95;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  /* ===========================
+        FAQ
+        =========================== */
   &__accordion {
     display: grid;
     gap: 0.5rem;
     margin-top: 0.5rem;
+
     @include tablet {
       gap: 0.6rem;
     }
@@ -388,6 +484,7 @@
     border-radius: 10px;
     background: #fff;
     padding: 0.5rem 0.75rem;
+
     &[open] {
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
     }
@@ -405,15 +502,14 @@
   }
 
   /* ===========================
-     HERO CAROUSEL (BEM)
-     =========================== */
+        HERO CAROUSEL (BEM)
+        =========================== */
   &__hero-carousel {
     position: absolute;
     inset: 0;
     z-index: 0; /* content container sits above */
-    pointer-events: none; /* ⬅️ allow header toggle clicks to pass through */
+    pointer-events: none; /* ensure clicks pass to header etc. */
   }
-
   &__hero-slide {
     position: absolute;
     inset: 0;
@@ -423,7 +519,7 @@
     opacity: 0;
     transform: scale(1.02); /* subtle zoom for depth */
     transition: opacity 600ms ease, transform 1200ms ease;
-    pointer-events: none; /* ⬅️ ensure slide itself can't capture clicks */
+    pointer-events: none;
 
     &--active {
       opacity: 1;
@@ -463,6 +559,7 @@
     justify-content: center;
     gap: 0.4rem;
     margin-top: 0.9rem;
+
     @include tablet {
       gap: 0.5rem;
       margin-top: 1.1rem;
@@ -480,13 +577,15 @@
     opacity: 0.9;
     cursor: pointer;
     transition: transform 120ms ease, background 120ms ease;
+
     &--active {
       width: 16px;
-      background: #fff;
+      background: #ffffff;
     }
     &:hover {
       transform: translateY(-1px);
     }
+
     @include tablet {
       width: 9px;
       height: 9px;
@@ -504,7 +603,7 @@
   }
 }
 
-/* Optional: ensure your header sits above the hero (only if needed) */
+/* Ensure header sits above hero if overlapping areas exist */
 .header {
   position: relative;
   z-index: 1000;
