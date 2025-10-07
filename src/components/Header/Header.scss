@@ -4,6 +4,8 @@
   --max-w: 1200px;
   --gap: 1.25rem;
 
+  position: relative; /* ⬅️ create stacking context */
+  z-index: 1000; /* ⬅️ ensure above hero backgrounds */
   background: #fff;
   border-bottom: 1px solid #eee;
 
@@ -22,7 +24,6 @@
     align-items: center;
     text-decoration: none;
   }
-
   &__logo {
     display: block;
     height: 40px;
@@ -46,7 +47,6 @@
     height: 2px;
     background: #111;
   }
-
   &__burger::before,
   &__burger::after {
     content: "";
@@ -56,11 +56,9 @@
     height: 2px;
     background: #111;
   }
-
   &__burger::before {
     top: -7px;
   }
-
   &__burger::after {
     top: 7px;
   }
@@ -76,7 +74,6 @@
     pointer-events: none;
     transition: opacity 150ms ease, transform 150ms ease;
   }
-
   &__nav--open {
     opacity: 1;
     transform: translateY(0);
@@ -97,7 +94,6 @@
     text-decoration: none;
     color: #111;
     font-weight: 500;
-
     &:hover,
     &:focus {
       text-decoration: underline;
@@ -110,7 +106,6 @@
     &__toggle {
       display: none;
     }
-
     &__nav {
       position: static;
       inset: auto;
@@ -120,18 +115,15 @@
       pointer-events: auto;
       background: transparent;
     }
-
     &__list {
       display: flex;
       align-items: center;
       gap: 1rem;
       padding: 0;
     }
-
     &__link {
       padding: 0.5rem 0.75rem;
       border-radius: 8px;
-
       &:hover,
       &:focus {
         background: #f4f4f5;
