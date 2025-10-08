@@ -50,6 +50,16 @@
     }
   }
 
+  /* small row wrapper for title + inline link */
+  &__section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+    flex-wrap: wrap; /* mobile-first */
+  }
+
   /* HERO */
   &__hero {
     position: relative;
@@ -178,6 +188,14 @@
     }
   }
 
+  /* inline link beside section titles */
+  .main__link--inline {
+    margin-top: 0;
+    font-weight: 600;
+    white-space: nowrap;
+    align-self: center;
+  }
+
   /* TITLES & TEXT */
   &__section-title {
     font-size: clamp(1.3rem, 5vw, 2rem);
@@ -196,8 +214,8 @@
   }
 
   /* ===========================
-        FLEX — PACKAGE CARDS
-        =========================== */
+           FLEX — PACKAGE CARDS
+           =========================== */
   &__cards {
     list-style: none;
     margin: 1rem 0 0;
@@ -273,8 +291,8 @@
   }
 
   /* ===========================
-        FLEX — PORTFOLIO GRID
-        =========================== */
+           FLEX — PORTFOLIO GRID
+           =========================== */
   &__media-list {
     margin-top: 1rem;
     display: flex;
@@ -314,8 +332,8 @@
   }
 
   /* ===========================
-        FLEX — REVIEWS + TESTIMONIALS
-        =========================== */
+           FLEX — REVIEWS + TESTIMONIALS
+           =========================== */
   &__reviews {
     display: flex;
     flex-direction: column;
@@ -370,7 +388,7 @@
     color: #888;
   }
 
-  /* testimonials list as flex (single column mobile/desktop by default) */
+  /* testimonials list as flex (single column) */
   &__quotes {
     list-style: none;
     margin: 0.5rem 0 0;
@@ -379,7 +397,7 @@
     flex-direction: column;
     gap: 1rem;
     width: 100%;
-    max-width: 880px; /* keeps cards nicely centered width-wise */
+    max-width: 880px;
   }
   &__quote {
     padding: 0;
@@ -485,8 +503,8 @@
   }
 
   /* ===========================
-        FLEX — FAQ (kept simple)
-        =========================== */
+           FLEX — FAQ (kept simple)
+           =========================== */
   &__accordion {
     display: flex;
     flex-direction: column;

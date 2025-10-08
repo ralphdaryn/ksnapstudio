@@ -20,11 +20,17 @@ const GOOGLE_REVIEW_URL = ""; // e.g., "https://g.page/r/xxxxxxx/review"
 // 3 background slides for the hero (keep your three files)
 const HERO_SLIDES = [hero1, hero2, hero3];
 
+/* UPDATED order + grouped titles */
 const PACKAGE_CATEGORIES = [
   {
     key: "weddings",
-    title: "Weddings",
-    items: ["Half-Day Coverage", "Full-Day Coverage"],
+    title: "Weddings & Engagements",
+    items: ["Half-Day Coverage", "Full-Day Coverage", "Engagement Session"],
+  },
+  {
+    key: "family",
+    title: "Family & Maternity",
+    items: ["Lifestyle Family Session", "Maternity Session"],
   },
   {
     key: "events",
@@ -32,24 +38,18 @@ const PACKAGE_CATEGORIES = [
     items: ["Birthdays", "Bridal Showers", "Corporate Events"],
   },
   {
-    key: "portraits",
-    title: "Portraits",
-    items: ["Individual Sessions", "Couple Sessions"],
-  },
-  {
-    key: "seasonal",
-    title: "Seasonal Portrait Sessions",
-    items: ["Limited-time themed shoots (e.g., holidays)"],
-  },
-  {
-    key: "family",
-    title: "Family / Engagement / Maternity",
-    items: ["Lifestyle-focused sessions"],
+    key: "portraits-seasonal",
+    title: "Portraits & Seasonal Sessions",
+    items: [
+      "Individual Portraits",
+      "Couples Portraits",
+      "Limited-Time Themed Shoots",
+    ],
   },
   {
     key: "products",
-    title: "Products / Models",
-    items: ["Studio or on-location shoots"],
+    title: "Products & Models",
+    items: ["Studio Shoots", "On-Location Shoots"],
   },
 ];
 
@@ -327,7 +327,14 @@ export default function Main() {
       {/* PACKAGES PREVIEW (no prices) */}
       <section id="packages" className="main__section">
         <div className="main__container">
-          <h2 className="main__section-title">Packages</h2>
+          {/* NEW: inline title + link */}
+          <div className="main__section-head">
+            <h2 className="main__section-title">Packages</h2>
+            <Link className="main__link main__link--inline" to="/packages">
+              See full details →
+            </Link>
+          </div>
+
           <ul className="main__cards">
             {PACKAGE_CATEGORIES.map(({ key, title, items }) => (
               <li key={key} className="main__card">
@@ -349,9 +356,8 @@ export default function Main() {
               </li>
             ))}
           </ul>
-          <Link className="main__link" to="/packages">
-            See full details →
-          </Link>
+
+          {/* Removed old bottom link */}
         </div>
       </section>
 
