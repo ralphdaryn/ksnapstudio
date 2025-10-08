@@ -319,8 +319,8 @@
   }
 
   /* ===========================
-           REVIEWS + TESTIMONIALS
-           =========================== */
+              REVIEWS + TESTIMONIALS
+              =========================== */
   &__reviews {
     display: grid;
     gap: 1rem;
@@ -377,22 +377,24 @@
   }
 
   /* ===========================
-           TESTIMONIAL CARD (no filters)
-           =========================== */
+              TESTIMONIAL CARD (clean + proportional, no filters)
+              =========================== */
   &__tcard {
     position: relative;
     border-radius: 14px;
     overflow: hidden;
     isolation: isolate; /* contain children */
     border: 1px solid var(--line);
-    background: transparent; /* no black backdrop */
-    aspect-ratio: 6 / 9; /* mobile-first: tall portrait (≈ 8/18) */
+    background: transparent; /* keep original photo look */
+
+    /* Mobile-first: portrait for immersive feel */
+    aspect-ratio: 6 / 9;
 
     @include tablet {
-      aspect-ratio: 3 / 4; /* room to breathe on tablet */
+      aspect-ratio: 3 / 4;
     }
     @include desktop {
-      aspect-ratio: 3 / 2; /* wider on desktop for layout balance */
+      aspect-ratio: 3 / 2;
     }
   }
 
@@ -401,22 +403,24 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* original image fill */
+
+    /* Key: never distort the photo */
+    object-fit: cover; /* fills frame, safe crop if needed */
     object-position: center;
-    transform: none; /* no zoom/scale */
-    transition: none; /* no hover effects */
-    filter: none; /* ensure zero filters */
+
+    /* Keep maximum clarity */
+    transform: none; /* no zoom or scale */
+    transition: none; /* no hover transforms */
+    filter: none; /* no color/contrast filters */
+    image-rendering: auto; /* default for best quality */
   }
 
-  /* remove scaling on hover entirely */
+  /* ensure no hover scaling from elsewhere */
   .main__tcard:hover .main__tcard-img {
     transform: none;
   }
 
-  /* REMOVE any overlay/gradient: keep pure image */
-  /* (previous ::after gradient deleted on purpose) */
-
-  /* decorative opening quote mark (kept; not a filter on the image) */
+  /* decorative opening quote mark (kept; not an image filter) */
   &__tcard-quote {
     position: absolute;
     top: 0.3rem;
@@ -437,7 +441,7 @@
   &__tcard-body {
     position: absolute;
     inset: auto 0 0 0;
-    padding: 0.75rem; /* give text a little breathing room */
+    padding: 0;
     color: #fff;
     z-index: 1;
 
@@ -449,8 +453,7 @@
     }
   }
 
-  /* Caption text inside the testimonial card */
-  /* Caption text inside the testimonial card — background only on the text */
+  /* Caption text — background only on the text (image stays untouched) */
   &__quote-text {
     margin: 0 0 0.35rem;
     color: #fff;
@@ -460,15 +463,13 @@
     font-size: clamp(1rem, 2.8vw, 1.1rem);
     text-wrap: balance;
 
-    /* Inline pill background that follows line breaks */
     display: inline; /* keep layout unchanged */
-    background: rgba(0, 0, 0, 0.28); /* subtle, no image darkening */
-    padding: 0.08em 0.35em; /* tiny, won’t shift layout noticeably */
+    background: rgba(0, 0, 0, 0.28); /* subtle pill behind letters */
+    padding: 0.08em 0.35em;
     border-radius: 6px;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
 
-    /* Gentle text clarity without affecting the photo */
     -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.25);
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
 
@@ -489,8 +490,8 @@
   }
 
   /* ===========================
-           FAQ
-           =========================== */
+              FAQ
+              =========================== */
   &__accordion {
     display: grid;
     gap: 0.5rem;
@@ -527,8 +528,8 @@
   }
 
   /* ===========================
-           HERO CAROUSEL (BEM)
-           =========================== */
+              HERO CAROUSEL (BEM)
+              =========================== */
   &__hero-carousel {
     position: absolute;
     inset: 0;
