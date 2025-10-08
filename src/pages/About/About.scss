@@ -1,49 +1,91 @@
 @use "../../styles/partials/mixins" as *;
 
 .about {
+  /* tokens (kept aligned with your Main.scss vibe) */
   --max-w: 900px;
-  --radius: 14px;
-  --line: #eee;
+  --radius: 16px;
   --ink: #111;
   --muted: #555;
-  --card-bg: #fff;
+  --line: #e9ecef; /* slightly darker so border reads better */
+  --ring: rgba(17, 17, 17, 0.06);
   --page-bg: #fafafa;
+  --card-from: #ffffff;
+  --card-to: #fdfdfd;
 
   background: var(--page-bg);
-  padding: 2rem 1rem;
   color: var(--ink);
+  padding: 2rem 1rem;
 
   &__inner {
     max-width: var(--max-w);
     margin: 0 auto;
 
-    background: var(--card-bg);
+    /* Subtle pop: soft gradient surface + readable border + faint ring */
+    background: linear-gradient(
+      180deg,
+      var(--card-from) 0%,
+      var(--card-to) 100%
+    );
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 1rem 1rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06),
+      /* soft lift */ 0 1px 0 rgba(0, 0, 0, 0.02) inset; /* gentle inner edge */
+
+    /* Outer ring that stays subtle but makes the section read as a unit */
+    outline: 1px solid var(--ring);
+    outline-offset: 6px;
+
+    /* A tiny top accent bar that hints at a premium card without being loud */
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.6rem;
+      left: 1rem;
+      right: 1rem;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ededed 0%, #e4e4e4 50%, #ededed 100%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
 
     @include tablet {
       padding: 1.25rem 1.25rem;
+      &::before {
+        top: 0.7rem;
+        left: 1.25rem;
+        right: 1.25rem;
+      }
     }
+
     @include desktop {
       padding: 1.5rem 1.75rem;
+      outline-offset: 8px; /* breathes a bit more on wide screens */
+      &::before {
+        top: 0.8rem;
+        left: 1.5rem;
+        right: 1.5rem;
+      }
     }
   }
 
   &__title {
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.85rem;
     font-size: clamp(1.6rem, 4.5vw, 2rem);
     line-height: 1.2;
     letter-spacing: 0.2px;
 
+    /* Underline that matches the border tone for cohesion */
     &::after {
       content: "";
       display: block;
       width: 64px;
-      height: 1px;
+      height: 2px; /* a touch thicker to read better */
       background: var(--line);
-      margin-top: 0.6rem;
+      border-radius: 2px;
+      margin-top: 0.65rem;
 
       @include tablet {
         width: 72px;
