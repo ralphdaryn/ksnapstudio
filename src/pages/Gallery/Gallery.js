@@ -1,4 +1,4 @@
-import "./Portfolio.scss";
+import "./Gallery.scss";
 
 const MOCK = [
   { id: 1, src: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop", alt: "Family outdoors" },
@@ -6,15 +6,15 @@ const MOCK = [
   { id: 3, src: "https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=800&auto=format&fit=crop", alt: "Photographer" },
 ];
 
-const Portfolio = () => {
+const Gallery = () => {
   return (
-    <main className="portfolio">
-      <div className="portfolio__inner">
-        <h1 className="portfolio__title">Portfolio</h1>
-        <div className="portfolio__grid">
+    <main className="gallery">
+      <div className="gallery__inner">
+        <h1 className="gallery__title">Gallery</h1>
+        <div className="gallery__grid">
           {MOCK.map(img => (
-            <figure key={img.id} className="portfolio__item">
-              <img className="portfolio__img" src={img.src} alt={img.alt} />
+            <figure key={img.id} className="gallery__item">
+              <img className="gallery__img" src={img.src} alt={img.alt} />
             </figure>
           ))}
         </div>
@@ -22,4 +22,4 @@ const Portfolio = () => {
     </main>
   );
 };
-export default Portfolio;
+export default Gallery;

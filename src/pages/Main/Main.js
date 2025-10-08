@@ -234,7 +234,7 @@ export default function Main() {
       </section>
 
       {/* PORTFOLIO PREVIEW */}
-      <section id="portfolio" className="main__section main__section--alt">
+      <section id="gallery" className="main__section main__section--alt">
         <div className="main__container">
           <h2 className="main__section-title">Gallery</h2>
 
@@ -252,7 +252,7 @@ export default function Main() {
           </div>
 
           <div className="main__links">
-            <Link className="main__link" to="/portfolio">
+            <Link className="main__link" to="/gallery">
               View full gallery →
             </Link>
           </div>

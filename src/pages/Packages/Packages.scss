@@ -1,55 +1,102 @@
 /* src/pages/Packages/Packages.scss */
-
 @use "../../styles/partials/mixins" as *;
+
 .packages {
   --max-w: 1100px;
+  --line: #eee;
+  --ink: #111;
+  --muted: #555;
+  --radius: 14px;
+
   padding: 2rem 1rem;
 
   &__inner {
     max-width: var(--max-w);
     margin: 0 auto;
   }
+
   &__title {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: clamp(1.6rem, 4.5vw, 2rem);
+    margin: 0 0 1rem;
+    text-wrap: balance;
   }
 
+  /* Card grid — mobile first, expands on tablet/desktop */
   &__list {
     list-style: none;
     margin: 0;
     padding: 0;
+
     display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.9rem;
+    grid-template-columns: 1fr;
+
+    @include tablet {
+      gap: 1.1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @include desktop {
+      gap: 1.25rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
   &__card {
     background: #fff;
-    border: 1px solid #eee;
-    border-radius: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
     padding: 1rem;
     display: grid;
-    gap: 0.5rem;
+    gap: 0.6rem;
+
+    transition: transform 140ms ease, box-shadow 140ms ease,
+      border-color 140ms ease;
+
+    @include tablet {
+      padding: 1.1rem;
+    }
+    @include desktop {
+      padding: 1.15rem 1.2rem;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+      border-color: #e8e8e8;
+    }
   }
 
   &__name {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     margin: 0;
-  }
-  &__price {
-    font-weight: 700;
-  }
-  &__desc {
-    color: #555;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--line);
   }
 
+  /* concise bullet list for each category */
+  &__bullets {
+    list-style: disc;
+    margin: 0.25rem 0 0;
+    padding-left: 1.25rem;
+    color: var(--muted);
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+  }
+  &__bullet {
+    line-height: 1.55;
+  }
+
+  /* primary action */
   &__btn {
     justify-self: start;
-    padding: 0.5rem 0.9rem;
+    margin-top: 0.25rem;
+    padding: 0.55rem 0.95rem;
     border-radius: 10px;
-    border: 1px solid #111;
+    border: 1px solid var(--ink);
     color: #fff;
-    background: #111;
+    background: var(--ink);
     text-decoration: none;
   }
 }
