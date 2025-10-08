@@ -179,7 +179,7 @@ export default function Main() {
               style={{ backgroundImage: `url(${src})` }}
             />
           ))}
-          <div className="main__hero-overlay" />
+          {/* overlay removed on purpose */}
         </div>
 
         {/* Existing content (unchanged) */}
