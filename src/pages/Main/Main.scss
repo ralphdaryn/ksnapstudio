@@ -386,7 +386,7 @@
     isolation: isolate; /* contain children */
     border: 1px solid var(--line);
     background: transparent; /* no black backdrop */
-    aspect-ratio: 4 / 9; /* mobile-first: tall portrait (≈ 8/18) */
+    aspect-ratio: 6 / 9; /* mobile-first: tall portrait (≈ 8/18) */
 
     @include tablet {
       aspect-ratio: 3 / 4; /* room to breathe on tablet */
@@ -449,12 +449,37 @@
     }
   }
 
+  /* Caption text inside the testimonial card */
+  /* Caption text inside the testimonial card — background only on the text */
   &__quote-text {
     margin: 0 0 0.35rem;
     color: #fff;
-    line-height: 1.6;
     font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45); /* text-only shadow (not an image filter) */
+    line-height: 1.55;
+    letter-spacing: 0.1px;
+    font-size: clamp(1rem, 2.8vw, 1.1rem);
+    text-wrap: balance;
+
+    /* Inline pill background that follows line breaks */
+    display: inline; /* keep layout unchanged */
+    background: rgba(0, 0, 0, 0.28); /* subtle, no image darkening */
+    padding: 0.08em 0.35em; /* tiny, won’t shift layout noticeably */
+    border-radius: 6px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+
+    /* Gentle text clarity without affecting the photo */
+    -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.25);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+
+    @include tablet {
+      font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+      padding: 0.1em 0.4em;
+    }
+    @include desktop {
+      font-size: clamp(1.1rem, 1.3vw, 1.25rem);
+      padding: 0.12em 0.45em;
+    }
   }
 
   &__quote-meta {
