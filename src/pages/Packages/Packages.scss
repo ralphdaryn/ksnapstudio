@@ -1,4 +1,6 @@
 /* src/pages/Packages/Packages.scss */
+
+@use "../../styles/partials/mixins" as *;
 .packages {
   --max-w: 1100px;
   padding: 2rem 1rem;

@@ -114,23 +114,19 @@ const FAQ = [
 ];
 
 export default function Main() {
-  // Carousel state
   const [heroIndex, setHeroIndex] = useState(0);
-
-  // Fit mode per slide: "cover" (default) or "contain" (for portrait/extreme ratios)
   const [fitModes, setFitModes] = useState(
     Array(HERO_SLIDES.length).fill("cover")
   );
 
-  // Auto-rotate every 5s
   useEffect(() => {
-    const id = setInterval(() => {
-      setHeroIndex((i) => (i + 1) % HERO_SLIDES.length);
-    }, 5000);
+    const id = setInterval(
+      () => setHeroIndex((i) => (i + 1) % HERO_SLIDES.length),
+      5000
+    );
     return () => clearInterval(id);
   }, []);
 
-  // Preload and detect aspect ratios to decide cover vs contain
   useEffect(() => {
     let isMounted = true;
     const loaders = HERO_SLIDES.map(
@@ -154,7 +150,6 @@ export default function Main() {
       });
       setFitModes(modes);
     });
-
     return () => {
       isMounted = false;
     };
@@ -166,7 +161,6 @@ export default function Main() {
     <main className="main">
       {/* HERO */}
       <section className="main__hero">
-        {/* Background carousel (behind content) */}
         <div className="main__hero-carousel" aria-hidden="true">
           {HERO_SLIDES.map((src, idx) => (
             <div
@@ -179,10 +173,8 @@ export default function Main() {
               style={{ backgroundImage: `url(${src})` }}
             />
           ))}
-          {/* overlay removed on purpose */}
         </div>
 
-        {/* Existing content (unchanged) */}
         <div className="main__container">
           <h1 className="main__title">K.Snap.Studio</h1>
           <p className="main__tagline">Capturing Moments, Creating Memories</p>
@@ -199,7 +191,6 @@ export default function Main() {
             </Link>
           </div>
 
-          {/* Dots */}
           <div
             className="main__hero-dots"
             role="tablist"
@@ -223,7 +214,7 @@ export default function Main() {
       </section>
 
       {/* BIO */}
-      <section id="bio" className="main__section main__section--alt">
+      <section id="about" className="main__section main__section--alt">
         <div className="main__container">
           <h2 className="main__section-title">About KSnap Studio</h2>
           <p className="main__text">
@@ -231,14 +222,12 @@ export default function Main() {
             today — focused on telling your story through the lens. My niche?
             Creating &amp; capturing beautiful moments for lifelong memories.
             With 12+ years of customer service and photography, I bring a
-            professional yet personal touch to every project. I work closely
-            with clients to understand their vision and deliver photographs that
-            exceed expectations — with updates and timely delivery.
+            professional yet personal touch to every project.
           </p>
           <p className="main__text main__text--em">
             Let’s make magic together.
           </p>
-          <Link className="main__link" to="/bio">
+          <Link className="main__link" to="/about">
             Read full bio →
           </Link>
         </div>
@@ -278,7 +267,6 @@ export default function Main() {
           </h2>
 
           <div className="main__reviews">
-            {/* Left: CTA card */}
             <div
               className="main__reviews-cta"
               role="region"
@@ -309,7 +297,6 @@ export default function Main() {
               <p className="main__reviews-fyi">Featured: Celina · M &amp; L</p>
             </div>
 
-            {/* Right: testimonials on top of images (overlay cards) */}
             <ul className="main__quotes">
               {TESTIMONIALS.map((t) => (
                 <li key={t.id} className="main__quote">
@@ -362,7 +349,6 @@ export default function Main() {
               </li>
             ))}
           </ul>
-
           <Link className="main__link" to="/packages">
             See full details →
           </Link>

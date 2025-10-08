@@ -1,4 +1,5 @@
-/* src/pages/Contact/Contact.scss */
+@use "../../styles/partials/mixins" as *;
+
 .contact {
   --max-w: 720px;
   padding: 2rem 1rem;

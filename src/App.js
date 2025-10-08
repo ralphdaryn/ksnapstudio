@@ -3,7 +3,7 @@ import Header from "./components/Header/Header";
 import Main from "./pages/Main/Main";
 import Packages from "./pages/Packages/Packages";
 import Portfolio from "./pages/Portfolio/Portfolio";
-import Bio from "./pages/Bio/Bio";
+import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 
 export default function App() {
@@ -14,7 +14,7 @@ export default function App() {
         <Route path="/" element={<Main />} />
         <Route path="/packages" element={<Packages />} />
         <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/bio" element={<Bio />} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>

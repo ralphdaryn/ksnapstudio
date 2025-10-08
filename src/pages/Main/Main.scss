@@ -2,7 +2,6 @@
    src/pages/Main.scss
    ===================== */
 @use "../../styles/partials/mixins" as *; // expects: tablet(), desktop()
-/* Mobile-first defaults; enhance at tablet/desktop */
 
 .main {
   /* tokens */
@@ -19,17 +18,15 @@
   color: var(--ink);
   background: var(--bg);
 
+  /* center the content area */
   &__container {
     @include container(var(--max-w), var(--pad-x));
-    margin-inline: auto; // center on all viewports
+    margin-inline: auto;
     width: 100%;
     box-sizing: border-box;
-
-    @include desktop {
-      margin-inline: auto;
-    }
   }
 
+  /* sections */
   &__section {
     padding: var(--pad-y) 0;
     background: var(--bg-alt);
@@ -53,7 +50,7 @@
     }
   }
 
-  /* HERO (unchanged) */
+  /* HERO */
   &__hero {
     position: relative;
     overflow: hidden;
@@ -65,6 +62,7 @@
     background: var(--bg);
     padding: calc(var(--pad-y) + 0.75rem) 0;
     border-bottom: 1px solid var(--line);
+
     @include tablet {
       min-height: 70vh;
     }
@@ -127,6 +125,7 @@
     padding-inline: 0.25rem;
   }
 
+  /* CTA buttons */
   &__cta {
     display: flex;
     flex-wrap: wrap;
@@ -146,8 +145,8 @@
     background: #fff;
     color: var(--ink);
     text-decoration: none;
-    transition: transform 120ms ease, box-shadow 120ms ease,
-      background 120ms ease;
+    transition: transform 0.12s ease, box-shadow 0.12s ease,
+      background 0.12s ease;
     &:hover {
       transform: translateY(-1px);
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
@@ -179,6 +178,7 @@
     }
   }
 
+  /* TITLES & TEXT */
   &__section-title {
     font-size: clamp(1.3rem, 5vw, 2rem);
     margin: 0 0 0.75rem;
@@ -195,22 +195,16 @@
     color: var(--ink);
   }
 
-  /* CARDS / MEDIA (unchanged) */
+  /* ===========================
+        FLEX — PACKAGE CARDS
+        =========================== */
   &__cards {
     list-style: none;
     margin: 1rem 0 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.9rem;
-    @include tablet {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.1rem;
-    }
-    @include desktop {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.25rem;
-    }
   }
   &__card {
     background: #fff;
@@ -220,12 +214,17 @@
     display: flex;
     flex-direction: column;
     gap: 0.65rem;
+    flex: 1 1 100%;
+
     @include tablet {
       padding: 1.1rem;
+      flex: 1 1 calc(50% - 0.9rem);
     }
     @include desktop {
       padding: 1.15rem 1.2rem;
+      flex: 1 1 calc(33.333% - 0.9rem);
     }
+
     @include tablet {
       transition: transform 0.14s ease, box-shadow 0.14s ease,
         border-color 0.14s ease;
@@ -273,35 +272,40 @@
     }
   }
 
+  /* ===========================
+        FLEX — PORTFOLIO GRID
+        =========================== */
   &__media-list {
     margin-top: 1rem;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.75rem;
-    @include tablet {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @include desktop {
-      grid-template-columns: repeat(3, 1fr);
-    }
   }
   &__media {
     background: #fff;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--line);
+    flex: 1 1 100%;
+    @include tablet {
+      flex: 1 1 calc(50% - 0.75rem);
+    }
+    @include desktop {
+      flex: 1 1 calc(33.333% - 0.75rem);
+    }
   }
   &__img {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 4/3;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     transition: transform 0.2s ease;
     &:hover {
       transform: scale(1.03);
     }
   }
+
   &__links {
     display: flex;
     flex-wrap: wrap;
@@ -310,25 +314,23 @@
   }
 
   /* ===========================
-        REVIEWS + TESTIMONIALS
+        FLEX — REVIEWS + TESTIMONIALS
         =========================== */
   &__reviews {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center content in section */
     gap: 1rem;
-    align-items: start;
-    grid-template-columns: 1fr;
-    @include tablet {
-      grid-template-columns: 1fr;
-      gap: 1.1rem;
-      justify-items: center;
-    }
+
     @include desktop {
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
       gap: 1.5rem;
-      justify-items: stretch;
     }
   }
 
-  /* CTA card — subtle gradient + compact, tablet width = 20rem */
+  /* CTA card — tablet width 20rem */
   &__reviews-cta {
     background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
     border: 1px solid var(--line);
@@ -338,21 +340,21 @@
     flex-direction: column;
     gap: 0.7rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 720px;
 
-    /* make the CTA button feel primary here */
     .main__btn {
       width: 100%;
       font-weight: 600;
     }
 
     @include tablet {
-      width: 20rem; /* <= your request */
+      width: 20rem;
       max-width: none;
-      justify-self: center;
       padding: 1.15rem;
     }
     @include desktop {
-      width: 20rem; /* keep tidy at desktop as well */
+      width: 20rem;
       padding: 1.25rem;
     }
   }
@@ -368,73 +370,44 @@
     color: #888;
   }
 
-  /* Testimonials list */
+  /* testimonials list as flex (single column mobile/desktop by default) */
   &__quotes {
     list-style: none;
     margin: 0.5rem 0 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
     width: 100%;
-    justify-items: center;
-
-    @include desktop {
-      grid-template-columns: 1fr; /* keep simple + full-width cards */
-      gap: 1.25rem;
-    }
+    max-width: 880px; /* keeps cards nicely centered width-wise */
   }
   &__quote {
     padding: 0;
     border: 0;
     background: transparent;
-    width: 100%;
   }
 
-  /* Testimonial card — clean, photo-forward */
+  /* Testimonial card */
   &__tcard {
     position: relative;
     display: block;
     margin: 0;
     border-radius: 16px;
     overflow: hidden;
-    background: #000; /* fallback behind image */
+    background: #000;
     border: 1px solid var(--line);
-    width: min(100%, 880px);
-    aspect-ratio: 3 / 4; /* mobile portrait focus */
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
-    transition: transform 0.18s ease, box-shadow 0.18s ease,
-      border-color 0.18s ease;
-
-    /* subtle gradient overlay for readability */
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.45) 0%,
-        rgba(0, 0, 0, 0) 55%
-      );
-      pointer-events: none;
-    }
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.09);
-      border-color: #e9ecef;
-    }
+    width: 100%;
+    aspect-ratio: 3 / 4; /* mobile: portrait */
 
     @include tablet {
       aspect-ratio: 9 / 6;
     }
     @include desktop {
-      aspect-ratio: 16 / 9; /* “full photo” cinematic feel on desktop */
-      border: 0; /* remove border to let photo shine */
+      aspect-ratio: 16 / 9;
+      border: 0;
       box-shadow: 0 16px 42px rgba(0, 0, 0, 0.1);
     }
   }
-
   &__tcard-img {
     position: absolute;
     inset: 0;
@@ -444,7 +417,6 @@
     object-position: center;
   }
 
-  /* decorative quote (tone it down so it's classy) */
   &__tcard-quote {
     position: absolute;
     top: 0.3rem;
@@ -461,17 +433,15 @@
     }
     @include desktop {
       display: none;
-    } /* cleaner on desktop */
+    }
   }
 
-  /* caption area pinned to bottom */
   &__tcard-body {
     position: absolute;
     inset: auto 0 0 0;
     padding: 0.9rem 0.9rem 1rem;
     color: #fff;
     z-index: 1;
-
     @include tablet {
       padding: 1rem;
     }
@@ -480,7 +450,6 @@
     }
   }
 
-  /* Quote text — pill on mobile, minimal on desktop */
   &__quote-text {
     margin: 0 0 0.35rem;
     color: #fff;
@@ -489,7 +458,6 @@
     letter-spacing: 0.1px;
     font-size: clamp(1rem, 2.8vw, 1.1rem);
     text-wrap: balance;
-
     display: inline;
     background: rgba(0, 0, 0, 0.28);
     padding: 0.08em 0.35em;
@@ -498,13 +466,12 @@
     box-decoration-break: clone;
     -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.25);
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
-
     @include tablet {
       font-size: clamp(1.05rem, 1.8vw, 1.2rem);
       padding: 0.1em 0.4em;
     }
     @include desktop {
-      background: transparent; /* let photo breathe on desktop */
+      background: transparent;
       -webkit-text-stroke: 0;
       text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
       font-size: clamp(1.1rem, 1.3vw, 1.25rem);
@@ -518,10 +485,11 @@
   }
 
   /* ===========================
-        FAQ (unchanged)
+        FLEX — FAQ (kept simple)
         =========================== */
   &__accordion {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 0.5rem;
     margin-top: 0.5rem;
     @include tablet {
@@ -553,7 +521,7 @@
     margin: 0;
   }
 
-  /* HERO carousel (unchanged) */
+  /* HERO background carousel */
   &__hero-carousel {
     position: absolute;
     inset: 0;
@@ -604,7 +572,7 @@
     background: rgba(255, 255, 255, 0.55);
     opacity: 0.9;
     cursor: pointer;
-    transition: transform 120ms ease, background 120ms ease;
+    transition: transform 0.12s ease, background 0.12s ease;
     &--active {
       width: 16px;
       background: #fff;

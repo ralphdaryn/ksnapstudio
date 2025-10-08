@@ -1,0 +1,66 @@
+@use "../../styles/partials/mixins" as *;
+
+.about {
+  --max-w: 900px;
+  --radius: 14px;
+  --line: #eee;
+  --ink: #111;
+  --muted: #555;
+  --card-bg: #fff;
+  --page-bg: #fafafa;
+
+  background: var(--page-bg);
+  padding: 2rem 1rem;
+  color: var(--ink);
+
+  &__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+
+    @include tablet {
+      padding: 1.25rem 1.25rem;
+    }
+    @include desktop {
+      padding: 1.5rem 1.75rem;
+    }
+  }
+
+  &__title {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.6rem, 4.5vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 64px;
+      height: 1px;
+      background: var(--line);
+      margin-top: 0.6rem;
+
+      @include tablet {
+        width: 72px;
+      }
+    }
+  }
+
+  &__text {
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0;
+
+    @include tablet {
+      font-size: 1.02rem;
+    }
+    @include desktop {
+      font-size: 1.06rem;
+    }
+  }
+}
