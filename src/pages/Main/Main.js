@@ -270,7 +270,7 @@ export default function Main() {
         </div>
       </section>
 
-      {/* REVIEWS + TESTIMONIALS (aesthetic overlay style) */}
+      {/* REVIEWS + TESTIMONIALS */}
       <section id="reviews" className="main__section">
         <div className="main__container">
           <h2 className="main__section-title">
@@ -318,7 +318,7 @@ export default function Main() {
                       src={t.img}
                       alt={t.alt}
                       className="main__tcard-img"
-                      loading="lazy"
+                      loading="eager"
                     />
                     <span aria-hidden="true" className="main__tcard-quote">
                       &#8220;
