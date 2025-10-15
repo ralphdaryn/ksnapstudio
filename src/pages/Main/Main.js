@@ -1,26 +1,31 @@
 // =====================
-// src/pages/Main.jsx
+// src/pages/Main/Main.js
 // =====================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
 
-// Local hero images (file paths relative to this file: src/pages/Main.jsx)
+// Hero & testimonial images (inside src/assets/images)
 import hero1 from "../../assets/images/hero1.jpg";
 import hero2 from "../../assets/images/hero2.jpg";
 import hero3 from "../../assets/images/hero3.jpg";
+import testi1 from "../../assets/images/testimonial1.jpg";
+import testi2 from "../../assets/images/testimonial2.jpg";
+import gp1 from "../../assets/images/gallery1.jpg";
+import gp2 from "../../assets/images/gallery2.jpg";
+import gp3 from "../../assets/images/gallery3.jpg";
 
-// Testimonial images (place your client picks here)
-import testi1 from "../../assets/images/testimonial1.jpg"; // Celina
-import testi2 from "../../assets/images/testimonial2.jpg"; // M & L
-
-// Put your real links here when ready:
-const GOOGLE_REVIEW_URL = ""; // e.g., "https://g.page/r/xxxxxxx/review"
-
-// 3 background slides for the hero (keep your three files)
 const HERO_SLIDES = [hero1, hero2, hero3];
 
-/* UPDATED order + grouped titles */
+const GOOGLE_REVIEW_URL = ""; // put your real URL when ready
+
+// Using imported images for preview (no /public paths)
+const GALLERY_PREVIEW = [
+  { id: 1, src: gp1, alt: "Wedding candid" },
+  { id: 2, src: gp2, alt: "Event details" },
+  { id: 3, src: gp3, alt: "Portrait moment" },
+];
+
 const PACKAGE_CATEGORIES = [
   {
     key: "weddings",
@@ -53,25 +58,6 @@ const PACKAGE_CATEGORIES = [
   },
 ];
 
-const PORTFOLIO_SAMPLE = [
-  {
-    id: 1,
-    src: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
-    alt: "Wedding moment",
-  },
-  {
-    id: 2,
-    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop",
-    alt: "Event details",
-  },
-  {
-    id: 3,
-    src: "https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=800&auto=format&fit=crop",
-    alt: "Portrait scene",
-  },
-];
-
-/** Updated to include author + image per client brief */
 const TESTIMONIALS = [
   {
     id: "celina",
@@ -85,31 +71,7 @@ const TESTIMONIALS = [
     name: "M & L",
     text: "From the moment I met Kishan, my anxiety disappeared. He made me feel comfortable, directed me with ease, and turned my wedding anniversary photos into a dreamy highlight of my year.",
     img: testi2,
-    alt: "M & L close-up under the veil (photo #88)",
-  },
-];
-
-const FAQ = [
-  {
-    q: "Do you need a deposit to save our date?",
-    a: "Yes, a 25% deposit secures your spot.",
-  },
-  { q: "What about props?", a: "Props are welcome — champagne included!" },
-  {
-    q: "Can I request a style?",
-    a: "Absolutely, everything is customized to your vibe.",
-  },
-  {
-    q: "How long will it take to get my photos?",
-    a: "Weddings: 6–8 weeks. Portraits/Events: 2–3 weeks.",
-  },
-  {
-    q: "What happens if the weather doesn’t cooperate?",
-    a: "We can reschedule or adapt indoors.",
-  },
-  {
-    q: "What’s included in my package?",
-    a: "Professional edits, private gallery, consultation, and more.",
+    alt: "M & L close-up under the veil",
   },
 ];
 
@@ -150,6 +112,7 @@ export default function Main() {
       });
       setFitModes(modes);
     });
+
     return () => {
       isMounted = false;
     };
@@ -219,10 +182,9 @@ export default function Main() {
           <h2 className="main__section-title">About KSnap Studio</h2>
           <p className="main__text">
             Welcome! K.Snap.Studio is my passion for photography — from 2017 to
-            today — focused on telling your story through the lens. My niche?
-            Creating &amp; capturing beautiful moments for lifelong memories.
-            With 12+ years of customer service and photography, I bring a
-            professional yet personal touch to every project.
+            today — focused on telling your story through the lens. With 12+
+            years of customer service and photography, I bring a professional
+            yet personal touch to every project.
           </p>
           <p className="main__text main__text--em">
             Let’s make magic together.
@@ -233,20 +195,22 @@ export default function Main() {
         </div>
       </section>
 
-      {/* PORTFOLIO PREVIEW */}
+      {/* PORTFOLIO PREVIEW (using imported images) */}
       <section id="gallery" className="main__section main__section--alt">
         <div className="main__container">
           <h2 className="main__section-title">Gallery</h2>
 
-          <div className="main__media-list">
-            {PORTFOLIO_SAMPLE.map((img) => (
-              <figure key={img.id} className="main__media">
+          <div className="main__media-list main__media-list--gallery">
+            {GALLERY_PREVIEW.map((p) => (
+              <figure key={p.id} className="main__media">
                 <img
                   className="main__img"
-                  src={img.src}
-                  alt={img.alt}
+                  src={p.src}
+                  alt={p.alt}
                   loading="lazy"
+                  decoding="async"
                 />
+                <figcaption className="visually-hidden">{p.alt}</figcaption>
               </figure>
             ))}
           </div>
@@ -259,7 +223,7 @@ export default function Main() {
         </div>
       </section>
 
-      {/* REVIEWS + TESTIMONIALS */}
+      {/* REVIEWS (unchanged testimonial image + captions) */}
       <section id="reviews" className="main__section">
         <div className="main__container">
           <h2 className="main__section-title">
@@ -327,7 +291,6 @@ export default function Main() {
       {/* PACKAGES PREVIEW (no prices) */}
       <section id="packages" className="main__section">
         <div className="main__container">
-          {/* NEW: inline title + link */}
           <div className="main__section-head">
             <h2 className="main__section-title">Packages</h2>
             <Link className="main__link main__link--inline" to="/packages">
@@ -356,8 +319,6 @@ export default function Main() {
               </li>
             ))}
           </ul>
-
-          {/* Removed old bottom link */}
         </div>
       </section>
 
@@ -366,7 +327,32 @@ export default function Main() {
         <div className="main__container">
           <h2 className="main__section-title">FAQ</h2>
           <div className="main__accordion">
-            {FAQ.map(({ q, a }, i) => (
+            {[
+              {
+                q: "Do you need a deposit to save our date?",
+                a: "Yes, a 25% deposit secures your spot.",
+              },
+              {
+                q: "What about props?",
+                a: "Props are welcome — champagne included!",
+              },
+              {
+                q: "Can I request a style?",
+                a: "Absolutely, everything is customized to your vibe.",
+              },
+              {
+                q: "How long will it take to get my photos?",
+                a: "Weddings: 6–8 weeks. Portraits/Events: 2–3 weeks.",
+              },
+              {
+                q: "What happens if the weather doesn’t cooperate?",
+                a: "We can reschedule or adapt indoors.",
+              },
+              {
+                q: "What’s included in my package?",
+                a: "Professional edits, private gallery, consultation, and more.",
+              },
+            ].map(({ q, a }, i) => (
               <details key={i} className="main__faq">
                 <summary className="main__faq-q">{q}</summary>
                 <p className="main__faq-a">{a}</p>
