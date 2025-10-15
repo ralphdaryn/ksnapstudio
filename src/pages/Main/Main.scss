@@ -341,8 +341,7 @@
     gap: 1rem;
 
     @include desktop {
-      flex-direction: row;
-      align-items: stretch;
+      align-items: center;
       justify-content: center;
       gap: 1.5rem;
     }

@@ -1,6 +1,3 @@
-// =====================
-// src/pages/Main/Main.js
-// =====================
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
