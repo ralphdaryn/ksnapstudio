@@ -92,6 +92,10 @@
     .main__title {
       font-weight: 700;
       letter-spacing: 0.2px;
+      font-size: 2.75rem;
+      @include tablet {
+       font-size: 3.75rem;
+      }
     }
     .main__tagline {
       font-weight: 600;
@@ -570,6 +574,13 @@
   &__hero > .main__container {
     position: relative;
     z-index: 1;
+    top: 285px;
+    @include tablet {
+      top: 325px;
+    }
+    @include desktop {
+      top: 380px;
+    }
   }
   &__hero-dots {
     display: flex;

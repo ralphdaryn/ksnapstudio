@@ -14,8 +14,6 @@ import gp3 from "../../assets/images/gallery3.jpg";
 
 const HERO_SLIDES = [hero1, hero2, hero3];
 
-const GOOGLE_REVIEW_URL = ""; // put your real URL when ready
-
 // Using imported images for preview (no /public paths)
 const GALLERY_PREVIEW = [
   { id: 1, src: gp1, alt: "Wedding candid" },
@@ -47,11 +45,6 @@ const PACKAGE_CATEGORIES = [
       "Couples Portraits",
       "Limited-Time Themed Shoots",
     ],
-  },
-  {
-    key: "products",
-    title: "Products & Models",
-    items: ["Studio Shoots", "On-Location Shoots"],
   },
 ];
 
@@ -228,36 +221,6 @@ export default function Main() {
           </h2>
 
           <div className="main__reviews">
-            <div
-              className="main__reviews-cta"
-              role="region"
-              aria-label="Leave a review"
-            >
-              {GOOGLE_REVIEW_URL ? (
-                <a
-                  className="main__btn main__btn--outline"
-                  href={GOOGLE_REVIEW_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Leave a Google Review
-                </a>
-              ) : (
-                <button
-                  className="main__btn main__btn--outline"
-                  type="button"
-                  disabled
-                  title="Link coming soon"
-                >
-                  Leave a Google Review
-                </button>
-              )}
-              <p className="main__reviews-note">
-                We value every story. Share yours or browse what others loved.
-              </p>
-              <p className="main__reviews-fyi">Featured: Celina · M &amp; L</p>
-            </div>
-
             <ul className="main__quotes">
               {TESTIMONIALS.map((t) => (
                 <li key={t.id} className="main__quote">
