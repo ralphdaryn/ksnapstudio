@@ -67,18 +67,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 62vh;
+    min-height: 80vh;
     text-align: center;
     background: var(--bg);
     padding: calc(var(--pad-y) + 0.75rem) 0;
     border-bottom: 1px solid var(--line);
 
-    @include tablet {
-      min-height: 70vh;
-    }
-    @include desktop {
-      min-height: 76vh;
-    }
+    // @include tablet {
+    //   min-height: 70vh;
+    // }
+    // @include desktop {
+    //   min-height: 76vh;
+    // }
 
     .main__title,
     .main__tagline,
