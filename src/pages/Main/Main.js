@@ -217,7 +217,7 @@ export default function Main() {
       <section id="reviews" className="main__section">
         <div className="main__container">
           <h2 className="main__section-title">
-            Reviews &amp; What Clients Say
+            Reviews & Testimonials
           </h2>
 
           <div className="main__reviews">
@@ -253,9 +253,6 @@ export default function Main() {
         <div className="main__container">
           <div className="main__section-head">
             <h2 className="main__section-title">Packages</h2>
-            <Link className="main__link main__link--inline" to="/packages">
-              See full details →
-            </Link>
           </div>
 
           <ul className="main__cards">
@@ -273,8 +270,8 @@ export default function Main() {
                   Add-ons: extra hours, second shooter, videographer —{" "}
                   <span>inquire for options</span>.
                 </div>
-                <Link className="main__card-btn" to="/contact">
-                  Book Now
+                <Link className="main__card-btn" to="/packages">
+                  View Details
                 </Link>
               </li>
             ))}
