@@ -579,7 +579,7 @@
   &__hero > .main__container {
     position: relative;
     z-index: 1;
-    top: 135px;
+    top: 100px;
     @include tablet {
       top: 300px;
     }
