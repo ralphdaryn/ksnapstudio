@@ -579,12 +579,9 @@
   &__hero > .main__container {
     position: relative;
     z-index: 1;
-    top: 100px;
+    top: 250px;
     @include tablet {
-      top: 300px;
-    }
-    @include desktop {
-      top: 320px;
+      top: 275px;
     }
   }
   &__hero-dots {
