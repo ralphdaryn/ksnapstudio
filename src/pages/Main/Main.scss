@@ -228,7 +228,7 @@
     flex-wrap: wrap;
     gap: 2rem;
     @include tablet {
-      padding: 0 6rem;
+      padding: 0 8rem;
     }
   }
   &__card {
@@ -271,14 +271,15 @@
     }
   }
   &__card-list {
-    list-style: circle;
+    list-style: disc;
     margin: 0;
+    padding: 0;
     color: var(--muted);
-    @include tablet {
-      li {
-        margin: 0.25rem 0;
-      }
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
   }
   &__card-note {
     font-size: 0.95rem;
