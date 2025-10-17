@@ -2,101 +2,247 @@
 @use "../../styles/partials/mixins" as *;
 
 .packages {
+  /* tokens (swap for brand tokens if you like) */
   --max-w: 1100px;
-  --line: #eee;
-  --ink: #111;
-  --muted: #555;
-  --radius: 14px;
+  --page: #f7f7f8; /* page bg */
+  --surface: #ffffff; /* card */
+  --ink: #111; /* primary text */
+  --muted: #566; /* secondary text */
+  --line: #e9eaec; /* hairline */
+  --radius: 16px; /* card corners */
+  --ring: rgba(2, 132, 199, 0.18);
+  --shadow: 0 12px 28px rgba(2, 6, 23, 0.06);
 
-  padding: 2rem 1rem;
+  background: var(--page);
+  padding: 2rem 1rem 2.5rem;
 
   &__inner {
     max-width: var(--max-w);
-    margin: 0 auto;
+    margin-inline: auto;
+  }
+
+  /* Intro — centered */
+  &__intro {
+    text-align: center;
+    display: grid;
+    justify-items: center;
+    gap: 0.6rem;
+    margin: 0 0 1.2rem;
+
+    @include tablet {
+      margin-bottom: 1.6rem;
+      gap: 2rem;
+    }
+    @include desktop {
+      margin-bottom: 2rem;
+    }
   }
 
   &__title {
-    font-size: clamp(1.6rem, 4.5vw, 2rem);
-    margin: 0 0 1rem;
+    font-size: clamp(1.8rem, 4.5vw, 2rem);
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: 0.01em;
     text-wrap: balance;
   }
 
-  /* Card grid — mobile first, expands on tablet/desktop */
-  &__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  &__intro-heading {
+    font-weight: 700;
+    font-size: clamp(1.1rem, 3.6vw, 1.35rem);
+    margin: 0.1rem 0 0;
+    color: var(--ink);
+  }
 
-    display: grid;
-    gap: 0.9rem;
-    grid-template-columns: 1fr;
+  &__intro-body {
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0.25rem 0 0;
+    max-width: 70ch;
+  }
+
+  /* Group header — centered with soft icon */
+  &__section {
+    margin-top: 1.5rem;
 
     @include tablet {
-      gap: 1.1rem;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 1.9rem;
     }
     @include desktop {
-      gap: 1.25rem;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 2.2rem;
     }
   }
 
+  &__section-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    font-size: 0.92rem;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+    color: var(--ink);
+
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__section-badge {
+    display: inline-grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: #f0f5f7;
+    border: 1px solid #e6edf1;
+  }
+
+  &__section-emoji {
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  /* Grid — centered, compact cards */
+  &__grid {
+    --card-w: 320px; /* compact and content-fit */
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, var(--card-w)), 1fr)
+    );
+    gap: 1rem;
+    justify-content: center;
+    justify-items: center; /* center each card in its track */
+    margin-inline: auto;
+    padding: 0;
+    list-style: none;
+
+    @include tablet {
+      gap: 1.1rem;
+      --card-w: 340px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    @include desktop {
+      gap: 1.2rem;
+      --card-w: 360px; /* stays compact on desktop */
+    }
+  }
+
+  /* Card — clean border, light bg, subtle hover shadow; centered content */
   &__card {
-    background: #fff;
+    width: min(100%, var(--card-w));
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 1rem;
     display: grid;
-    gap: 0.6rem;
-
-    transition: transform 140ms ease, box-shadow 140ms ease,
-      border-color 140ms ease;
+    grid-template-rows: auto 1fr auto; /* head | bullets | button pinned */
+    gap: 0.8rem;
+    text-align: center; /* center all text */
+    transition: transform 160ms ease, box-shadow 160ms ease,
+      border-color 160ms ease;
 
     @include tablet {
-      padding: 1.1rem;
+      padding: 1.05rem 1.15rem;
     }
     @include desktop {
-      padding: 1.15rem 1.2rem;
+      padding: 1.1rem 1.2rem;
     }
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-      border-color: #e8e8e8;
+      box-shadow: var(--shadow);
+      border-color: #e2e6ea;
     }
   }
 
-  &__name {
-    font-size: 1.1rem;
-    margin: 0;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px solid var(--line);
+  /* Head: icon + title/price + tagline */
+  &__card-head {
+    display: grid;
+    justify-items: center;
+    gap: 0.55rem;
   }
 
-  /* concise bullet list for each category */
-  &__bullets {
-    list-style: disc;
-    margin: 0.25rem 0 0;
-    padding-left: 1.25rem;
+  &__emoji {
+    display: inline-grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 12px;
+    background: #f6f8fa;
+    border: 1px solid #eef1f4;
+    font-size: 1.05rem;
+  }
+
+  /* Title + Price (bold); Tagline italic */
+  &__name {
+    margin: 0;
+    font-weight: 800;
+    color: var(--ink);
+    font-size: 1.04rem;
+    line-height: 1.25;
+  }
+  &__price {
+    font-weight: 800;
+  }
+
+  &__tagline {
+    margin: 0;
     color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 36ch;
+  }
+
+  /* Bullets — evenly spaced; centered block with left text for readability */
+  &__bullets {
+    margin: 0.1rem 0 0;
+    padding: 0;
+    list-style: disc inside;
+
+    display: inline-block; /* center as a block in a centered card */
+    text-align: left; /* bullet text left for readability */
+    max-width: 34ch;
 
     li + li {
-      margin-top: 0.25rem;
+      margin-top: 0.36rem;
     }
   }
+
   &__bullet {
-    line-height: 1.55;
+    color: var(--muted);
+    line-height: 1.6;
   }
 
-  /* primary action */
+  /* CTA — centered at bottom */
   &__btn {
-    justify-self: start;
-    margin-top: 0.25rem;
-    padding: 0.55rem 0.95rem;
-    border-radius: 10px;
+    justify-self: center;
+    width: fit-content;
+    margin-top: 0.2rem;
+    padding: 0.58rem 0.95rem;
+    border-radius: 12px;
     border: 1px solid var(--ink);
     color: #fff;
     background: var(--ink);
     text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+
+    &:hover {
+      filter: brightness(0.96);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+  }
+
+  /* Motion respect */
+  @media (prefers-reduced-motion: reduce) {
+    &__card {
+      transition: none;
+    }
   }
 }
