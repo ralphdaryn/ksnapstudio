@@ -36,9 +36,11 @@
       background: var(--bg);
       border-top-color: var(--line);
     }
+
+    /* CTA section: blend with page background, gentle elevation */
     &--cta {
       text-align: center;
-      background: var(--bg);
+      background: linear-gradient(180deg, var(--bg) 0%, #ffffff 100%);
       border-top: 1px solid var(--line);
     }
 
@@ -72,13 +74,6 @@
     background: var(--bg);
     padding: calc(var(--pad-y) + 0.75rem) 0;
     border-bottom: 1px solid var(--line);
-
-    // @include tablet {
-    //   min-height: 70vh;
-    // }
-    // @include desktop {
-    //   min-height: 76vh;
-    // }
 
     .main__title,
     .main__tagline,
@@ -217,9 +212,7 @@
     color: var(--ink);
   }
 
-  /* ===========================
-              FLEX — PACKAGE CARDS
-              =========================== */
+  /* ——— Packages cards ——— */
   &__cards {
     list-style: none;
     margin: 1rem 0 0;
@@ -279,7 +272,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
   }
   &__card-note {
     font-size: 0.95rem;
@@ -300,9 +293,7 @@
     }
   }
 
-  /* ===========================
-              FLEX — PORTFOLIO GRID
-              =========================== */
+  /* ——— Gallery ——— */
   &__media-list {
     margin-top: 1rem;
     display: flex;
@@ -344,13 +335,11 @@
     margin-top: 0.75rem;
   }
 
-  /* ===========================
-              FLEX — REVIEWS + TESTIMONIALS
-              =========================== */
+  /* ——— Reviews ——— */
   &__reviews {
     display: flex;
     flex-direction: column;
-    align-items: center; /* center content in section */
+    align-items: center;
     gap: 1rem;
 
     @include desktop {
@@ -360,7 +349,6 @@
     }
   }
 
-  /* CTA card — tablet width 20rem */
   &__reviews-cta {
     background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
     border: 1px solid var(--line);
@@ -400,7 +388,7 @@
     color: #888;
   }
 
-  /* testimonials list as flex (single column) */
+  /* testimonials */
   &__quotes {
     list-style: none;
     margin: 0.5rem 0 0;
@@ -417,7 +405,6 @@
     background: transparent;
   }
 
-  /* Testimonial card */
   &__tcard {
     position: relative;
     display: block;
@@ -427,7 +414,7 @@
     background: #000;
     border: 1px solid var(--line);
     width: 100%;
-    aspect-ratio: 3 / 4; /* mobile: portrait */
+    aspect-ratio: 3 / 4;
 
     @include tablet {
       aspect-ratio: 9 / 6;
@@ -446,7 +433,6 @@
     object-fit: cover;
     object-position: center;
   }
-
   &__tcard-quote {
     position: absolute;
     top: 0.3rem;
@@ -465,7 +451,6 @@
       display: none;
     }
   }
-
   &__tcard-body {
     position: absolute;
     inset: auto 0 0 0;
@@ -479,7 +464,6 @@
       padding: 1.1rem 1.15rem 1.2rem;
     }
   }
-
   &__quote-text {
     margin: 0 0 0.35rem;
     color: #fff;
@@ -514,9 +498,7 @@
     color: rgba(255, 255, 255, 0.92);
   }
 
-  /* ===========================
-              FLEX — FAQ (kept simple)
-              =========================== */
+  /* FAQ */
   &__accordion {
     display: flex;
     flex-direction: column;
@@ -635,4 +617,25 @@
 .header {
   position: relative;
   z-index: 1000;
+}
+
+/* ——— Polished CTA typography inside the CTA section ——— */
+.main__section--cta .main__section-title {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  margin-bottom: 0.35rem;
+}
+.main__section--cta .main__text {
+  margin-inline: auto;
+  color: #606c70;
+  max-width: 60ch;
+}
+.main__section--cta .main__btn--primary {
+  margin-top: 0.35rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+.main__section--cta .main__btn--primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.98);
 }

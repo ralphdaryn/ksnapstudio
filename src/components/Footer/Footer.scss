@@ -1,0 +1,140 @@
+@use "../../styles/partials/mixins" as *;
+
+.footer {
+  /* match Main tokens */
+  --max-w: 1120px;
+  --pad-x: 1rem;
+  --pad-y: 2rem;
+  --bg: #f0f6f7; /* same as .main --bg */
+  --bg-alt: #ffffff; /* same as .main --bg-alt */
+  --ink: #111;
+  --muted: #555;
+  --line: #eee;
+  --radius: 14px;
+  --ring: rgba(2, 132, 199, 0.18);
+
+  background: var(--bg-alt);
+  border-top: 1px solid var(--line);
+
+  &__container {
+    @include container(var(--max-w), var(--pad-x));
+    margin-inline: auto;
+    padding-block: 1.1rem; /* mobile-first */
+
+    @include tablet {
+      padding-block: 1.35rem;
+    }
+    @include desktop {
+      padding-block: 1.6rem;
+    }
+  }
+
+  /* — Social row: centered pill — */
+  &__social {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    gap: 0.6rem;
+    margin: 0.35rem auto 0.9rem;
+    padding: 0.35rem 0.5rem;
+
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    width: fit-content;
+  }
+
+  .footer__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* comfortable mobile tap target */
+    width: 40px;
+    height: 40px;
+
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    background: #fff;
+
+    transition: transform 120ms ease, background 120ms ease,
+      box-shadow 120ms ease, border-color 120ms ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      background: #fafafa;
+      border-color: #e7e7e7;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  /* Divider */
+  &__divider {
+    height: 1px;
+    background: var(--line);
+    opacity: 0.9;
+  }
+
+  /* Legal */
+  &__legal {
+    display: grid;
+    justify-items: center;
+    gap: 0.25rem;
+    text-align: center;
+    background: var(--bg);
+  }
+
+  &__copy {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: 0.1px;
+  }
+
+  &__small {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  /* — Tablet ≥768px — */
+  @include tablet {
+    &__social {
+      gap: 0.7rem;
+      margin: 0.4rem auto 1rem;
+      padding: 0.4rem 0.65rem;
+    }
+    .footer__icon {
+      width: 42px;
+      height: 42px;
+    }
+  }
+
+  /* — Desktop ≥1280px — */
+  @include desktop {
+    &__social {
+      gap: 0.8rem;
+      margin: 0.5rem auto 1.1rem;
+      padding: 0.45rem 0.8rem;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+    }
+    .footer__icon {
+      width: 44px;
+      height: 44px;
+    }
+  }
+}
