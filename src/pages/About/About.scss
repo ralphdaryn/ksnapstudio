@@ -1,102 +1,131 @@
+/* src/pages/About/About.scss */
 @use "../../styles/partials/mixins" as *;
 
 .about {
-  /* tokens (kept aligned with your Main.scss vibe) */
-  --max-w: 900px;
-  --radius: 16px;
+  --max-w: 1120px;
+  --pad-x: 1rem;
   --ink: #111;
   --muted: #555;
-  --line: #e9ecef; /* slightly darker so border reads better */
+  --line: #eee;
+  --page-bg: #f0f6f7;
+  --card-bg: #fff;
+  --radius: 16px;
+  --shadow: 0 16px 42px rgba(0, 0, 0, 0.08);
   --ring: rgba(17, 17, 17, 0.06);
-  --page-bg: #fafafa;
-  --card-from: #ffffff;
-  --card-to: #fdfdfd;
 
   background: var(--page-bg);
   color: var(--ink);
-  padding: 2rem 1rem;
+  padding: 2rem 0;
 
-  &__inner {
-    max-width: var(--max-w);
-    margin: 0 auto;
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+  }
 
-    /* Subtle pop: soft gradient surface + readable border + faint ring */
-    background: linear-gradient(
-      180deg,
-      var(--card-from) 0%,
-      var(--card-to) 100%
-    );
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 1rem 1rem;
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06),
-      /* soft lift */ 0 1px 0 rgba(0, 0, 0, 0.02) inset; /* gentle inner edge */
+  &__wrap {
+    @include container(var(--max-w), var(--pad-x));
+    margin-inline: auto;
+  }
 
-    /* Outer ring that stays subtle but makes the section read as a unit */
-    outline: 1px solid var(--ring);
-    outline-offset: 6px;
-
-    /* A tiny top accent bar that hints at a premium card without being loud */
-    position: relative;
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0.6rem;
-      left: 1rem;
-      right: 1rem;
-      height: 3px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #ededed 0%, #e4e4e4 50%, #ededed 100%);
-      opacity: 0.9;
-      pointer-events: none;
-    }
-
-    @include tablet {
-      padding: 1.25rem 1.25rem;
-      &::before {
-        top: 0.7rem;
-        left: 1.25rem;
-        right: 1.25rem;
-      }
-    }
-
-    @include desktop {
-      padding: 1.5rem 1.75rem;
-      outline-offset: 8px; /* breathes a bit more on wide screens */
-      &::before {
-        top: 0.8rem;
-        left: 1.5rem;
-        right: 1.5rem;
-      }
-    }
+  &__head {
+    margin-bottom: 1rem;
+    text-align: left;
   }
 
   &__title {
-    margin: 0 0 0.85rem;
+    margin: 0 0 0.5rem;
     font-size: clamp(1.6rem, 4.5vw, 2rem);
-    line-height: 1.2;
     letter-spacing: 0.2px;
 
-    /* Underline that matches the border tone for cohesion */
     &::after {
       content: "";
       display: block;
       width: 64px;
-      height: 2px; /* a touch thicker to read better */
+      height: 2px;
       background: var(--line);
       border-radius: 2px;
-      margin-top: 0.65rem;
+      margin-top: 0.6rem;
+    }
+  }
 
-      @include tablet {
-        width: 72px;
-      }
+  &__lede {
+    margin: 0;
+    color: #606c70;
+    font-size: 0.98rem;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+
+    @include tablet {
+      grid-template-columns: 5fr 7fr;
+      gap: 1.25rem;
+    }
+    @include desktop {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 1.5rem;
+    }
+  }
+
+  &__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: #000;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+    will-change: transform;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    @include tablet {
+      aspect-ratio: 5 / 4;
+    }
+  }
+
+  &__card {
+    background: linear-gradient(180deg, var(--card-bg) 0%, #fdfdfd 100%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    outline: 1px solid var(--ring);
+    outline-offset: 6px;
+    position: relative;
+
+    @include tablet {
+      padding: 1.25rem;
+      outline-offset: 8px;
+    }
+    @include desktop {
+      padding: 1.5rem;
+      outline-offset: 10px;
     }
   }
 
   &__text {
     color: var(--muted);
-    line-height: 1.7;
-    margin: 0;
+    line-height: 1.75;
+    margin: 0 0 0.9rem;
 
     @include tablet {
       font-size: 1.02rem;
@@ -104,5 +133,99 @@
     @include desktop {
       font-size: 1.06rem;
     }
+  }
+
+  /* ===== Centered pill row ===== */
+  &__pillrow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.25rem 0 1rem;
+
+    justify-content: center; /* ⬅ center horizontally */
+    align-items: center; /* ⬅ center vertically */
+    text-align: center; /* nice if pills wrap */
+  }
+
+  &__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: #222;
+    font-size: 0.92rem;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.04);
+
+    &::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #cfd8dc;
+      display: inline-block;
+    }
+  }
+
+  &__pull {
+    margin: 0.75rem 0 1rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: #222;
+    position: relative;
+    text-align: center; /* centers the quote line */
+
+    &::before {
+      content: "“";
+      position: relative;
+      margin-right: 4px;
+      color: #d1d5db;
+    }
+    &::after {
+      content: "”";
+      position: relative;
+      margin-left: 2px;
+      color: #d1d5db;
+    }
+  }
+
+  /* ===== Centered CTA ===== */
+  &__cta {
+    margin-top: 0.25rem;
+
+    display: flex; /* ⬅ center the button */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.62rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #111;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      filter: brightness(0.98);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  &__signoff {
+    color: #606c70;
+    margin: 0.75rem 0 0;
+    font-size: 0.95rem;
+    text-align: center; /* keeps the closing line centered too */
   }
 }
