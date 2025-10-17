@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- ==== Core SEO ==== -->
-    <title>KSnap Studio | Durham Wedding & Portrait Photographer</title>
+    <title>KSnap Studio | GTA & Durham Wedding & Portrait Photographer</title>
     <meta
       name="description"
-      content="KSnap Studio is a Durham Region photographer for weddings, engagements, events, and portraits. Serving Pickering, Ajax, Whitby, Oshawa & beyond. Book your photoshoot today."
+      content="KSnap Studio is a Durham Region & GTA photographer for weddings, engagements, events, and portraits. Serving Pickering, Ajax, Whitby, Oshawa, Toronto & beyond. Book your photoshoot today."
     />
     <link rel="canonical" href="https://ksnapstudio.netlify.app/" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta name="color-scheme" content="light dark" />
 
-    <!-- Keywords (less important, but okay to include) -->
+    <!-- Keywords (low impact, safe to include) -->
     <meta
       name="keywords"
-      content="Durham photographer, Durham wedding photographer, Durham photoshoot, Pickering photographer, Ajax photographer, Whitby photographer, event photography Durham, engagement photos Durham"
+      content="Durham photographer, GTA wedding photographer, Durham wedding photographer, Toronto photographer, Mississauga photographer, Markham photographer, Pickering photographer, Ajax photographer, Whitby photographer, Oshawa photographer, event photography Durham, engagement photos Durham, GTA photoshoot"
     />
 
     <!-- ==== Favicons & PWA ==== -->
@@ -57,25 +57,32 @@
     <meta property="og:site_name" content="KSnap Studio" />
     <meta
       property="og:title"
-      content="Durham Wedding & Portrait Photographer | KSnap Studio"
+      content="Durham & GTA Wedding & Portrait Photographer | KSnap Studio"
     />
     <meta
       property="og:description"
-      content="Weddings, engagements, events, and portraits across Durham Region. See packages, galleries, and availability."
+      content="Weddings, engagements, events, and portraits across Durham Region & the GTA. See packages, galleries, and availability."
     />
-    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+    <!-- Absolute URL is best for social scrapers -->
+    <meta
+      property="og:image"
+      content="https://ksnapstudio.netlify.app/og-image.jpg"
+    />
     <meta property="og:url" content="https://ksnapstudio.netlify.app/" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Durham Wedding & Portrait Photographer | KSnap Studio"
+      content="Durham & GTA Wedding & Portrait Photographer | KSnap Studio"
     />
     <meta
       name="twitter:description"
-      content="Weddings, engagements, events, and portraits across Durham Region. See packages, galleries, and availability."
+      content="Weddings, engagements, events, and portraits across Durham Region & the GTA. See packages, galleries, and availability."
     />
-    <meta name="twitter:image" content="%PUBLIC_URL%/og-image.jpg" />
+    <meta
+      name="twitter:image"
+      content="https://ksnapstudio.netlify.app/og-image.jpg"
+    />
 
     <!-- ==== Structured Data (JSON-LD) ==== -->
     <script type="application/ld+json">
@@ -95,27 +102,37 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
+        "@type": "Photographer",
+        "@id": "https://ksnapstudio.netlify.app/#business",
         "name": "KSnap Studio",
         "image": "https://ksnapstudio.netlify.app/og-image.jpg",
         "url": "https://ksnapstudio.netlify.app/",
         "logo": "https://ksnapstudio.netlify.app/apple-touch-icon.png",
-        "description": "Durham Region photographer for weddings, engagements, events, and portraits.",
+        "description": "Durham Region & GTA photographer for weddings, engagements, events, and portraits.",
         "areaServed": [
           "Durham Region",
+          "GTA",
           "Pickering",
           "Ajax",
           "Whitby",
           "Oshawa",
-          "Clarington"
+          "Toronto",
+          "Scarborough",
+          "North York",
+          "Markham",
+          "Richmond Hill",
+          "Mississauga",
+          "Brampton",
+          "Vaughan"
         ],
         "address": {
           "@type": "PostalAddress",
-          "addressLocality": "Durham Region",
+          "addressLocality": "Pickering",
           "addressRegion": "ON",
           "addressCountry": "CA"
         },
         "telephone": "+1-000-000-0000",
+        "priceRange": "$$",
         "sameAs": [
           "https://www.instagram.com/yourhandle",
           "https://www.facebook.com/yourpage"
@@ -130,10 +147,10 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Do you photograph weddings and events in Durham Region?",
+            "name": "Do you photograph weddings and events in Durham Region and the GTA?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. We cover weddings, engagements, and events across Pickering, Ajax, Whitby, Oshawa, and surrounding areas."
+              "text": "Yes. We cover weddings, engagements, and events across Pickering, Ajax, Whitby, Oshawa, Toronto, and surrounding areas."
             }
           },
           {
