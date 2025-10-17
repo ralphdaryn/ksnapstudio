@@ -1,43 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Charset & responsive -->
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+
+    <!-- ==== Core SEO ==== -->
+    <title>Durham Wedding & Portrait Photographer | KSnap Studio</title>
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="KSnap Studio is a Durham Region photographer for weddings, engagements, events, and portraits. Serving Pickering, Ajax, Whitby, Oshawa & beyond. Book your photoshoot today."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <link rel="canonical" href="https://ksnapstudio.netlify.app/" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="color-scheme" content="light dark" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
+    <!-- Keywords (less important, but okay to include) -->
+    <meta
+      name="keywords"
+      content="Durham photographer, Durham wedding photographer, Durham photoshoot, Pickering photographer, Ajax photographer, Whitby photographer, event photography Durham, engagement photos Durham"
+    />
+
+    <!-- ==== Favicons & PWA ==== -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="%PUBLIC_URL%/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="%PUBLIC_URL%/favicon-16x16.png"
+    />
+    <!-- If you have icon.svg uncomment below -->
+    <!-- <link rel="icon" href="%PUBLIC_URL%/icon.svg" type="image/svg+xml" /> -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+
+    <!-- Theme colors -->
+    <meta
+      name="theme-color"
+      content="#012158"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0b1a33"
+      media="(prefers-color-scheme: dark)"
+    />
+
+    <!-- ==== Open Graph / Social ==== -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KSnap Studio" />
+    <meta
+      property="og:title"
+      content="Durham Wedding & Portrait Photographer | KSnap Studio"
+    />
+    <meta
+      property="og:description"
+      content="Weddings, engagements, events, and portraits across Durham Region. See packages, galleries, and availability."
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+    <meta property="og:url" content="https://ksnapstudio.netlify.app/" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Durham Wedding & Portrait Photographer | KSnap Studio"
+    />
+    <meta
+      name="twitter:description"
+      content="Weddings, engagements, events, and portraits across Durham Region. See packages, galleries, and availability."
+    />
+    <meta name="twitter:image" content="%PUBLIC_URL%/og-image.jpg" />
+
+    <!-- ==== Structured Data (JSON-LD) ==== -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "KSnap Studio",
+        "url": "https://ksnapstudio.netlify.app/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://ksnapstudio.netlify.app/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "KSnap Studio",
+        "image": "https://ksnapstudio.netlify.app/og-image.jpg",
+        "url": "https://ksnapstudio.netlify.app/",
+        "logo": "https://ksnapstudio.netlify.app/apple-touch-icon.png",
+        "description": "Durham Region photographer for weddings, engagements, events, and portraits.",
+        "areaServed": [
+          "Durham Region",
+          "Pickering",
+          "Ajax",
+          "Whitby",
+          "Oshawa",
+          "Clarington"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Durham Region",
+          "addressRegion": "ON",
+          "addressCountry": "CA"
+        },
+        "telephone": "+1-000-000-0000",
+        "sameAs": [
+          "https://www.instagram.com/yourhandle",
+          "https://www.facebook.com/yourpage"
+        ]
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you photograph weddings and events in Durham Region?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We cover weddings, engagements, and events across Pickering, Ajax, Whitby, Oshawa, and surrounding areas."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I book a photoshoot?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Send a request on our Contact/Booking page with your date, location, and session type. We’ll confirm availability and next steps."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What’s the typical turnaround time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Portrait previews in 3–5 days and full galleries in 2–3 weeks. Weddings typically 4–6 weeks."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!-- (Optional) Preconnect to fonts -->
+    <!--
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     -->
-    <title>React App</title>
+
+    <!-- Prevent flash of wrong color scheme -->
+    <script>
+      try {
+        const isDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+      } catch (e) {}
+    </script>
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    <!-- <script defer src="%PUBLIC_URL%/analytics.js"></script> -->
   </body>
 </html>
