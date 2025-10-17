@@ -12,7 +12,6 @@ import gp1 from "../../assets/images/gallery1.jpg";
 import gp2 from "../../assets/images/gallery2.jpg";
 import gp3 from "../../assets/images/gallery3.jpg";
 
-
 const HERO_SLIDES = [hero1, hero2, hero3];
 
 // Using imported images for preview (no /public paths)
@@ -189,7 +188,7 @@ export default function Main() {
           </div>
         </section>
 
-        {/* PORTFOLIO PREVIEW (using imported images) */}
+        {/* PORTFOLIO PREVIEW */}
         <section id="gallery" className="main__section main__section--alt">
           <div className="main__container">
             <h2 className="main__section-title">Gallery</h2>
@@ -246,6 +245,52 @@ export default function Main() {
                   </li>
                 ))}
               </ul>
+
+              {/* Google Reviews CTA */}
+              <div className="main__reviews-cta" aria-label="External reviews">
+                <p className="main__reviews-note">
+                  See why clients love K.Snap.Studio — real stories, real
+                  moments.
+                </p>
+
+                <a
+                  className="main__btn main__btn--outline main__btn--google"
+                  href="https://www.google.com/maps/place/K_Snap.Photography/@44.0187004,-78.981649,9z/data=!3m1!4b1!4m6!3m5!1s0x2c5016303d7b7473:0x9bfff2c50f0016fe!8m2!3d44.0187004!4d-78.981649!16s%2Fg%2F11vxpp4x7z?entry=ttu&g_ep=EgoyMDI1MTAxNS4wIKXMDSoASAFQAw%3D%3D"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <svg
+                    className="btn-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="9"
+                      fill="none"
+                      stroke="currentColor"
+                    />
+                    <path
+                      d="M12 7.5c2 0 3.5 1.2 3.5 3h-3.2"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M16 12a4 4 0 1 1-1.2-2.9"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  View Google Reviews →
+                </a>
+
+                <p className="main__reviews-fyi">Rated 5.0 ★ by clients</p>
+              </div>
             </div>
           </div>
         </section>
