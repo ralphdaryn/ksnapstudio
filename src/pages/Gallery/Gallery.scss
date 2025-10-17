@@ -1,12 +1,20 @@
 .gallery {
   --max-w: 1200px;
-  --gap: 14px;
-  --radius: 16px;
   --ink: #111;
   --muted: #6b7280;
   --bg: #fafafa;
   --ring: rgba(17, 17, 17, 0.08);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  /* gallery-specific rhythm */
+  --gap-m: 3px; /* mobile gutter */
+  --gap-t: 5px; /* tablet gutter */
+  --gap-d: 7px; /* desktop gutter */
+
+  /* soft corners that scale with screen */
+  --rad-m: 4px;
+  --rad-t: 6px;
+  --rad-d: 8px;
 
   background: var(--bg);
   padding: 2rem 1rem;
@@ -23,35 +31,28 @@
     gap: 1rem;
     margin-bottom: 1rem;
   }
+
   &__title {
     font-size: clamp(1.6rem, 3.6vw, 2.2rem);
     color: var(--ink);
     margin: 0;
   }
-  &__subtitle {
-    color: var(--muted);
-    margin: 0;
-    font-size: 0.98rem;
-  }
 
+  /* MOBILE — compact gutters, single col */
   &__grid {
     display: grid;
-    gap: var(--gap);
     grid-template-columns: repeat(1, 1fr);
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @media (min-width: 1200px) {
-      grid-template-columns: repeat(4, 1fr);
-    }
+    gap: var(--gap-m);
   }
 
   &__item {
+    /* remove default figure margin */
+    margin: 0;
     position: relative;
-    border-radius: var(--radius);
     overflow: hidden;
-    background: linear-gradient(180deg, #f6f6f6, #f0f0f0);
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: var(--rad-m);
+    background: #fff; /* keeps edges crisp against bg */
+    box-shadow: none; /* image-first, no heavy chrome */
   }
 
   &__button {
@@ -66,26 +67,62 @@
     cursor: zoom-in;
     position: relative;
     outline: none;
+
     &:focus-visible {
+      /* clear, accessible focus without shifting layout */
       box-shadow: 0 0 0 4px var(--ring);
       border-radius: inherit;
     }
   }
 
   &__img {
-    display: block;
+    display: block; /* removes inline-gap artifacts */
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.45s ease, filter 0.45s ease, opacity 0.3s ease;
+    transition: transform 0.28s ease, filter 0.28s ease, opacity 0.22s ease;
     will-change: transform;
   }
+
+  /* gentle hover that respects the photo */
   &__button:hover .gallery__img {
-    transform: scale(1.02);
+    transform: scale(1.015);
+  }
+
+  /* =========================
+     TABLET ≥768px
+     ========================= */
+  @media (min-width: 768px) {
+    &__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap-t);
+    }
+    &__item {
+      border-radius: var(--rad-t);
+    }
+    &__button:hover .gallery__img {
+      transform: scale(1.02);
+    }
+  }
+
+  /* =========================
+     DESKTOP ≥1200px/1280px
+     ========================= */
+  @media (min-width: 1200px) {
+    &__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap-d);
+    }
+    &__item {
+      border-radius: var(--rad-d);
+    }
+    &__button:hover .gallery__img {
+      transform: scale(1.025);
+    }
   }
 }
 
-/* Lightbox */
+/* Lightbox — unchanged behavior */
 .lb {
   position: fixed;
   inset: 0;
@@ -157,7 +194,8 @@
     }
   }
 }
-/* A11y helper for hidden captions */
+
+/* A11y helper */
 .visually-hidden {
   position: absolute !important;
   width: 1px;
@@ -167,7 +205,7 @@
   white-space: nowrap;
 }
 
-/* Home page gallery preview tweaks */
+/* Home preview (unchanged) */
 .main__section--alt .main__media-list--gallery {
   display: grid;
   gap: 14px;
@@ -179,8 +217,6 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
-/* Slightly firmer hover for preview tiles (reuses your .main__img) */
 .main__media:hover .main__img {
   transform: scale(1.02);
 }
