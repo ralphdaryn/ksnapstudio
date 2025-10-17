@@ -55,28 +55,6 @@ export default function Footer() {
               <path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" />
             </svg>
           </a>
-
-          <a
-            className="footer__icon"
-            href="https://www.tiktok.com/"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="TikTok"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M14 3v7.2a4.8 4.8 0 11-4 7.6"
-                fill="none"
-                stroke="currentColor"
-              />
-              <path
-                d="M14 6c1.2 2 3.4 3.2 5 3.2"
-                fill="none"
-                stroke="currentColor"
-              />
-              <circle cx="9.8" cy="17" r="0.01" fill="currentColor" />
-            </svg>
-          </a>
         </div>
       </div>
 

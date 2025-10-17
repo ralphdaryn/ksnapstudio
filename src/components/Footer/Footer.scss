@@ -5,21 +5,22 @@
   --max-w: 1120px;
   --pad-x: 1rem;
   --pad-y: 2rem;
-  --bg: #f0f6f7; /* same as .main --bg */
-  --bg-alt: #ffffff; /* same as .main --bg-alt */
+
+  /* unified footer band */
+  --footer-bg: #f0f6f7; /* same as .main --bg for seamless blend */
   --ink: #111;
   --muted: #555;
   --line: #eee;
-  --radius: 14px;
   --ring: rgba(2, 132, 199, 0.18);
 
-  background: var(--bg-alt);
+  background: var(--footer-bg);
   border-top: 1px solid var(--line);
+  width: 100%;
 
   &__container {
     @include container(var(--max-w), var(--pad-x));
     margin-inline: auto;
-    padding-block: 1.1rem; /* mobile-first */
+    padding-block: 1.1rem; /* mobile-first spacing */
 
     @include tablet {
       padding-block: 1.35rem;
@@ -29,7 +30,7 @@
     }
   }
 
-  /* — Social row: centered pill — */
+  /* Social row: centered pill at the top of the footer */
   &__social {
     display: flex;
     flex-direction: row;
@@ -52,7 +53,6 @@
     align-items: center;
     justify-content: center;
 
-    /* comfortable mobile tap target */
     width: 40px;
     height: 40px;
 
@@ -81,20 +81,20 @@
     }
   }
 
-  /* Divider */
+  /* Divider spans the full footer width */
   &__divider {
     height: 1px;
     background: var(--line);
     opacity: 0.9;
   }
 
-  /* Legal */
+  /* Legal row: centered copy; no extra background band */
   &__legal {
     display: grid;
     justify-items: center;
     gap: 0.25rem;
     text-align: center;
-    background: var(--bg);
+    /* background: transparent to keep the footer band solid and even */
   }
 
   &__copy {
@@ -111,7 +111,7 @@
     color: var(--muted);
   }
 
-  /* — Tablet ≥768px — */
+  /* Tablet ≥768px */
   @include tablet {
     &__social {
       gap: 0.7rem;
@@ -124,7 +124,7 @@
     }
   }
 
-  /* — Desktop ≥1280px — */
+  /* Desktop ≥1280px */
   @include desktop {
     &__social {
       gap: 0.8rem;

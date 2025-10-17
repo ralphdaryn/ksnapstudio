@@ -12,8 +12,6 @@ import gp1 from "../../assets/images/gallery1.jpg";
 import gp2 from "../../assets/images/gallery2.jpg";
 import gp3 from "../../assets/images/gallery3.jpg";
 
-// Footer
-import Footer from "../../components/Footer/Footer";
 
 const HERO_SLIDES = [hero1, hero2, hero3];
 
@@ -341,7 +339,6 @@ export default function Main() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }
