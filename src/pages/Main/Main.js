@@ -209,12 +209,15 @@ export default function Main() {
             </div>
 
             <div className="main__links">
-              <Link
+              <a
                 className="main__link"
-                to="https://ksnapstudio.pic-time.com/client"
+                href="https://ksnapstudio.pic-time.com/client"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open full gallery in new tab"
               >
                 View full gallery →
-              </Link>
+              </a>
             </div>
           </div>
         </section>
