@@ -1,21 +1,7 @@
 // src/components/PicTimeGallery.jsx
-import { useEffect } from "react";
+import React from "react";
 
 export default function PicTimeGallery() {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "https://embedding.pic-time.com/pictures/scripts/compiled/artgalleryembed.js";
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      // clean up when leaving the page/route
-      document.body.removeChild(script);
-    };
-  }, []);
-
   return (
     <div className="main__gallery-embed">
       <iframe
@@ -28,4 +14,3 @@ export default function PicTimeGallery() {
     </div>
   );
 }
-

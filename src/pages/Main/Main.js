@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
-import PicTimeGallery from "../../components/PicTimeGallery"; // adjust path if needed
-
+import PicTimeGallery from "../../components/PicTimeGallery"; 
 
 // Hero & testimonial images (inside src/assets/images)
 import hero1 from "../../assets/images/hero1.jpg";
@@ -10,18 +9,8 @@ import hero2 from "../../assets/images/hero2.jpg";
 import hero3 from "../../assets/images/hero3.jpg";
 import testi1 from "../../assets/images/testimonial1.jpg";
 import testi2 from "../../assets/images/testimonial2.jpg";
-// import gp1 from "../../assets/images/gallery1.jpg";
-// import gp2 from "../../assets/images/gallery2.jpg";
-// import gp3 from "../../assets/images/gallery3.jpg";
 
 const HERO_SLIDES = [hero1, hero2, hero3];
-
-// Using imported images for preview (no /public paths)
-// const GALLERY_PREVIEW = [
-//   { id: 1, src: gp1, alt: "Wedding candid" },
-//   { id: 2, src: gp2, alt: "Event details" },
-//   { id: 3, src: gp3, alt: "Portrait moment" },
-// ];
 
 const PACKAGE_CATEGORIES = [
   {
@@ -83,6 +72,7 @@ export default function Main() {
 
   useEffect(() => {
     let isMounted = true;
+
     const loaders = HERO_SLIDES.map(
       (src, idx) =>
         new Promise((resolve) => {
@@ -97,11 +87,13 @@ export default function Main() {
     Promise.all(loaders).then((results) => {
       if (!isMounted) return;
       const modes = Array(HERO_SLIDES.length).fill("cover");
+
       results.forEach(({ idx, w, h }) => {
         if (!w || !h) return;
         const ar = w / h;
         if (ar < 0.95 || ar > 2.0) modes[idx] = "contain";
       });
+
       setFitModes(modes);
     });
 
@@ -190,25 +182,12 @@ export default function Main() {
           </div>
         </section>
 
-        {/* PORTFOLIO PREVIEW */}
-        {/* <section id="gallery" className="main__section main__section--alt">
+        {/* GALLERY (Pic-Time embed) */}
+        <section id="gallery" className="main__section main__section--alt">
           <div className="main__container">
             <h2 className="main__section-title">Gallery</h2>
 
-            <div className="main__media-list main__media-list--gallery">
-              {GALLERY_PREVIEW.map((p) => (
-                <figure key={p.id} className="main__media">
-                  <img
-                    className="main__img"
-                    src={p.src}
-                    alt={p.alt}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <figcaption className="visually-hidden">{p.alt}</figcaption>
-                </figure>
-              ))}
-            </div>
+            <PicTimeGallery />
 
             <div className="main__links">
               <a
@@ -218,31 +197,11 @@ export default function Main() {
                 rel="noopener noreferrer"
                 aria-label="Open full gallery in new tab"
               >
-                View full gallery →
+                Open in full screen →
               </a>
             </div>
           </div>
-        </section> */}
-        <section id="gallery" className="main__section main__section--alt">
-  <div className="main__container">
-    <h2 className="main__section-title">Gallery</h2>
-
-    <PicTimeGallery />
-
-    <div className="main__links">
-      <a
-        className="main__link"
-        href="https://ksnapstudio.pic-time.com/client"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Open full gallery in new tab"
-      >
-        Open in full screen →
-      </a>
-    </div>
-  </div>
-</section>
-
+        </section>
 
         {/* REVIEWS */}
         <section id="reviews" className="main__section">
