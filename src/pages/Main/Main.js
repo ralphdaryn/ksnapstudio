@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
+import PicTimeGallery from "../../components/PicTimeGallery"; // adjust path if needed
+
 
 // Hero & testimonial images (inside src/assets/images)
 import hero1 from "../../assets/images/hero1.jpg";
@@ -8,18 +10,18 @@ import hero2 from "../../assets/images/hero2.jpg";
 import hero3 from "../../assets/images/hero3.jpg";
 import testi1 from "../../assets/images/testimonial1.jpg";
 import testi2 from "../../assets/images/testimonial2.jpg";
-import gp1 from "../../assets/images/gallery1.jpg";
-import gp2 from "../../assets/images/gallery2.jpg";
-import gp3 from "../../assets/images/gallery3.jpg";
+// import gp1 from "../../assets/images/gallery1.jpg";
+// import gp2 from "../../assets/images/gallery2.jpg";
+// import gp3 from "../../assets/images/gallery3.jpg";
 
 const HERO_SLIDES = [hero1, hero2, hero3];
 
 // Using imported images for preview (no /public paths)
-const GALLERY_PREVIEW = [
-  { id: 1, src: gp1, alt: "Wedding candid" },
-  { id: 2, src: gp2, alt: "Event details" },
-  { id: 3, src: gp3, alt: "Portrait moment" },
-];
+// const GALLERY_PREVIEW = [
+//   { id: 1, src: gp1, alt: "Wedding candid" },
+//   { id: 2, src: gp2, alt: "Event details" },
+//   { id: 3, src: gp3, alt: "Portrait moment" },
+// ];
 
 const PACKAGE_CATEGORIES = [
   {
@@ -189,7 +191,7 @@ export default function Main() {
         </section>
 
         {/* PORTFOLIO PREVIEW */}
-        <section id="gallery" className="main__section main__section--alt">
+        {/* <section id="gallery" className="main__section main__section--alt">
           <div className="main__container">
             <h2 className="main__section-title">Gallery</h2>
 
@@ -220,7 +222,27 @@ export default function Main() {
               </a>
             </div>
           </div>
-        </section>
+        </section> */}
+        <section id="gallery" className="main__section main__section--alt">
+  <div className="main__container">
+    <h2 className="main__section-title">Gallery</h2>
+
+    <PicTimeGallery />
+
+    <div className="main__links">
+      <a
+        className="main__link"
+        href="https://ksnapstudio.pic-time.com/client"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open full gallery in new tab"
+      >
+        Open in full screen →
+      </a>
+    </div>
+  </div>
+</section>
+
 
         {/* REVIEWS */}
         <section id="reviews" className="main__section">
