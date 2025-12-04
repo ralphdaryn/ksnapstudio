@@ -209,7 +209,10 @@ export default function Main() {
             </div>
 
             <div className="main__links">
-              <Link className="main__link" to="/gallery">
+              <Link
+                className="main__link"
+                to="https://ksnapstudio.pic-time.com/client"
+              >
                 View full gallery →
               </Link>
             </div>
