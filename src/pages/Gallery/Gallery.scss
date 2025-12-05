@@ -1,222 +1,32 @@
+// =====================
+// src/pages/Gallery/Gallery.scss
+// =====================
+
 .gallery {
-  --max-w: 1200px;
-  --ink: #111;
-  --muted: #6b7280;
-  --bg: #fafafa;
-  --ring: rgba(17, 17, 17, 0.08);
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  /* remove extra padding so the iframe can take over */
+  padding: 0;
+  margin: 0;
+  background: #fff; // or your site background color
+  min-height: 100vh; // make sure page fills the screen
 
-  /* gallery-specific rhythm */
-  --gap-m: 3px; /* mobile gutter */
-  --gap-t: 5px; /* tablet gutter */
-  --gap-d: 7px; /* desktop gutter */
-
-  /* soft corners that scale with screen */
-  --rad-m: 4px;
-  --rad-t: 6px;
-  --rad-d: 8px;
-
-  background: var(--bg);
-  padding: 2rem 1rem;
-
-  &__inner {
-    max-width: var(--max-w);
+  &__frame {
+    width: 100%;
+    height: 100vh; // full viewport height on all devices
+    max-width: 1200px; // optional: keep it centered on large screens
     margin: 0 auto;
   }
-
-  &__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  &__title {
-    font-size: clamp(1.6rem, 3.6vw, 2.2rem);
-    color: var(--ink);
-    margin: 0;
-  }
-
-  /* MOBILE — compact gutters, single col */
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: var(--gap-m);
-  }
-
-  &__item {
-    /* remove default figure margin */
-    margin: 0;
-    position: relative;
-    overflow: hidden;
-    border-radius: var(--rad-m);
-    background: #fff; /* keeps edges crisp against bg */
-    box-shadow: none; /* image-first, no heavy chrome */
-  }
-
-  &__button {
-    appearance: none;
-    border: 0;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    cursor: zoom-in;
-    position: relative;
-    outline: none;
-
-    &:focus-visible {
-      /* clear, accessible focus without shifting layout */
-      box-shadow: 0 0 0 4px var(--ring);
-      border-radius: inherit;
-    }
-  }
-
-  &__img {
-    display: block; /* removes inline-gap artifacts */
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.28s ease, filter 0.28s ease, opacity 0.22s ease;
-    will-change: transform;
-  }
-
-  /* gentle hover that respects the photo */
-  &__button:hover .gallery__img {
-    transform: scale(1.015);
-  }
-
-  /* =========================
-     TABLET ≥768px
-     ========================= */
-  @media (min-width: 768px) {
-    &__grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--gap-t);
-    }
-    &__item {
-      border-radius: var(--rad-t);
-    }
-    &__button:hover .gallery__img {
-      transform: scale(1.02);
-    }
-  }
-
-  /* =========================
-     DESKTOP ≥1200px/1280px
-     ========================= */
-  @media (min-width: 1200px) {
-    &__grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--gap-d);
-    }
-    &__item {
-      border-radius: var(--rad-d);
-    }
-    &__button:hover .gallery__img {
-      transform: scale(1.025);
-    }
-  }
 }
 
-/* Lightbox — unchanged behavior */
-.lb {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.85);
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-
-  &__inner {
-    position: relative;
-    max-width: min(92vw, 1400px);
-    width: 100%;
-    display: grid;
-    place-items: center;
-    gap: 0.5rem;
-  }
-  &__img {
-    max-width: 100%;
-    max-height: 82vh;
-    border-radius: 12px;
-    background: #111;
-    box-shadow: var(--shadow);
-  }
-  &__cap {
-    color: #e5e7eb;
-    font-size: 0.9rem;
-  }
-
-  &__close,
-  &__nav {
-    position: absolute;
-    border-radius: 999px;
-    background: #ffffff20;
-    color: #fff;
-    border: 1px solid #ffffff30;
-    backdrop-filter: blur(6px);
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  &__close {
-    top: -8px;
-    right: -8px;
-    width: 36px;
-    height: 36px;
-    font-size: 22px;
-    line-height: 1;
-    &:hover {
-      background: #ffffff35;
-    }
-  }
-  &__nav {
-    top: 50%;
-    transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
-    font-size: 28px;
-    line-height: 1;
-    &:hover {
-      background: #ffffff35;
-    }
-    &--prev {
-      left: -8px;
-    }
-    &--next {
-      right: -8px;
-    }
-  }
+/* Wrapper around the iframe */
+.main__gallery-embed {
+  width: 100%;
+  height: 100%;
 }
 
-/* A11y helper */
-.visually-hidden {
-  position: absolute !important;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
-}
-
-/* Home preview (unchanged) */
-.main__section--alt .main__media-list--gallery {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: 1fr;
-  margin-top: 0.75rem;
-}
-@media (min-width: 768px) {
-  .main__section--alt .main__media-list--gallery {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-.main__media:hover .main__img {
-  transform: scale(1.02);
+/* Make iframe fill its container responsively */
+.main__gallery-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
