@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
-import PicTimeGallery from "../../components/PicTimeGallery"; 
+import PicTimeGallery from "../../components/PicTimeGallery";
 
 // Hero & testimonial images (inside src/assets/images)
 import hero1 from "../../assets/images/hero1.jpg";
@@ -267,7 +267,7 @@ export default function Main() {
                       strokeLinecap="round"
                     />
                     <path
-                      d="M16 12a4 4 0 1 1-1.2-2.9"
+                      d="M16 12a 4 4 0 1 1-1.2-2.9"
                       fill="none"
                       stroke="currentColor"
                       strokeLinecap="round"
