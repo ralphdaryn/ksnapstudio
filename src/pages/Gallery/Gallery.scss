@@ -1,32 +1,43 @@
-// =====================
-// src/pages/Gallery/Gallery.scss
-// =====================
+@use "../../styles/partials/mixins" as *;
 
 .gallery {
-  /* remove extra padding so the iframe can take over */
-  padding: 0;
-  margin: 0;
-  background: #fff; // or your site background color
-  min-height: 100vh; // make sure page fills the screen
+  &__section {
+    padding: 2rem 0;
 
-  &__frame {
-    width: 100%;
-    height: 100vh; // full viewport height on all devices
-    max-width: 1200px; // optional: keep it centered on large screens
-    margin: 0 auto;
+    @include tablet {
+      padding: 2.5rem 0 3rem;
+    }
+  }
+
+  &__container {
+    @include container(1120px, 1rem);
+    margin-inline: auto;
+  }
+
+  &__title {
+    font-size: clamp(1.9rem, 5vw, 2.4rem);
+    margin: 0 0 0.5rem;
+  }
+
+  &__intro {
+    margin: 0 0 1.25rem;
+    color: #555;
+    max-width: 60ch;
   }
 }
 
-/* Wrapper around the iframe */
-.main__gallery-embed {
-  width: 100%;
-  height: 100%;
-}
+/* Full interactive Pic-Time embed for the dedicated gallery page */
+.gallery__embed {
+  margin-top: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  overflow: hidden;
 
-/* Make iframe fill its container responsively */
-.main__gallery-embed iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    /* No pointer-events: none here → always interactive */
+  }
 }

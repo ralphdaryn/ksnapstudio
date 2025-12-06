@@ -187,7 +187,8 @@ export default function Main() {
           <div className="main__container">
             <h2 className="main__section-title">Gallery</h2>
 
-            <PicTimeGallery />
+            {/* Preview mode on main page */}
+            <PicTimeGallery variant="preview" />
 
             <div className="main__links">
               <a
