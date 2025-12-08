@@ -1,3 +1,4 @@
+// src/pages/Main/Main.jsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
@@ -62,6 +63,7 @@ export default function Main() {
     Array(HERO_SLIDES.length).fill("cover")
   );
 
+  // auto-advance hero slides
   useEffect(() => {
     const id = setInterval(
       () => setHeroIndex((i) => (i + 1) % HERO_SLIDES.length),
@@ -70,6 +72,7 @@ export default function Main() {
     return () => clearInterval(id);
   }, []);
 
+  // detect aspect ratios to choose cover vs contain
   useEffect(() => {
     let isMounted = true;
 
@@ -105,273 +108,267 @@ export default function Main() {
   const goTo = (idx) => setHeroIndex(idx % HERO_SLIDES.length);
 
   return (
-    <>
-      <main className="main">
-        {/* HERO */}
-        <section className="main__hero">
-          <div className="main__hero-carousel" aria-hidden="true">
-            {HERO_SLIDES.map((src, idx) => (
-              <div
-                key={idx}
-                className={`main__hero-slide ${
-                  idx === heroIndex ? "main__hero-slide--active" : ""
-                } ${
-                  fitModes[idx] === "contain" ? "main__hero-slide--contain" : ""
+    <main className="main">
+      {/* HERO */}
+      <section className="main__hero">
+        <div className="main__hero-carousel" aria-hidden="true">
+          {HERO_SLIDES.map((src, idx) => (
+            <div
+              key={idx}
+              className={`main__hero-slide ${
+                idx === heroIndex ? "main__hero-slide--active" : ""
+              } ${
+                fitModes[idx] === "contain" ? "main__hero-slide--contain" : ""
+              }`}
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+        </div>
+
+        <div className="main__container">
+          <h1 className="main__title">K.Snap.Studio</h1>
+          <p className="main__tagline">Capturing Moments, Creating Memories</p>
+          <p className="main__subtitle">
+            Weddings • Events • Portraits — serving the GTA with a modern,
+            story-driven approach.
+          </p>
+          <div className="main__cta">
+            <Link className="main__btn main__btn--primary" to="/packages">
+              View Packages
+            </Link>
+            <Link className="main__btn" to="/contact">
+              Book Now
+            </Link>
+          </div>
+
+          <div
+            className="main__hero-dots"
+            role="tablist"
+            aria-label="Hero slides"
+          >
+            {HERO_SLIDES.map((_, i) => (
+              <button
+                key={i}
+                role="tab"
+                aria-selected={i === heroIndex}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`main__hero-dot ${
+                  i === heroIndex ? "main__hero-dot--active" : ""
                 }`}
-                style={{ backgroundImage: `url(${src})` }}
+                onClick={() => goTo(i)}
+                type="button"
               />
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="main__container">
-            <h1 className="main__title">K.Snap.Studio</h1>
-            <p className="main__tagline">
-              Capturing Moments, Creating Memories
-            </p>
-            <p className="main__subtitle">
-              Weddings • Events • Portraits — serving the GTA with a modern,
-              story-driven approach.
-            </p>
-            <div className="main__cta">
-              <Link className="main__btn main__btn--primary" to="/packages">
-                View Packages
-              </Link>
-              <Link className="main__btn" to="/contact">
-                Book Now
-              </Link>
-            </div>
+      {/* BIO */}
+      <section id="about" className="main__section main__section--alt">
+        <div className="main__container">
+          <h2 className="main__section-title">About KSnap Studio</h2>
+          <p className="main__text">
+            Welcome! K.Snap.Studio is my passion for photography — from 2017 to
+            today — focused on telling your story through the lens. With 12+
+            years of customer service and photography, I bring a professional
+            yet personal touch to every project.
+          </p>
+          <p className="main__text main__text--em">
+            Let’s make magic together.
+          </p>
+          <Link className="main__link" to="/about">
+            Read full bio →
+          </Link>
+        </div>
+      </section>
 
-            <div
-              className="main__hero-dots"
-              role="tablist"
-              aria-label="Hero slides"
+      {/* GALLERY (Pic-Time embed preview) */}
+      <section id="gallery" className="main__section main__section--alt">
+        <div className="main__container">
+          <h2 className="main__section-title">Gallery</h2>
+
+          {/* Preview mode on main page */}
+          <PicTimeGallery variant="preview" />
+
+          <div className="main__links">
+            {/* INTERNAL full gallery page */}
+            <Link
+              className="main__link"
+              to="/gallery"
+              aria-label="Open full gallery page"
             >
-              {HERO_SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  role="tab"
-                  aria-selected={i === heroIndex}
-                  aria-label={`Go to slide ${i + 1}`}
-                  className={`main__hero-dot ${
-                    i === heroIndex ? "main__hero-dot--active" : ""
-                  }`}
-                  onClick={() => goTo(i)}
-                  type="button"
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* BIO */}
-        <section id="about" className="main__section main__section--alt">
-          <div className="main__container">
-            <h2 className="main__section-title">About KSnap Studio</h2>
-            <p className="main__text">
-              Welcome! K.Snap.Studio is my passion for photography — from 2017
-              to today — focused on telling your story through the lens. With
-              12+ years of customer service and photography, I bring a
-              professional yet personal touch to every project.
-            </p>
-            <p className="main__text main__text--em">
-              Let’s make magic together.
-            </p>
-            <Link className="main__link" to="/about">
-              Read full bio →
+              Open in full screen →
             </Link>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* GALLERY (Pic-Time embed) */}
-        <section id="gallery" className="main__section main__section--alt">
-          <div className="main__container">
-            <h2 className="main__section-title">Gallery</h2>
+      {/* REVIEWS */}
+      <section id="reviews" className="main__section">
+        <div className="main__container">
+          <h2 className="main__section-title">Reviews & Testimonials</h2>
 
-            {/* Preview mode on main page */}
-            <PicTimeGallery variant="preview" />
-
-            <div className="main__links">
-              <a
-                className="main__link"
-                href="https://ksnapstudio.pic-time.com/client"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open full gallery in new tab"
-              >
-                Open in full screen →
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* REVIEWS */}
-        <section id="reviews" className="main__section">
-          <div className="main__container">
-            <h2 className="main__section-title">Reviews & Testimonials</h2>
-
-            <div className="main__reviews">
-              <ul className="main__quotes">
-                {TESTIMONIALS.map((t) => (
-                  <li key={t.id} className="main__quote">
-                    <figure className="main__tcard">
-                      <img
-                        src={t.img}
-                        alt={t.alt}
-                        className="main__tcard-img"
-                        loading="eager"
-                      />
-                      <span aria-hidden="true" className="main__tcard-quote">
-                        &#8220;
-                      </span>
-                      <figcaption className="main__tcard-body">
-                        <blockquote className="main__quote-text">
-                          “{t.text}”
-                        </blockquote>
-                        <div className="main__quote-meta">— {t.name}</div>
-                      </figcaption>
-                    </figure>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Google Reviews CTA */}
-              <div className="main__reviews-cta" aria-label="External reviews">
-                <p className="main__reviews-note">
-                  See why clients love K.Snap.Studio — real stories, real
-                  moments.
-                </p>
-
-                <a
-                  className="main__btn main__btn--outline main__btn--google"
-                  href="https://www.google.com/maps/place/K_Snap.Photography/@44.0187004,-78.981649,9z/data=!3m1!4b1!4m6!3m5!1s0x2c5016303d7b7473:0x9bfff2c50f0016fe!8m2!3d44.0187004!4d-78.981649!16s%2Fg%2F11vxpp4x7z?entry=ttu&g_ep=EgoyMDI1MTAxNS4wIKXMDSoASAFQAw%3D%3D"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <svg
-                    className="btn-icon"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="9"
-                      fill="none"
-                      stroke="currentColor"
+          <div className="main__reviews">
+            <ul className="main__quotes">
+              {TESTIMONIALS.map((t) => (
+                <li key={t.id} className="main__quote">
+                  <figure className="main__tcard">
+                    <img
+                      src={t.img}
+                      alt={t.alt}
+                      className="main__tcard-img"
+                      loading="eager"
                     />
-                    <path
-                      d="M12 7.5c2 0 3.5 1.2 3.5 3h-3.2"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M16 12a 4 4 0 1 1-1.2-2.9"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  View Google Reviews →
-                </a>
-
-                <p className="main__reviews-fyi">Rated 5.0 ★ by clients</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* PACKAGES PREVIEW (no prices) */}
-        <section id="packages" className="main__section">
-          <div className="main__container">
-            <div className="main__section-head">
-              <h2 className="main__section-title">Packages</h2>
-            </div>
-
-            <ul className="main__cards">
-              {PACKAGE_CATEGORIES.map(({ key, title, items }) => (
-                <li key={key} className="main__card">
-                  <h3 className="main__card-title">{title}</h3>
-                  <ul className="main__card-list">
-                    {items.map((t, i) => (
-                      <li key={i} className="main__card-item">
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="main__card-note">
-                    Add-ons: extra hours, second shooter, videographer —{" "}
-                    <span>inquire for options</span>.
-                  </div>
-                  <Link className="main__card-btn" to="/packages">
-                    View Details
-                  </Link>
+                    <span aria-hidden="true" className="main__tcard-quote">
+                      &#8220;
+                    </span>
+                    <figcaption className="main__tcard-body">
+                      <blockquote className="main__quote-text">
+                        “{t.text}”
+                      </blockquote>
+                      <div className="main__quote-meta">— {t.name}</div>
+                    </figcaption>
+                  </figure>
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
 
-        {/* FAQ */}
-        <section id="faq" className="main__section main__section--alt">
-          <div className="main__container">
-            <h2 className="main__section-title">FAQ</h2>
-            <div className="main__accordion">
-              {[
-                {
-                  q: "Do you need a deposit to save our date?",
-                  a: "Yes, a 25% deposit secures your spot.",
-                },
-                {
-                  q: "What about props?",
-                  a: "Props are welcome — champagne included!",
-                },
-                {
-                  q: "Can I request a style?",
-                  a: "Absolutely, everything is customized to your vibe.",
-                },
-                {
-                  q: "How long will it take to get my photos?",
-                  a: "Weddings: 6–8 weeks. Portraits/Events: 2–3 weeks.",
-                },
-                {
-                  q: "What happens if the weather doesn’t cooperate?",
-                  a: "We can reschedule or adapt indoors.",
-                },
-                {
-                  q: "What’s included in my package?",
-                  a: "Professional edits, private gallery, consultation, and more.",
-                },
-              ].map(({ q, a }, i) => (
-                <details key={i} className="main__faq">
-                  <summary className="main__faq-q">{q}</summary>
-                  <p className="main__faq-a">{a}</p>
-                </details>
-              ))}
+            {/* Google Reviews CTA */}
+            <div className="main__reviews-cta" aria-label="External reviews">
+              <p className="main__reviews-note">
+                See why clients love K.Snap.Studio — real stories, real moments.
+              </p>
+
+              <a
+                className="main__btn main__btn--outline main__btn--google"
+                href="https://www.google.com/maps/place/K_Snap.Photography/@44.0187004,-78.981649,9z/data=!3m1!4b1!4m6!3m5!1s0x2c5016303d7b7473:0x9bfff2c50f0016fe!8m2!3d44.0187004!4d-78.981649!16s%2Fg%2F11vxpp4x7z?entry=ttu&g_ep=EgoyMDI1MTAxNS4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <svg
+                  className="btn-icon"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                    fill="none"
+                    stroke="currentColor"
+                  />
+                  <path
+                    d="M12 7.5c2 0 3.5 1.2 3.5 3h-3.2"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M16 12a 4 4 0 1 1-1.2-2.9"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                View Google Reviews →
+              </a>
+
+              <p className="main__reviews-fyi">Rated 5.0 ★ by clients</p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CONTACT TEASER */}
-        <section id="contact" className="main__section main__section--cta">
-          <div className="main__container">
-            <h2 className="main__section-title">
-              Let's capture something beautiful.
-            </h2>
-            <p className="main__text">
-              Share your date, locations, and vision. We’ll recommend the
-              perfect package and timeline.
-            </p>
+      {/* PACKAGES PREVIEW (no prices) */}
+      <section id="packages" className="main__section">
+        <div className="main__container">
+          <div className="main__section-head">
+            <h2 className="main__section-title">Packages</h2>
           </div>
-          <div className="main__container">
-            <Link className="main__btn main__btn--primary" to="/contact">
-              Plan Your Experience
-            </Link>
+
+          <ul className="main__cards">
+            {PACKAGE_CATEGORIES.map(({ key, title, items }) => (
+              <li key={key} className="main__card">
+                <h3 className="main__card-title">{title}</h3>
+                <ul className="main__card-list">
+                  {items.map((t, i) => (
+                    <li key={i} className="main__card-item">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div className="main__card-note">
+                  Add-ons: extra hours, second shooter, videographer —{" "}
+                  <span>inquire for options</span>.
+                </div>
+                <Link className="main__card-btn" to="/packages">
+                  View Details
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="main__section main__section--alt">
+        <div className="main__container">
+          <h2 className="main__section-title">FAQ</h2>
+          <div className="main__accordion">
+            {[
+              {
+                q: "Do you need a deposit to save our date?",
+                a: "Yes, a 25% deposit secures your spot.",
+              },
+              {
+                q: "What about props?",
+                a: "Props are welcome — champagne included!",
+              },
+              {
+                q: "Can I request a style?",
+                a: "Absolutely, everything is customized to your vibe.",
+              },
+              {
+                q: "How long will it take to get my photos?",
+                a: "Weddings: 6–8 weeks. Portraits/Events: 2–3 weeks.",
+              },
+              {
+                q: "What happens if the weather doesn’t cooperate?",
+                a: "We can reschedule or adapt indoors.",
+              },
+              {
+                q: "What’s included in my package?",
+                a: "Professional edits, private gallery, consultation, and more.",
+              },
+            ].map(({ q, a }, i) => (
+              <details key={i} className="main__faq">
+                <summary className="main__faq-q">{q}</summary>
+                <p className="main__faq-a">{a}</p>
+              </details>
+            ))}
           </div>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+
+      {/* CONTACT TEASER */}
+      <section id="contact" className="main__section main__section--cta">
+        <div className="main__container">
+          <h2 className="main__section-title">
+            Let's capture something beautiful.
+          </h2>
+          <p className="main__text">
+            Share your date, locations, and vision. We’ll recommend the perfect
+            package and timeline.
+          </p>
+        </div>
+        <div className="main__container">
+          <Link className="main__btn main__btn--primary" to="/contact">
+            Plan Your Experience
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -10,7 +10,7 @@ export default function Gallery() {
         <div className="gallery__container">
           <h1 className="gallery__title">Gallery</h1>
           <p className="gallery__intro">
-            Explore the full K.Snap.Studio client gallery experience.
+            Browse the full K.Snap.Studio gallery.
           </p>
 
           {/* Full interactive gallery on this page (all breakpoints) */}

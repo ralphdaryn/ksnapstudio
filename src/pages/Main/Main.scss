@@ -1,3 +1,4 @@
+// src/pages/Main/Main.scss
 @use "../../styles/partials/mixins" as *; // expects: tablet(), desktop()
 
 .main {
@@ -34,7 +35,6 @@
       border-top-color: var(--line);
     }
 
-    /* CTA section: blend with page background, gentle elevation */
     &--cta {
       text-align: center;
       background: linear-gradient(180deg, var(--bg) 0%, #ffffff 100%);
@@ -50,7 +50,6 @@
     }
   }
 
-  /* small row wrapper for title + inline link */
   &__section-head {
     display: flex;
     align-items: baseline;
@@ -65,7 +64,7 @@
     position: relative;
     overflow: hidden;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     min-height: 80vh;
     text-align: center;
@@ -140,7 +139,6 @@
     padding-inline: 0.25rem;
   }
 
-  /* CTA buttons */
   &__cta {
     display: flex;
     flex-wrap: wrap;
@@ -207,7 +205,6 @@
     align-self: center;
   }
 
-  /* TITLES & TEXT */
   &__section-title {
     font-size: clamp(1.75rem, 5vw, 2rem);
     margin: 0 0 0.75rem;
@@ -226,7 +223,7 @@
     color: var(--ink);
   }
 
-  /* ——— Packages cards ——— */
+  /* Packages cards */
   &__cards {
     list-style: none;
     margin: 1rem 0 0;
@@ -317,81 +314,37 @@
     }
   }
 
-  /* ——— Gallery Preview (old cards, kept for later reuse) ——— */
-  &__media-list {
-    margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  &__media {
-    background: #fff;
+  /* Pic-Time embed container (PREVIEW on main page) */
+  &__gallery-embed {
+    margin-top: 1.5rem;
     border-radius: 12px;
-    overflow: hidden;
     border: 1px solid var(--line);
-    flex: 1 1 100%;
+    overflow: hidden;
+
+    /* MOBILE default height */
+    height: 500px;
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      /* mobile + tablet: preview-only (no clicks) */
+      pointer-events: none;
+    }
 
     @include tablet {
-      flex: 1 1 calc(50% - 0.75rem);
+      height: 650px;
     }
 
     @include desktop {
-      flex: 1 1 calc(33.333% - 0.75rem);
+      height: 900px;
+
+      iframe {
+        pointer-events: auto;
+      }
     }
   }
-
-  &__img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 3;
-    object-fit: cover;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.03);
-    }
-
-    @include tablet {
-      aspect-ratio: 2 / 3;
-    }
-  }
-
-  /* ——— Pic-Time embed container ——— */
-  &__gallery-embed {
-  margin-top: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  overflow: hidden;
-
-  /* MOBILE default height */
-  height: 500px;
-
-  iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-
-    /* mobile + tablet: preview only (no clicking) */
-    pointer-events: none;
-  }
-
-  /* TABLET */
-  @include tablet {
-    height: 650px;
-  }
-
-  /* DESKTOP: taller + interactive */
-  @include desktop {
-    height: 900px;
-
-    iframe {
-      pointer-events: auto;
-    }
-  }
-}
 
   &__links {
     display: flex;
@@ -400,7 +353,7 @@
     margin-top: 0.75rem;
   }
 
-  /* ——— Reviews ——— */
+  /* Reviews / testimonials */
   &__reviews {
     display: flex;
     flex-direction: column;
@@ -414,7 +367,6 @@
     }
   }
 
-  /* Polished, minimal Google reviews CTA */
   &__reviews-cta {
     display: grid;
     gap: 0.65rem;
@@ -488,7 +440,6 @@
     color: #6b7280;
   }
 
-  /* testimonials */
   &__quotes {
     list-style: none;
     margin: 0.5rem 0 0;
@@ -611,10 +562,7 @@
     color: rgba(255, 255, 255, 0.92);
   }
 
-  /* =========================
-     FAQ — chevron + width cap
-     ========================= */
-
+  /* FAQ */
   &__accordion {
     display: flex;
     flex-direction: column;
@@ -716,11 +664,6 @@
   &__hero > .main__container {
     position: relative;
     z-index: 1;
-    top: 250px;
-
-    @include tablet {
-      top: 275px;
-    }
   }
 
   &__hero-dots {

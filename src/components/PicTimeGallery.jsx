@@ -10,7 +10,7 @@ export default function PicTimeGallery({ variant = "preview" }) {
   return (
     <div className={wrapperClass}>
       <iframe
-        id="ksnapPicTimeFrame" // Pic-Time script no longer hooks into this
+        id="ksnapPicTimeFrame"
         src="https://ksnapstudio.pic-time.com/client?headless=true"
         title="K.Snap Studio Client Gallery"
         loading="lazy"
