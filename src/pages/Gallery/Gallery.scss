@@ -2,6 +2,10 @@
 @use "../../styles/partials/mixins" as *;
 
 .gallery {
+  min-height: 100vh;
+  background: #f0f6f7; // same vibe as main page
+  color: #111;
+
   &__section {
     padding: 2rem 0;
 
@@ -34,7 +38,7 @@
   border: 1px solid #eee;
   overflow: hidden;
 
-  /* Fill most of the viewport on all breakpoints */
+  /* Fill (most of) the viewport on all breakpoints */
   height: 100vh;
 
   iframe {
@@ -42,7 +46,6 @@
     width: 100%;
     height: 100%;
     border: 0;
-    /* Always interactive here */
-    pointer-events: auto;
+    pointer-events: auto; // always interactive here
   }
 }

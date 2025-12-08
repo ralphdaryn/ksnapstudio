@@ -321,6 +321,10 @@
     border: 1px solid var(--line);
     overflow: hidden;
 
+    /* Make this area a "dead zone" for scroll on mobile/tablet */
+    touch-action: none; // blocks swipe scroll starting here
+    overscroll-behavior: contain; // prevents weird bounce / overscroll
+
     /* MOBILE default height */
     height: 500px;
 
@@ -329,7 +333,8 @@
       width: 100%;
       height: 100%;
       border: 0;
-      /* mobile + tablet: preview-only (no clicks) */
+
+      /* mobile + tablet: preview-only (no clicking) */
       pointer-events: none;
     }
 
@@ -341,8 +346,12 @@
       height: 900px;
 
       iframe {
-        pointer-events: auto;
+        pointer-events: auto; // full interactive gallery on desktop
       }
+
+      /* Allow normal scrolling again on desktop */
+      touch-action: auto;
+      overscroll-behavior: auto;
     }
   }
 
