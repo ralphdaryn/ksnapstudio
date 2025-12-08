@@ -8,14 +8,9 @@ export default function PicTimeGallery({ variant = "preview" }) {
       : "main__gallery-embed main__gallery-embed--preview";
 
   return (
-    <div
-      className={wrapperClass}
-      style={{
-        height: "1100px", // adjust if you want more/less visible gallery
-      }}
-    >
+    <div className={wrapperClass}>
       <iframe
-        id="pictimeIntegration"
+        id="ksnapPicTimeFrame" // Pic-Time script no longer hooks into this
         src="https://ksnapstudio.pic-time.com/client?headless=true"
         title="K.Snap Studio Client Gallery"
         loading="lazy"
