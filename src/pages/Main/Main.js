@@ -192,13 +192,15 @@ export default function Main() {
 
           <div className="main__links">
             {/* INTERNAL full gallery page */}
-            <Link
+            <a
               className="main__link"
-              to="/gallery"
+              href="https://ksnapstudio.pic-time.com/portfolio"
+              target="_blank"
+              rel="noreferrer"
               aria-label="Open full gallery page"
             >
               Open in full screen →
-            </Link>
+            </a>
           </div>
         </div>
       </section>

@@ -316,46 +316,61 @@
 
   /* Pic-Time embed container (PREVIEW on main page) */
   /* Pic-Time embed container (PREVIEW on main page) */
-  &__gallery-embed {
-    margin-top: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    overflow: hidden;
+  /* Pic-Time embed container (PREVIEW on main page) */
+  .main {
+    &__gallery-embed {
+      margin-top: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--line);
 
-    /* Make this area a "dead zone" for scroll on mobile/tablet */
-    touch-action: none; // blocks swipe scroll starting here
-    overscroll-behavior: contain; // prevents weird bounce / overscroll
+      /* key: hide the edges (including the scrollbar area) */
+      position: relative;
+      overflow: hidden;
 
-    /* MOBILE default height */
-    height: 500px;
+      /* MOBILE default height */
+      height: 500px;
 
-    iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border: 0;
-
-      /* mobile + tablet: preview-only (no clicking) */
-      pointer-events: none;
-    }
-
-    @include tablet {
-      height: 650px;
-    }
-
-    @include desktop {
-      height: 900px;
+      /* Make this area a "dead zone" for scroll on mobile/tablet */
+      touch-action: none; // blocks swipe scroll starting here
+      overscroll-behavior: contain; // prevents weird bounce / overscroll
 
       iframe {
-        pointer-events: auto; // full interactive gallery on desktop
+        display: block;
+        height: 100%;
+        border: 0;
+
+        /* HIDE VISIBLE SCROLLBAR:
+         - make the iframe wider than the container
+         - shift it left so the scrollbar (on the far right)
+           lives outside the visible area
+      */
+        width: calc(100% + 24px);
+        transform: translateX(-12px);
+
+        /* preview-only: no interaction / clicking */
+        pointer-events: none;
       }
 
-      /* Allow normal scrolling again on desktop */
-      touch-action: auto;
-      overscroll-behavior: auto;
+      @include tablet {
+        height: 650px;
+      }
+
+      @include desktop {
+        height: 900px;
+
+        /* Desktop: you can choose if you want it clickable.
+         If you want it STILL just a visual preview, keep pointer-events: none.
+         If you want it interactive on desktop, turn this on: */
+        iframe {
+          pointer-events: auto;
+        }
+
+        /* Allow normal scrolling of the PAGE again on desktop */
+        touch-action: auto;
+        overscroll-behavior: auto;
+      }
     }
   }
-
 
   &__links {
     display: flex;
