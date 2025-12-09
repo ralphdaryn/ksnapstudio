@@ -8,15 +8,15 @@ export default function PicTimeGallery({ variant = "preview" }) {
     ? "main__gallery-embed main__gallery-embed--preview"
     : "gallery__embed";
 
-  // On mobile preview: block scroll if touch starts on this section
+  // On mobile preview: block page scroll if touch starts on this section
   const handleTouchMove = useCallback(
     (e) => {
       if (!isPreview) return;
 
-      // crude "mobile" check (same breakpoint as your mixins usually use)
-      if (window.innerWidth >= 768) return;
+      // crude "mobile" breakpoint check (matches your mixins ~< tablet)
+      if (typeof window !== "undefined" && window.innerWidth >= 768) return;
 
-      // prevent the page from scrolling when swiping over the preview block
+      // prevent the PAGE from scrolling when swiping over the preview block
       e.preventDefault();
     },
     [isPreview]

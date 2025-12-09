@@ -191,7 +191,7 @@ export default function Main() {
           <PicTimeGallery variant="preview" />
 
           <div className="main__links">
-            {/* INTERNAL full gallery page */}
+            {/* External full gallery page */}
             <a
               className="main__link"
               href="https://ksnapstudio.pic-time.com/portfolio"
@@ -199,7 +199,7 @@ export default function Main() {
               rel="noreferrer"
               aria-label="Open full gallery page"
             >
-              Open in full screen →
+              View Portfolio  →
             </a>
           </div>
         </div>

@@ -315,60 +315,45 @@
   }
 
   /* Pic-Time embed container (PREVIEW on main page) */
-  /* Pic-Time embed container (PREVIEW on main page) */
-  /* Pic-Time embed container (PREVIEW on main page) */
-  .main {
-    &__gallery-embed {
-      margin-top: 1.5rem;
-      border-radius: 12px;
-      border: 1px solid var(--line);
+  &__gallery-embed {
+    margin-top: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--line);
 
-      /* key: hide the edges (including the scrollbar area) */
-      position: relative;
-      overflow: hidden;
+    /* hide the edges (including the scrollbar area) */
+    position: relative;
+    overflow: hidden;
 
-      /* MOBILE default height */
-      height: 850px;
+    /* MOBILE default height */
+    height: 850px;
 
-      /* Make this area a "dead zone" for scroll on mobile/tablet */
-      touch-action: none; // blocks swipe scroll starting here
-      overscroll-behavior: contain; // prevents weird bounce / overscroll
+    /* Mobile: page shouldn't scroll while interacting with gallery */
+    touch-action: none;
+    overscroll-behavior: contain;
 
-      iframe {
-        display: block;
-        height: 100%;
-        border: 0;
+    iframe {
+      display: block;
+      height: 100%;
+      border: 0;
 
-        /* HIDE VISIBLE SCROLLBAR:
-         - make the iframe wider than the container
-         - shift it left so the scrollbar (on the far right)
-           lives outside the visible area
-      */
-        width: calc(100% + 24px);
-        transform: translateX(-12px);
+      /* crop horizontally to hide internal scrollbar */
+      width: calc(100% + 24px);
+      transform: translateX(-12px);
 
-        /* preview-only: no interaction / clicking */
-        pointer-events: none;
-      }
+      /* interactive so they can scroll through the gallery */
+      pointer-events: auto;
+    }
 
-      @include tablet {
-        height: 1000px;
-      }
+    @include tablet {
+      height: 1000px;
+    }
 
-      @include desktop {
-        height: 1300px;
+    @include desktop {
+      height: 1300px;
 
-        /* Desktop: you can choose if you want it clickable.
-         If you want it STILL just a visual preview, keep pointer-events: none.
-         If you want it interactive on desktop, turn this on: */
-        iframe {
-          pointer-events: auto;
-        }
-
-        /* Allow normal scrolling of the PAGE again on desktop */
-        touch-action: auto;
-        overscroll-behavior: auto;
-      }
+      /* Desktop: normal scroll behavior */
+      touch-action: auto;
+      overscroll-behavior: auto;
     }
   }
 
