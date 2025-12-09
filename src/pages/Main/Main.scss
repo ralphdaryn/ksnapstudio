@@ -327,25 +327,30 @@
     /* MOBILE default height */
     height: 850px;
 
-    /* Mobile: page shouldn't scroll while interacting with gallery */
-    touch-action: none;
-    overscroll-behavior: contain;
+    /* Mobile: normal page scroll, gallery itself not scrollable */
+    touch-action: auto;
+    overscroll-behavior: auto;
 
     iframe {
       display: block;
       height: 100%;
       border: 0;
 
-      /* crop horizontally to hide internal scrollbar */
+      /* crop horizontally to help hide any internal scrollbar edge */
       width: calc(100% + 24px);
       transform: translateX(-12px);
 
-      /* interactive so they can scroll through the gallery */
-      pointer-events: auto;
+      /* MOBILE: preview ONLY, no interaction/scroll inside gallery */
+      pointer-events: none;
     }
 
     @include tablet {
       height: 1000px;
+
+      iframe {
+        /* tablet and up: allow interaction/scroll inside preview */
+        pointer-events: auto;
+      }
     }
 
     @include desktop {

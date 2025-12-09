@@ -197,9 +197,9 @@ export default function Main() {
               href="https://ksnapstudio.pic-time.com/portfolio"
               target="_blank"
               rel="noreferrer"
-              aria-label="Open full gallery page"
+              aria-label="View full portfolio gallery"
             >
-              View Portfolio  →
+              View Portfolio →
             </a>
           </div>
         </div>
