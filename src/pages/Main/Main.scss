@@ -349,7 +349,7 @@
     background-size: cover;
     background-repeat: no-repeat;
 
-    background-image: url("../../assets/images/gallery-mobile.jpg");
+    background-image: url("../../assets/images/gallery-mobile.png");
 
     @include tablet {
       display: none; // hide static preview on tablet/desktop
