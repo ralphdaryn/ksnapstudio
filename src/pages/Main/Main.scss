@@ -328,7 +328,7 @@
       overflow: hidden;
 
       /* MOBILE default height */
-      height: 500px;
+      height: 850px;
 
       /* Make this area a "dead zone" for scroll on mobile/tablet */
       touch-action: none; // blocks swipe scroll starting here
@@ -352,11 +352,11 @@
       }
 
       @include tablet {
-        height: 650px;
+        height: 1000px;
       }
 
       @include desktop {
-        height: 900px;
+        height: 1300px;
 
         /* Desktop: you can choose if you want it clickable.
          If you want it STILL just a visual preview, keep pointer-events: none.
