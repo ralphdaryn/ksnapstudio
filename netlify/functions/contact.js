@@ -1,14 +1,10 @@
-// client/netlify/functions/contact.js
+const { Resend } = require("resend");
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ok: false,
-        error: "Method Not Allowed (POST only)",
-      }),
+      body: JSON.stringify({ ok: false, error: "Method Not Allowed" }),
     };
   }
 
@@ -32,7 +28,6 @@ exports.handler = async (event) => {
     if (!name || !email) {
       return {
         statusCode: 400,
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ok: false,
           error: "Name and email are required.",
@@ -40,26 +35,27 @@ exports.handler = async (event) => {
       };
     }
 
-    if (shootType === "wedding" && (!weddingDate || !ceremonyTime)) {
+    if (!process.env.RESEND_API_KEY) {
       return {
-        statusCode: 400,
-        headers: { "Content-Type": "application/json" },
+        statusCode: 500,
         body: JSON.stringify({
           ok: false,
-          error: "Wedding date and ceremony time are required.",
+          error: "Missing RESEND_API_KEY in Netlify env vars.",
         }),
       };
     }
 
-    if (!process.env.RESEND_API_KEY) {
+    if (!process.env.TO_EMAIL) {
       return {
         statusCode: 500,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ok: false, error: "Missing RESEND_API_KEY." }),
+        body: JSON.stringify({
+          ok: false,
+          error: "Missing TO_EMAIL in Netlify env vars.",
+        }),
       };
     }
 
-    const toEmail = process.env.TO_EMAIL || "k.snap.photographer@gmail.com";
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     const subject = `📸 New Booking Inquiry — ${shootType || "Session"}`;
 
@@ -91,49 +87,37 @@ exports.handler = async (event) => {
       .filter(Boolean)
       .join("\n");
 
-    // Use a default Resend sender (works immediately). Later you can verify ksnapstudio.ca for a branded sender.
-    const from = "K.Snap Studio <onboarding@resend.dev>";
+    const fromAddress = "K.Snap Studio <hello@ksnapstudio.ca>"; // MUST match verified domain
 
-    const resendRes = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      },
-      body: JSON.stringify({
-        from,
-        to: [toEmail],
-        reply_to: email,
-        subject,
-        text,
-      }),
+    const { error } = await resend.emails.send({
+      from: fromAddress,
+      to: process.env.TO_EMAIL,
+      reply_to: email,
+      subject,
+      text,
     });
 
-    const resendJson = await resendRes.json().catch(() => ({}));
-
-    if (!resendRes.ok) {
+    if (error) {
       return {
         statusCode: 500,
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ok: false,
-          error: resendJson?.message || "Resend failed to send email.",
+          error: error.message || "Failed to send email.",
         }),
       };
     }
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ok: true }),
     };
   } catch (err) {
+    console.error("❌ Resend failed:", err);
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ok: false,
-        error: err?.message || "Failed to send inquiry.",
+        error: err.message || "Failed to send inquiry email.",
       }),
     };
   }
