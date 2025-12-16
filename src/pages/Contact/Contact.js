@@ -287,7 +287,7 @@ export default function Contact() {
           )}
 
           <div className="contact__meta">
-            <p className="contact__note">I typically respond within 24–48 hours.</p>
+            <p className="contact__note">I typically respond within 24 - 48 hours.</p>
 
             {status.state !== "idle" && (
               <p
