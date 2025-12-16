@@ -1,6 +1,11 @@
 // src/components/PicTimeGallery.jsx
 import React from "react";
 
+// Mobile preview images (put these in: src/assets/images/)
+import gallery1 from "../assets/images/gallery1.jpg";
+import gallery2 from "../assets/images/gallery2.jpg";
+import gallery3 from "../assets/images/gallery3.jpg";
+
 export default function PicTimeGallery({ variant = "preview" }) {
   const isPreview = variant === "preview";
 
@@ -11,10 +16,16 @@ export default function PicTimeGallery({ variant = "preview" }) {
   return (
     <div className={wrapperClass}>
       {/* MOBILE PREVIEW:
-          - CSS shows this block on mobile
-          - hides it on tablet/desktop
+          - shows on mobile
+          - hides on tablet/desktop
       */}
-      {isPreview && <div className="main__gallery-static" aria-hidden="true" />}
+      {isPreview && (
+        <div className="main__gallery-static" aria-hidden="true">
+          <img className="main__gallery-static-img" src={gallery1} alt="" />
+          <img className="main__gallery-static-img" src={gallery2} alt="" />
+          <img className="main__gallery-static-img" src={gallery3} alt="" />
+        </div>
+      )}
 
       {/* IFRAME:
           - hidden on mobile for PREVIEW via CSS

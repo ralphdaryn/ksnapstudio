@@ -1,5 +1,4 @@
 // src/pages/Gallery/Gallery.jsx
-import React from "react";
 import PicTimeGallery from "../../components/PicTimeGallery";
 import "./Gallery.scss";
 

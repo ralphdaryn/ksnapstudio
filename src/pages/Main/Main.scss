@@ -322,8 +322,8 @@
     position: relative;
     overflow: hidden;
 
-    /* MOBILE height */
-    height: 850px;
+    /* MOBILE: allow images to define height naturally */
+    height: auto;
 
     @include tablet {
       height: 1000px;
@@ -334,26 +334,23 @@
     }
   }
 
-  /* STATIC preview block (shown on mobile, hidden tablet+) */
+  /* MOBILE: 3 static preview images (shown on mobile, hidden tablet+) */
   &__gallery-static {
-    display: block;
-    width: 100%;
-
-    /* Let the image control the height via aspect ratio */
-    aspect-ratio: 5 / 16; 
-
-    /* Remove the solid black background */
-    background-color: transparent;
-
-    background-position: top center;
-    background-size: cover;
-    background-repeat: no-repeat;
-
-    background-image: url("../../assets/images/gallery-mobile.png");
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.75rem;
 
     @include tablet {
       display: none; // hide static preview on tablet/desktop
     }
+  }
+
+  &__gallery-static-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    object-fit: cover;
   }
 
   /* Iframe: hidden on mobile for PREVIEW, visible on tablet+ */
