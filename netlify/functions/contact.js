@@ -2,10 +2,15 @@
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
+  // Only allow POST
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      body: JSON.stringify({ ok: false, error: "Method Not Allowed" }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ok: false,
+        error: "Method Not Allowed (POST only)",
+      }),
     };
   }
 
@@ -26,9 +31,11 @@ exports.handler = async (event) => {
     const receptionLocation = (data.receptionLocation || "").trim();
     const notes = (data.notes || "").trim();
 
+    // Basic validation
     if (!name || !email) {
       return {
         statusCode: 400,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ok: false,
           error: "Name and email are required.",
@@ -36,12 +43,38 @@ exports.handler = async (event) => {
       };
     }
 
-    // 🔐 Gmail transporter (REQUIRES APP PASSWORD)
+    // Wedding validation (optional but recommended)
+    if (shootType === "wedding" && (!weddingDate || !ceremonyTime)) {
+      return {
+        statusCode: 400,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ok: false,
+          error: "Wedding date and ceremony time are required.",
+        }),
+      };
+    }
+
+    // ✅ Env vars guard (most common Netlify issue)
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+      return {
+        statusCode: 500,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ok: false,
+          error: "Server email is not configured (missing env vars).",
+        }),
+      };
+    }
+
+    // ✅ More reliable Gmail SMTP transport
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.GMAIL_USER,            // k.snap.photographer@gmail.com
-        pass: process.env.GMAIL_APP_PASSWORD,    // Gmail App Password
+        user: process.env.GMAIL_USER, // k.snap.photographer@gmail.com
+        pass: process.env.GMAIL_APP_PASSWORD, // 16-char Gmail App Password
       },
     });
 
@@ -63,9 +96,7 @@ exports.handler = async (event) => {
             gettingReadyLocation
               ? `Getting Ready Location: ${gettingReadyLocation}`
               : null,
-            ceremonyLocation
-              ? `Ceremony Location: ${ceremonyLocation}`
-              : null,
+            ceremonyLocation ? `Ceremony Location: ${ceremonyLocation}` : null,
             receptionLocation
               ? `Reception Location: ${receptionLocation}`
               : null,
@@ -79,7 +110,7 @@ exports.handler = async (event) => {
 
     await transporter.sendMail({
       from: `"K.Snap Studio Website" <${process.env.GMAIL_USER}>`,
-      to: "k.snap.photographer@gmail.com",
+      to: "k.snap.photographer@gmail.com", // or: process.env.GMAIL_USER
       replyTo: email,
       subject,
       text,
@@ -87,15 +118,21 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ok: true }),
     };
   } catch (err) {
+    // ✅ Return real Nodemailer error info (debug)
     console.error("❌ Email send failed:", err);
+
     return {
       statusCode: 500,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ok: false,
-        error: "Failed to send inquiry email.",
+        error: err?.message || "Failed to send inquiry email.",
+        code: err?.code || null,
+        response: err?.response || null,
       }),
     };
   }
