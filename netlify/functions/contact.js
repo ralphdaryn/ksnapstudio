@@ -1,8 +1,6 @@
 // client/netlify/functions/contact.js
-const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
-  // Only allow POST
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -31,7 +29,6 @@ exports.handler = async (event) => {
     const receptionLocation = (data.receptionLocation || "").trim();
     const notes = (data.notes || "").trim();
 
-    // Basic validation
     if (!name || !email) {
       return {
         statusCode: 400,
@@ -43,7 +40,6 @@ exports.handler = async (event) => {
       };
     }
 
-    // Wedding validation (optional but recommended)
     if (shootType === "wedding" && (!weddingDate || !ceremonyTime)) {
       return {
         statusCode: 400,
@@ -55,28 +51,15 @@ exports.handler = async (event) => {
       };
     }
 
-    // ✅ Env vars guard (most common Netlify issue)
-    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    if (!process.env.RESEND_API_KEY) {
       return {
         statusCode: 500,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ok: false,
-          error: "Server email is not configured (missing env vars).",
-        }),
+        body: JSON.stringify({ ok: false, error: "Missing RESEND_API_KEY." }),
       };
     }
 
-    // ✅ More reliable Gmail SMTP transport
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.GMAIL_USER, // k.snap.photographer@gmail.com
-        pass: process.env.GMAIL_APP_PASSWORD, // 16-char Gmail App Password
-      },
-    });
+    const toEmail = process.env.TO_EMAIL || "k.snap.photographer@gmail.com";
 
     const subject = `📸 New Booking Inquiry — ${shootType || "Session"}`;
 
@@ -108,13 +91,36 @@ exports.handler = async (event) => {
       .filter(Boolean)
       .join("\n");
 
-    await transporter.sendMail({
-      from: `"K.Snap Studio Website" <${process.env.GMAIL_USER}>`,
-      to: "k.snap.photographer@gmail.com", // or: process.env.GMAIL_USER
-      replyTo: email,
-      subject,
-      text,
+    // Use a default Resend sender (works immediately). Later you can verify ksnapstudio.ca for a branded sender.
+    const from = "K.Snap Studio <onboarding@resend.dev>";
+
+    const resendRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from,
+        to: [toEmail],
+        reply_to: email,
+        subject,
+        text,
+      }),
     });
+
+    const resendJson = await resendRes.json().catch(() => ({}));
+
+    if (!resendRes.ok) {
+      return {
+        statusCode: 500,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ok: false,
+          error: resendJson?.message || "Resend failed to send email.",
+        }),
+      };
+    }
 
     return {
       statusCode: 200,
@@ -122,17 +128,12 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: true }),
     };
   } catch (err) {
-    // ✅ Return real Nodemailer error info (debug)
-    console.error("❌ Email send failed:", err);
-
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ok: false,
-        error: err?.message || "Failed to send inquiry email.",
-        code: err?.code || null,
-        response: err?.response || null,
+        error: err?.message || "Failed to send inquiry.",
       }),
     };
   }
