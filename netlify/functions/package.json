@@ -1,0 +1,7 @@
+{
+  "name": "netlify-functions",
+  "private": true,
+  "dependencies": {
+    "resend": "^6.6.0"
+  }
+}
