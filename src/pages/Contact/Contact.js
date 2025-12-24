@@ -37,10 +37,10 @@ const initialForm = {
   heardFrom: "",
   notes: "",
   weddingDate: "",
-  ceremonyTime: "",
-  gettingReadyLocation: "",
+  // ceremonyTime: "", // removed
+  // gettingReadyLocation: "", // removed
   ceremonyLocation: "",
-  receptionLocation: "",
+  // receptionLocation: "", // removed
 };
 
 export default function Contact() {
@@ -84,7 +84,6 @@ export default function Contact() {
         throw new Error(json.error || `Request failed (${res.status})`);
       }
 
-      // If your function returns mode:"dry-run", this still counts as success
       setStatus({
         state: "success",
         msg:
@@ -209,43 +208,17 @@ export default function Contact() {
             </label>
           </fieldset>
 
-          {/* Wedding-only details */}
+          {/* Wedding-only details (simplified) */}
           {type === "wedding" ? (
             <fieldset className="contact__section" aria-live="polite">
-              <legend className="contact__section-title">Wedding Details</legend>
-
-              <div className="contact__row contact__row--2">
-                <label className="contact__field">
-                  <span className="contact__label">Wedding Date</span>
-                  <input
-                    className="contact__input"
-                    type="date"
-                    required
-                    value={form.weddingDate}
-                    onChange={update("weddingDate")}
-                  />
-                </label>
-
-                <label className="contact__field">
-                  <span className="contact__label">Ceremony Start Time</span>
-                  <input
-                    className="contact__input"
-                    type="time"
-                    required
-                    value={form.ceremonyTime}
-                    onChange={update("ceremonyTime")}
-                  />
-                </label>
-              </div>
-
               <label className="contact__field">
-                <span className="contact__label">Getting-ready Location</span>
+                <span className="contact__label">Wedding Date</span>
                 <input
                   className="contact__input"
-                  type="text"
-                  placeholder="Hotel or address"
-                  value={form.gettingReadyLocation}
-                  onChange={update("gettingReadyLocation")}
+                  type="date"
+                  required
+                  value={form.weddingDate}
+                  onChange={update("weddingDate")}
                 />
               </label>
 
@@ -257,17 +230,6 @@ export default function Contact() {
                   placeholder="Venue / address"
                   value={form.ceremonyLocation}
                   onChange={update("ceremonyLocation")}
-                />
-              </label>
-
-              <label className="contact__field">
-                <span className="contact__label">Reception Location</span>
-                <input
-                  className="contact__input"
-                  type="text"
-                  placeholder="Venue / address"
-                  value={form.receptionLocation}
-                  onChange={update("receptionLocation")}
                 />
               </label>
             </fieldset>
@@ -287,7 +249,9 @@ export default function Contact() {
           )}
 
           <div className="contact__meta">
-            <p className="contact__note">I typically respond within 24 - 48 hours.</p>
+            <p className="contact__note">
+              I typically respond within 24 - 48 hours.
+            </p>
 
             {status.state !== "idle" && (
               <p
