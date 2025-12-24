@@ -1,5 +1,45 @@
 const { Resend } = require("resend");
 
+// Keep these maps in sync with your Contact.jsx
+const SHOOT_TYPE_LABELS = {
+  wedding: "Wedding",
+  events: "Event",
+  family: "Family",
+  portraits: "Portraits",
+};
+
+const PACKAGE_LABELS = {
+  wedding: {
+    "full-day": "Full Day (8–10h)",
+    "half-day": "Half Day (4–6h)",
+    elopement: "Elopement (2–3h)",
+  },
+  events: {
+    "event-4": "Half Day (4h)",
+    "event-8": "Full Day (8h)",
+  },
+  family: {
+    "mini-30": "Mini (30 min)",
+    "standard-60": "Standard (60 min)",
+  },
+  portraits: {
+    headshot: "Headshot",
+    creative: "Creative Portrait",
+    lifestyle: "Lifestyle",
+  },
+};
+
+function labelForShootType(value) {
+  const v = (value || "").trim();
+  return SHOOT_TYPE_LABELS[v] || v || "Session";
+}
+
+function labelForPackage(type, pkgValue) {
+  const t = (type || "").trim();
+  const p = (pkgValue || "").trim();
+  return (PACKAGE_LABELS[t] && PACKAGE_LABELS[t][p]) || p || "";
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
@@ -18,11 +58,10 @@ exports.handler = async (event) => {
     const pkg = (data.pkg || "").trim();
     const heardFrom = (data.heardFrom || "").trim();
 
+    // Wedding fields kept (only the ones you still use)
     const weddingDate = (data.weddingDate || "").trim();
-    const ceremonyTime = (data.ceremonyTime || "").trim();
-    const gettingReadyLocation = (data.gettingReadyLocation || "").trim();
     const ceremonyLocation = (data.ceremonyLocation || "").trim();
-    const receptionLocation = (data.receptionLocation || "").trim();
+
     const notes = (data.notes || "").trim();
 
     if (!name || !email) {
@@ -57,28 +96,28 @@ exports.handler = async (event) => {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    const subject = `📸 New Booking Inquiry — ${shootType || "Session"}`;
+    // ✅ Human-friendly labels
+    const shootTypeLabel = labelForShootType(shootType);
+    const packageLabel = labelForPackage(shootType, pkg);
+
+    // ✅ Subject uses dropdown label (and package label if available)
+    const subject = `📸 New Booking Inquiry — ${shootTypeLabel}${
+      packageLabel ? ` (${packageLabel})` : ""
+    }`;
 
     const text = [
       `Name: ${name}`,
       `Email: ${email}`,
       phone ? `Phone: ${phone}` : null,
-      shootType ? `Shoot Type: ${shootType}` : null,
-      pkg ? `Package: ${pkg}` : null,
+      `Shoot Type: ${shootTypeLabel}`,
+      packageLabel ? `Package: ${packageLabel}` : null,
       heardFrom ? `Heard From: ${heardFrom}` : null,
       "",
       shootType === "wedding"
         ? [
             "Wedding Details:",
             weddingDate ? `Wedding Date: ${weddingDate}` : null,
-            ceremonyTime ? `Ceremony Time: ${ceremonyTime}` : null,
-            gettingReadyLocation
-              ? `Getting Ready Location: ${gettingReadyLocation}`
-              : null,
             ceremonyLocation ? `Ceremony Location: ${ceremonyLocation}` : null,
-            receptionLocation
-              ? `Reception Location: ${receptionLocation}`
-              : null,
           ]
             .filter(Boolean)
             .join("\n")
