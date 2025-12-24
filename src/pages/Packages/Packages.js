@@ -1,16 +1,6 @@
 // src/pages/Packages/Packages.jsx
 import "./Packages.scss";
 
-/**
- * Packages (client-spec):
- * - Intro centered
- * - Section headers centered with soft icon
- * - Cards: clean border, subtle shadow (on hover), rounded, compact width
- * - Title + Price bold; Tagline italic; bullets evenly spaced
- * - “Book Now” centered at bottom of each card
- * - Mobile-first; tablet ≥768px, desktop ≥1280px (via mixins)
- */
-
 const INTRO = {
   heading: "Every story deserves to be captured beautifully.",
   body: "Whether it’s your wedding day, a growing family, or a moment just for you — my packages are designed to fit your vision. Each session includes professional editing, personalized guidance, and timeless images you’ll love to relive for years to come.",
@@ -109,7 +99,7 @@ const PACKAGES = [
     key: "portrait",
     icon: "📸",
     title: "PORTRAIT SESSION",
-    price: "— $275",
+    price: "— $250",
     tagline: "Perfect for solo portraits, lifestyle, or branding.",
     bullets: [
       "1 hour of coverage",
