@@ -1,4 +1,3 @@
-// src/pages/Gallery/Gallery.jsx
 import PicTimeGallery from "../../components/PicTimeGallery";
 import "./Gallery.scss";
 
@@ -9,8 +8,18 @@ export default function Gallery() {
         <div className="gallery__container">
           <h1 className="gallery__title">Gallery</h1>
           <p className="gallery__intro">
-            Browse the full K.Snap.Studio gallery.
+            A selection of recent work across weddings, events, and portraits.
           </p>
+
+          {/* View Gallery link (opens in new tab) */}
+          <a
+            href="https://ksnapstudio.pic-time.com/portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="gallery__link"
+          >
+            View Full Gallery →
+          </a>
 
           {/* Full interactive gallery on this page (all breakpoints) */}
           <PicTimeGallery variant="full" />
