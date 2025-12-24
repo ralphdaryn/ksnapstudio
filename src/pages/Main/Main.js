@@ -187,10 +187,7 @@ export default function Main() {
         <div className="main__container">
           <h2 className="main__section-title">Gallery</h2>
 
-          {/* Preview mode on main page */}
-          <PicTimeGallery variant="preview" />
-
-          <div className="main__links">
+              <div className="main__links">
             {/* External full gallery page */}
             <a
               className="main__link"
@@ -202,6 +199,9 @@ export default function Main() {
               View Portfolio →
             </a>
           </div>
+
+          {/* Preview mode on main page */}
+          <PicTimeGallery variant="preview" />
         </div>
       </section>
 
