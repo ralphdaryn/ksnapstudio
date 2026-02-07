@@ -35,8 +35,6 @@
       sizes="16x16"
       href="%PUBLIC_URL%/favicon-16x16.png"
     />
-    <!-- If you have icon.svg uncomment below -->
-    <!-- <link rel="icon" href="%PUBLIC_URL%/icon.svg" type="image/svg+xml" /> -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
     <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
 
@@ -63,13 +61,13 @@
       property="og:description"
       content="Weddings, engagements, events, and portraits across Durham Region & the GTA. See packages, galleries, and availability."
     />
-    <!-- Absolute URL is best for social scrapers -->
     <meta
       property="og:image"
       content="https://ksnapstudio.netlify.app/og-image.jpg"
     />
     <meta property="og:url" content="https://ksnapstudio.netlify.app/" />
 
+    <!-- Twitter / X (preview only) -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
@@ -90,12 +88,7 @@
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "KSnap Studio",
-        "url": "https://ksnapstudio.netlify.app/",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://ksnapstudio.netlify.app/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "url": "https://ksnapstudio.netlify.app/"
       }
     </script>
 
@@ -105,99 +98,36 @@
         "@type": "Photographer",
         "@id": "https://ksnapstudio.netlify.app/#business",
         "name": "KSnap Studio",
-        "image": "https://ksnapstudio.netlify.app/og-image.jpg",
         "url": "https://ksnapstudio.netlify.app/",
-        "logo": "https://ksnapstudio.netlify.app/apple-touch-icon.png",
-        "description": "Durham Region & GTA photographer for weddings, engagements, events, and portraits.",
-        "areaServed": [
-          "Durham Region",
-          "GTA",
-          "Pickering",
-          "Ajax",
-          "Whitby",
-          "Oshawa",
-          "Toronto",
-          "Scarborough",
-          "North York",
-          "Markham",
-          "Richmond Hill",
-          "Mississauga",
-          "Brampton",
-          "Vaughan"
-        ],
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Pickering",
-          "addressRegion": "ON",
-          "addressCountry": "CA"
-        },
-        "telephone": "+1-000-000-0000",
-        "priceRange": "$$",
-        "sameAs": [
-          "https://www.instagram.com/yourhandle",
-          "https://www.facebook.com/yourpage"
-        ]
+        "description": "Durham Region & GTA photographer for weddings, engagements, events, and portraits."
       }
     </script>
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Do you photograph weddings and events in Durham Region and the GTA?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. We cover weddings, engagements, and events across Pickering, Ajax, Whitby, Oshawa, Toronto, and surrounding areas."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How do I book a photoshoot?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Send a request on our Contact/Booking page with your date, location, and session type. We’ll confirm availability and next steps."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What’s the typical turnaround time?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Portrait previews in 3–5 days and full galleries in 2–3 weeks. Weddings typically 4–6 weeks."
-            }
-          }
-        ]
-      }
-    </script>
-
-    <!-- (Optional) Preconnect to fonts -->
-    <!--
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    -->
 
     <!-- Prevent flash of wrong color scheme -->
     <script>
       try {
-        const isDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
+        const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         document.documentElement.style.colorScheme = isDark ? "dark" : "light";
       } catch (e) {}
+    </script>
+
+    <!-- ✅ Google Analytics 4 (KSnap Studio) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-LFKHPTMFQL"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-LFKHPTMFQL");
     </script>
   </head>
 
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-
-    <!-- <script defer src="%PUBLIC_URL%/analytics.js"></script> -->
   </body>
 </html>
