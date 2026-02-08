@@ -2,10 +2,68 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./Dashboard.scss";
 
-// ✅ Update these to match your KSnap routes (these are safe defaults)
-const MAIN_PAGES = ["/", "/homepage"];
-const PORTFOLIO_PAGES = ["/gallery", "/portfolio", "/work"];
-const CONTACT_PAGES = ["/contact", "/booking"];
+/**
+ * ✅ KSnapStudio page groups (always shown, even if 0 views)
+ * Keep these in sync with your routes.
+ */
+const CORE_PAGES = ["/", "/homepage"];
+const DISCOVERY_PAGES = ["/gallery", "/packages", "/about"];
+const CONTACT_PAGES = ["/contact"];
+
+// Optional: show admin traffic
+const ADMIN_PAGES = ["/dashboard"];
+
+/** ✅ Normalize GA4 paths so grouping works */
+function normalizePath(rawPath = "") {
+  const v = String(rawPath || "");
+  const noQuery = v.split("?")[0] || "";
+  if (!noQuery) return "";
+  if (noQuery.length > 1 && noQuery.endsWith("/")) return noQuery.slice(0, -1);
+  return noQuery;
+}
+
+function formatPathForClient(path) {
+  const p = normalizePath(path);
+  if (!p || p === "/") return "/homepage";
+  return p;
+}
+
+/** ✅ Convert GA4 "source / medium" into client-friendly labels */
+function formatSourceLabel(sourceMedium = "") {
+  const s = String(sourceMedium).toLowerCase().trim();
+
+  if (s === "(not set)" || s === "") return "Direct / Untracked visits";
+  if (s.includes("google") && s.includes("organic")) return "Google Search";
+  if (s.includes("(direct)") || s.includes("direct")) return "Direct visits";
+  if (s.includes("instagram")) return "Instagram";
+  if (s.includes("facebook")) return "Facebook";
+  if (s.includes("bing") && s.includes("organic")) return "Bing Search";
+  if (s.includes("t.co") || s.includes("twitter")) return "X (Twitter)";
+
+  return sourceMedium;
+}
+
+/** ✅ Small explanation under each label (optional) */
+function formatSourceHint(sourceMedium = "") {
+  const s = String(sourceMedium).toLowerCase().trim();
+
+  if (s === "(not set)" || s === "") {
+    return "Typed the website, bookmark, or apps that don’t pass tracking info";
+  }
+  if (s.includes("google") && s.includes("organic")) {
+    return "Found you through Google search";
+  }
+  if (s.includes("(direct)") || s.includes("direct")) {
+    return "Typed the website directly or used a saved link";
+  }
+  if (s.includes("instagram")) {
+    return "Clicked from Instagram bio, story, or message link";
+  }
+  if (s.includes("facebook")) {
+    return "Clicked from Facebook (post, message, or ad)";
+  }
+  return "";
+}
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -23,8 +81,10 @@ export default function Dashboard() {
           headers: { "Content-Type": "application/json" },
         });
 
+        // ✅ Nicer error (don’t show raw JSON blob)
         if (!res.ok) {
-          const msg = await res.text();
+          const payload = await res.json().catch(() => null);
+          const msg = payload?.error || (await res.text());
           throw new Error(msg || "Failed to load dashboard data");
         }
 
@@ -70,88 +130,70 @@ export default function Dashboard() {
       ? ((totalConversions / safe.users30d) * 100).toFixed(1)
       : "0.0";
 
-  // Normalize GA4 paths so grouping works:
-  // "/contact/?x=1" -> "/contact"
-  // "/contact/" -> "/contact"
-  const normalizePath = (rawPath) => {
-    const v = String(rawPath || "");
-    const noQuery = v.split("?")[0] || "";
-    if (!noQuery) return "";
-    if (noQuery.length > 1 && noQuery.endsWith("/")) return noQuery.slice(0, -1);
-    return noQuery;
-  };
+  /**
+   * ✅ StepByStep concept: ALWAYS show your key pages,
+   * even if GA4 hasn't collected them yet (0 views).
+   */
+  const { corePages, discoveryPages, contactPages, adminPages, otherPages } =
+    useMemo(() => {
+      const pages = Array.isArray(safe.topPages) ? safe.topPages : [];
 
-  const formatPath = (path) => {
-    const p = normalizePath(path);
-    if (!p || p === "/") return "/homepage";
-    return p;
-  };
+      // Map GA4 topPages into lookup map by normalized path
+      const byPath = new Map(
+        pages.map((p) => [normalizePath(p.path), Number(p.views) || 0])
+      );
 
-  // Make sources client-friendly
-  const labelSource = (raw) => {
-    const v = String(raw || "").trim();
-    const low = v.toLowerCase();
+      const core = CORE_PAGES.map(normalizePath).map((path) => ({
+        path,
+        views: byPath.get(path) ?? 0,
+      }));
 
-    if (!v || v === "(not set)") return "Untracked / Unknown";
-    if (low.includes("google") && low.includes("organic")) return "Google Search";
-    if (low.includes("(direct)") || low.includes("direct")) return "Direct";
-    if (low.includes("l.instagram.com") || low.includes("instagram"))
-      return "Instagram";
-    if (low.includes("facebook")) return "Facebook";
-    if (low.includes("bing") && low.includes("organic")) return "Bing Search";
+      const discovery = DISCOVERY_PAGES.map(normalizePath).map((path) => ({
+        path,
+        views: byPath.get(path) ?? 0,
+      }));
 
-    // default: show raw label
-    return v;
-  };
+      const contact = CONTACT_PAGES.map(normalizePath).map((path) => ({
+        path,
+        views: byPath.get(path) ?? 0,
+      }));
 
-  const { mainPages, portfolioPages, contactPages, otherPages } = useMemo(() => {
-    const pages = Array.isArray(safe.topPages) ? safe.topPages : [];
+      const admin = ADMIN_PAGES.map(normalizePath).map((path) => ({
+        path,
+        views: byPath.get(path) ?? 0,
+      }));
 
-    // normalize page paths coming from GA4
-    const normalized = pages
-      .map((p) => ({
-        path: normalizePath(p.path),
-        views: Number(p.views) || 0,
-      }))
-      .filter((p) => p.path); // drop blanks
+      const groupedSet = new Set([
+        ...CORE_PAGES.map(normalizePath),
+        ...DISCOVERY_PAGES.map(normalizePath),
+        ...CONTACT_PAGES.map(normalizePath),
+        ...ADMIN_PAGES.map(normalizePath),
+      ]);
 
-    const groupedSet = new Set([
-      ...MAIN_PAGES.map(normalizePath),
-      ...PORTFOLIO_PAGES.map(normalizePath),
-      ...CONTACT_PAGES.map(normalizePath),
-    ]);
+      const other = pages
+        .map((p) => ({
+          path: normalizePath(p.path),
+          views: Number(p.views) || 0,
+        }))
+        .filter((p) => p.path && !groupedSet.has(p.path));
 
-    const main = normalized.filter((p) =>
-      MAIN_PAGES.map(normalizePath).includes(p.path)
-    );
-
-    const portfolio = normalized.filter((p) =>
-      PORTFOLIO_PAGES.map(normalizePath).includes(p.path)
-    );
-
-    const contact = normalized.filter((p) =>
-      CONTACT_PAGES.map(normalizePath).includes(p.path)
-    );
-
-    const other = normalized.filter((p) => !groupedSet.has(p.path));
-
-    return {
-      mainPages: main,
-      portfolioPages: portfolio,
-      contactPages: contact,
-      otherPages: other,
-    };
-  }, [safe.topPages]);
+      return {
+        corePages: core,
+        discoveryPages: discovery,
+        contactPages: contact,
+        adminPages: admin,
+        otherPages: other,
+      };
+    }, [safe.topPages]);
 
   const topSourcesSafe = useMemo(() => {
     const list = Array.isArray(safe.topSources) ? safe.topSources : [];
-    return list
-      .map((s) => ({
-        source: String(s.source || "(not set)"),
-        label: labelSource(s.source),
-        sessions: Number(s.sessions) || 0,
-      }))
-      .filter((s) => s.sessions >= 0);
+    return list.map((s) => ({
+      source: String(s.source || "(not set)"),
+      sessions: Number(s.sessions) || 0,
+      label: formatSourceLabel(s.source),
+      hint: formatSourceHint(s.source),
+    }));
   }, [safe.topSources]);
 
   return (
@@ -163,7 +205,9 @@ export default function Dashboard() {
         {status.loading ? (
           <p className="dashboard__sub">Loading data…</p>
         ) : status.error ? (
-          <p className="dashboard__sub dashboard__sub--error">{status.error}</p>
+          <p className="dashboard__sub dashboard__sub--error">
+            Couldn’t load dashboard: {status.error}
+          </p>
         ) : (
           <p className="dashboard__sub">{safe.rangeLabel}</p>
         )}
@@ -183,17 +227,23 @@ export default function Dashboard() {
 
         <div className="dashboard__panel">
           <p className="dashboard__label">Top traffic source</p>
-          <p className="dashboard__value">{labelSource(safe.topTrafficSource)}</p>
+          <p className="dashboard__value">{formatSourceLabel(safe.topTrafficSource)}</p>
 
           {topSourcesSafe.length ? (
-            <ul className="dashboard__list">
-              {topSourcesSafe.map((s, idx) => (
-                <li key={`${s.source}-${idx}`} className="dashboard__listItem">
-                  <span className="dashboard__mono">{s.label}</span>
-                  <span className="dashboard__badge">{s.sessions}</span>
-                </li>
-              ))}
-            </ul>
+            <>
+              <p className="dashboard__groupTitle">Top sources (sessions)</p>
+              <ul className="dashboard__list">
+                {topSourcesSafe.map((s, idx) => (
+                  <li key={`${s.source}-${idx}`} className="dashboard__listItem">
+                    <span className="dashboard__mono">
+                      {s.label}
+                      {s.hint ? <span className="dashboard__hint">{s.hint}</span> : null}
+                    </span>
+                    <span className="dashboard__badge">{s.sessions}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
           ) : (
             <p className="dashboard__empty">No source data yet.</p>
           )}
@@ -207,33 +257,16 @@ export default function Dashboard() {
         <div className="dashboard__panel">
           <p className="dashboard__label">Top pages (views)</p>
 
-          {[
-            { title: "Main", items: mainPages },
-            { title: "Portfolio", items: portfolioPages },
-            { title: "Contact / Booking", items: contactPages },
-            { title: "Other", items: otherPages },
-          ].map(({ title, items }) =>
-            items.length ? (
-              <div key={title} className="dashboard__group">
-                <p className="dashboard__groupTitle">{title}</p>
-                <ul className="dashboard__list">
-                  {items.map((p) => (
-                    <li key={p.path} className="dashboard__listItem">
-                      <span className="dashboard__mono">{formatPath(p.path)}</span>
-                      <span className="dashboard__badge">{p.views}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null
-          )}
+          <Group title="Core (Homepage)" items={corePages} />
+          <Group title="Discovery (Gallery / Packages / About)" items={discoveryPages} />
+          <Group title="Contact / Booking" items={contactPages} />
 
-          {!mainPages.length &&
-          !portfolioPages.length &&
-          !contactPages.length &&
-          !otherPages.length ? (
-            <p className="dashboard__empty">No page data yet.</p>
+          {/* Optional: only show if there are views */}
+          {adminPages.some((p) => p.views > 0) ? (
+            <Group title="Admin" items={adminPages} />
           ) : null}
+
+          {otherPages.length ? <Group title="Other" items={otherPages} /> : null}
         </div>
       </section>
 
@@ -254,6 +287,22 @@ export default function Dashboard() {
         </div>
       </section>
     </section>
+  );
+}
+
+function Group({ title, items }) {
+  return (
+    <div className="dashboard__group">
+      <p className="dashboard__groupTitle">{title}</p>
+      <ul className="dashboard__list">
+        {items.map((p) => (
+          <li key={p.path} className="dashboard__listItem">
+            <span className="dashboard__mono">{formatPathForClient(p.path)}</span>
+            <span className="dashboard__badge">{p.views}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
