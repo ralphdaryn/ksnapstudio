@@ -24,7 +24,6 @@ exports.handler = async () => {
       };
     }
 
-    // Netlify env var keeps \n as two chars unless you convert it back
     const privateKey = privateKeyRaw.replace(/\\n/g, "\n");
 
     const auth = new google.auth.JWT({
@@ -58,7 +57,7 @@ exports.handler = async () => {
     const newUsers30d = Number(kpiRow?.[1]?.value || 0);
     const avgEngagementTime = formatSecondsToMinSec(kpiRow?.[2]?.value);
 
-    // 2) Top sources list (Source / Medium) — shows IG + Google when available
+    // 2) Top sources list (Source / Medium)
     const sourcesRes = await analyticsData.properties.runReport({
       property,
       requestBody: {
@@ -98,7 +97,7 @@ exports.handler = async () => {
         views: Number(r.metricValues?.[0]?.value || 0),
       })) || [];
 
-    // 4) Conversions (events) — update names later if needed
+    // 4) Events (client-friendly)
     const eventsRes = await analyticsData.properties.runReport({
       property,
       requestBody: {
@@ -109,7 +108,13 @@ exports.handler = async () => {
           filter: {
             fieldName: "eventName",
             inListFilter: {
-              values: ["contact_submit", "booking_click"],
+              values: [
+                "contact_submit",
+                "portfolio_click",
+                "view_contact",
+                "view_packages",
+                "cta_click",
+              ],
             },
           },
         },
@@ -117,13 +122,20 @@ exports.handler = async () => {
     });
 
     let contactSubmits = 0;
-    let bookingClicks = 0;
+    let galleryVisits = 0;
+    let viewContact = 0;
+    let viewPackages = 0;
+    let ctaClicks = 0;
 
     for (const row of eventsRes.data.rows || []) {
       const name = row.dimensionValues?.[0]?.value;
       const count = Number(row.metricValues?.[0]?.value || 0);
+
       if (name === "contact_submit") contactSubmits = count;
-      if (name === "booking_click") bookingClicks = count;
+      if (name === "portfolio_click") galleryVisits = count;
+      if (name === "view_contact") viewContact = count;
+      if (name === "view_packages") viewPackages = count;
+      if (name === "cta_click") ctaClicks = count;
     }
 
     return {
@@ -136,8 +148,12 @@ exports.handler = async () => {
         topTrafficSource,
         topSources,
         topPages,
+
         contactSubmits,
-        bookingClicks,
+        galleryVisits,
+        viewContact,
+        viewPackages,
+        ctaClicks,
       }),
     };
   } catch (err) {

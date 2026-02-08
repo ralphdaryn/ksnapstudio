@@ -1,5 +1,5 @@
 // src/pages/Contact/Contact.jsx
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./Contact.scss";
 
 // ✅ GA4 event helper (safe even if GA isn't installed yet)
@@ -65,6 +65,11 @@ export default function Contact() {
 
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState({ state: "idle", msg: "" });
+
+  // ✅ Track page view (this powers "Contact page visits" in your dashboard)
+  useEffect(() => {
+    track("view_contact", { page: "contact" });
+  }, []);
 
   const update = (key) => (e) =>
     setForm((p) => ({ ...p, [key]: e.target.value }));
@@ -288,7 +293,9 @@ export default function Contact() {
           )}
 
           <div className="contact__meta">
-            <p className="contact__note">I typically respond within 24 - 48 hours.</p>
+            <p className="contact__note">
+              I typically respond within 24 - 48 hours.
+            </p>
 
             {status.state !== "idle" && (
               <p

@@ -1,5 +1,22 @@
 // src/pages/Packages/Packages.jsx
+import { useEffect } from "react";
 import "./Packages.scss";
+
+// ✅ GA4 event helper (safe even if GA isn't installed yet)
+const track = (eventName, params = {}) => {
+  try {
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("event", eventName, params);
+      return;
+    }
+
+    if (typeof window !== "undefined" && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({ event: eventName, ...params });
+    }
+  } catch {
+    // fail silently
+  }
+};
 
 const INTRO = {
   heading: "Every story deserves to be captured beautifully.",
@@ -139,6 +156,11 @@ const GROUPS_ORDER = [
 ];
 
 export default function Packages() {
+  // ✅ Track page view (powers "Packages page visits")
+  useEffect(() => {
+    track("view_packages", { page: "packages" });
+  }, []);
+
   return (
     <main className="packages" aria-labelledby="packages-title">
       <div className="packages__inner">
@@ -192,7 +214,19 @@ export default function Packages() {
                         </ul>
                       ) : null}
 
-                      <a className="packages__btn" href={ctaHref || "/contact"}>
+                      <a
+                        className="packages__btn"
+                        href={ctaHref || "/contact"}
+                        onClick={() =>
+                          track("cta_click", {
+                            location: "packages",
+                            label: "book_now",
+                            package_key: key,
+                            package_title: title,
+                            package_price: price,
+                          })
+                        }
+                      >
                         Book Now
                       </a>
                     </li>

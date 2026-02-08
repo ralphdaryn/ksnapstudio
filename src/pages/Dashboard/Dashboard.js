@@ -32,7 +32,8 @@ function formatPathForClient(path) {
 function formatSourceLabel(sourceMedium = "") {
   const s = String(sourceMedium).toLowerCase().trim();
 
-  if (s === "(not set)" || s === "") return "Direct / Untracked visits";
+  if (s === "(not set)" || s === "" || s === "(untracked)")
+    return "Direct / Untracked visits";
   if (s.includes("google") && s.includes("organic")) return "Google Search";
   if (s.includes("(direct)") || s.includes("direct")) return "Direct visits";
   if (s.includes("instagram")) return "Instagram";
@@ -47,7 +48,7 @@ function formatSourceLabel(sourceMedium = "") {
 function formatSourceHint(sourceMedium = "") {
   const s = String(sourceMedium).toLowerCase().trim();
 
-  if (s === "(not set)" || s === "") {
+  if (s === "(not set)" || s === "" || s === "(untracked)") {
     return "Typed the website, bookmark, or apps that don’t pass tracking info";
   }
   if (s.includes("google") && s.includes("organic")) {
@@ -81,7 +82,6 @@ export default function Dashboard() {
           headers: { "Content-Type": "application/json" },
         });
 
-        // ✅ Nicer error (don’t show raw JSON blob)
         if (!res.ok) {
           const payload = await res.json().catch(() => null);
           const msg = payload?.error || (await res.text());
@@ -114,8 +114,14 @@ export default function Dashboard() {
       users30d: 0,
       newUsers30d: 0,
       avgEngagementTime: "—",
+
+      // ✅ Events
       contactSubmits: 0,
-      bookingClicks: 0,
+      galleryVisits: 0,
+      ctaClicks: 0,
+      viewContact: 0,
+      viewPackages: 0,
+
       topTrafficSource: "(not set)",
       topSources: [],
       topPages: [],
@@ -124,21 +130,20 @@ export default function Dashboard() {
     return { ...fallback, ...(data || {}) };
   }, [data]);
 
-  const totalConversions = safe.contactSubmits + safe.bookingClicks;
+  // ✅ Client-friendly conversion rate = inquiries / users
   const conversionRate =
     safe.users30d > 0
-      ? ((totalConversions / safe.users30d) * 100).toFixed(1)
+      ? ((safe.contactSubmits / safe.users30d) * 100).toFixed(1)
       : "0.0";
 
   /**
-   * ✅ StepByStep concept: ALWAYS show your key pages,
+   * ✅ ALWAYS show your key pages,
    * even if GA4 hasn't collected them yet (0 views).
    */
   const { corePages, discoveryPages, contactPages, adminPages, otherPages } =
     useMemo(() => {
       const pages = Array.isArray(safe.topPages) ? safe.topPages : [];
 
-      // Map GA4 topPages into lookup map by normalized path
       const byPath = new Map(
         pages.map((p) => [normalizePath(p.path), Number(p.views) || 0])
       );
@@ -217,8 +222,12 @@ export default function Dashboard() {
       <div className="dashboard__kpis">
         <Kpi label="Users (30 days)" value={safe.users30d} />
         <Kpi label="New users" value={safe.newUsers30d} />
-        <Kpi label="Avg engagement time" value={safe.avgEngagementTime} />
-        <Kpi label="Conversion rate" value={`${conversionRate}%`} />
+        <Kpi label="Gallery visits" value={safe.galleryVisits} />
+        <Kpi label="Inquiries received" value={safe.contactSubmits} />
+        <Kpi label="Contact page visits" value={safe.viewContact} />
+        <Kpi label="Packages page visits" value={safe.viewPackages} />
+        <Kpi label="CTA clicks" value={safe.ctaClicks} />
+        <Kpi label="Inquiry rate" value={`${conversionRate}%`} />
       </div>
 
       {/* Acquisition */}
@@ -227,7 +236,9 @@ export default function Dashboard() {
 
         <div className="dashboard__panel">
           <p className="dashboard__label">Top traffic source</p>
-          <p className="dashboard__value">{formatSourceLabel(safe.topTrafficSource)}</p>
+          <p className="dashboard__value">
+            {formatSourceLabel(safe.topTrafficSource)}
+          </p>
 
           {topSourcesSafe.length ? (
             <>
@@ -237,7 +248,9 @@ export default function Dashboard() {
                   <li key={`${s.source}-${idx}`} className="dashboard__listItem">
                     <span className="dashboard__mono">
                       {s.label}
-                      {s.hint ? <span className="dashboard__hint">{s.hint}</span> : null}
+                      {s.hint ? (
+                        <span className="dashboard__hint">{s.hint}</span>
+                      ) : null}
                     </span>
                     <span className="dashboard__badge">{s.sessions}</span>
                   </li>
@@ -258,10 +271,12 @@ export default function Dashboard() {
           <p className="dashboard__label">Top pages (views)</p>
 
           <Group title="Core (Homepage)" items={corePages} />
-          <Group title="Discovery (Gallery / Packages / About)" items={discoveryPages} />
+          <Group
+            title="Discovery (Gallery / Packages / About)"
+            items={discoveryPages}
+          />
           <Group title="Contact / Booking" items={contactPages} />
 
-          {/* Optional: only show if there are views */}
           {adminPages.some((p) => p.views > 0) ? (
             <Group title="Admin" items={adminPages} />
           ) : null}
@@ -276,13 +291,13 @@ export default function Dashboard() {
 
         <div className="dashboard__conversions">
           <div className="dashboard__panel">
-            <p className="dashboard__label">Contact form submits</p>
+            <p className="dashboard__label">Inquiries received</p>
             <p className="dashboard__value">{safe.contactSubmits}</p>
           </div>
 
           <div className="dashboard__panel">
-            <p className="dashboard__label">Booking / inquiry clicks</p>
-            <p className="dashboard__value">{safe.bookingClicks}</p>
+            <p className="dashboard__label">Gallery visits</p>
+            <p className="dashboard__value">{safe.galleryVisits}</p>
           </div>
         </div>
       </section>
