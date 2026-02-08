@@ -2,6 +2,24 @@
 import { useMemo, useState } from "react";
 import "./Contact.scss";
 
+// ✅ GA4 event helper (safe even if GA isn't installed yet)
+const track = (eventName, params = {}) => {
+  try {
+    // If gtag is available
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("event", eventName, params);
+      return;
+    }
+
+    // Fallback: push into dataLayer (if GTM is used)
+    if (typeof window !== "undefined" && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({ event: eventName, ...params });
+    }
+  } catch {
+    // fail silently (never block form submit)
+  }
+};
+
 const SHOOT_TYPES = [
   { value: "wedding", label: "Wedding" },
   { value: "events", label: "Event" },
@@ -37,10 +55,7 @@ const initialForm = {
   heardFrom: "",
   notes: "",
   weddingDate: "",
-  // ceremonyTime: "", // removed
-  // gettingReadyLocation: "", // removed
   ceremonyLocation: "",
-  // receptionLocation: "", // removed
 };
 
 export default function Contact() {
@@ -63,6 +78,14 @@ export default function Contact() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    // ✅ Optional: track that the user tried to submit
+    track("contact_submit_attempt", {
+      form_name: "ksnap_contact",
+      shoot_type: type,
+      package: pkg,
+    });
+
     setStatus({ state: "sending", msg: "Sending..." });
 
     const payload = {
@@ -84,6 +107,15 @@ export default function Contact() {
         throw new Error(json.error || `Request failed (${res.status})`);
       }
 
+      // ✅ Track success (this is the one you’ll use in your dashboard)
+      track("contact_submit", {
+        form_name: "ksnap_contact",
+        shoot_type: type,
+        package: pkg,
+        heard_from: form.heardFrom || "(blank)",
+        mode: json.mode || "live",
+      });
+
       setStatus({
         state: "success",
         msg:
@@ -94,6 +126,13 @@ export default function Contact() {
 
       setForm(initialForm);
     } catch (err) {
+      // ✅ Optional: track submit error
+      track("contact_submit_error", {
+        form_name: "ksnap_contact",
+        shoot_type: type,
+        package: pkg,
+      });
+
       setStatus({
         state: "error",
         msg:
@@ -249,9 +288,7 @@ export default function Contact() {
           )}
 
           <div className="contact__meta">
-            <p className="contact__note">
-              I typically respond within 24 - 48 hours.
-            </p>
+            <p className="contact__note">I typically respond within 24 - 48 hours.</p>
 
             {status.state !== "idle" && (
               <p
