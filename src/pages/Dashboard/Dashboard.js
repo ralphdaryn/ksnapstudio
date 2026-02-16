@@ -1,5 +1,6 @@
 // src/pages/Dashboard/Dashboard.jsx
 import React, { useEffect, useMemo, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./Dashboard.scss";
 
 /**
@@ -65,6 +66,14 @@ function formatSourceHint(sourceMedium = "") {
 }
 
 export default function Dashboard() {
+  const {
+    isLoading: authLoading,
+    isAuthenticated,
+    loginWithRedirect,
+    getAccessTokenSilently,
+    logout,
+  } = useAuth0();
+
   const [data, setData] = useState(null);
   const [status, setStatus] = useState({ loading: true, error: "" });
 
@@ -79,24 +88,34 @@ export default function Dashboard() {
         const base =
           process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
 
-        // ✅ KSnap Studio Spring Boot endpoint (NEW ROUTE SHAPE)
+        // ✅ KSnapStudio Spring Boot endpoint (NEW ROUTE SHAPE)
         const url = `${base}/api/dashboard/ksnapstudio/ga4Results`;
+
+        // ✅ MUST send Auth0 access token (same as StepByStep)
+        const token = await getAccessTokenSilently({
+          authorizationParams: {
+            audience:
+              process.env.REACT_APP_AUTH0_AUDIENCE || "https://rd-dashboard-api",
+          },
+        });
 
         const res = await fetch(url, {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
-
-          // ✅ If your API is protected by Auth0, you MUST send a token:
-          // headers: {
-          //   "Content-Type": "application/json",
-          //   Authorization: `Bearer ${token}`,
-          // }
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
+        // ✅ clearer error for 403 allowlist issues
+        if (res.status === 403) {
+          throw new Error(
+            "Access denied (403). This account is not authorized for KSnapStudio."
+          );
+        }
+
         if (!res.ok) {
-          const payload = await res.json().catch(() => null);
-          const msg = payload?.message || payload?.error || (await res.text());
-          throw new Error(msg || "Failed to load dashboard data");
+          const text = await res.text().catch(() => "");
+          throw new Error(text || `Failed to load dashboard data (${res.status})`);
         }
 
         const json = await res.json();
@@ -115,11 +134,13 @@ export default function Dashboard() {
       }
     };
 
-    load();
+    if (isAuthenticated) load();
+    else setStatus({ loading: false, error: "" });
+
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   const safe = useMemo(() => {
     const fallback = {
@@ -213,21 +234,67 @@ export default function Dashboard() {
     }));
   }, [safe.topSources]);
 
+  // ✅ block until auth finishes to avoid weird flashes
+  if (authLoading) {
+    return (
+      <section className="dashboard">
+        <header className="dashboard__header">
+          <p className="dashboard__sub">Securing dashboard…</p>
+        </header>
+      </section>
+    );
+  }
+
+  // ✅ locked until login
+  if (!isAuthenticated) {
+    return (
+      <section className="dashboard">
+        <header className="dashboard__header">
+          <p className="dashboard__eyebrow">DASHBOARD</p>
+          <h1 className="dashboard__title">KSnap Studio Analytics</h1>
+          <p className="dashboard__sub">Log in to view metrics.</p>
+
+          <button
+            className="dashboard__btn"
+            onClick={() => loginWithRedirect()}
+            type="button"
+          >
+            Log in to view metrics
+          </button>
+        </header>
+      </section>
+    );
+  }
+
   return (
     <section className="dashboard">
       <header className="dashboard__header">
-        <p className="dashboard__eyebrow">DASHBOARD</p>
-        <h1 className="dashboard__title">KSnap Studio Analytics</h1>
+        <div className="dashboard__topRow">
+          <div>
+            <p className="dashboard__eyebrow">DASHBOARD</p>
+            <h1 className="dashboard__title">KSnap Studio Analytics</h1>
 
-        {status.loading ? (
-          <p className="dashboard__sub">Loading data…</p>
-        ) : status.error ? (
-          <p className="dashboard__sub dashboard__sub--error">
-            Couldn’t load dashboard: {status.error}
-          </p>
-        ) : (
-          <p className="dashboard__sub">{safe.rangeLabel}</p>
-        )}
+            {status.loading ? (
+              <p className="dashboard__sub">Loading data…</p>
+            ) : status.error ? (
+              <p className="dashboard__sub dashboard__sub--error">
+                Couldn’t load dashboard: {status.error}
+              </p>
+            ) : (
+              <p className="dashboard__sub">{safe.rangeLabel}</p>
+            )}
+          </div>
+
+          <button
+            className="dashboard__btn dashboard__btn--ghost"
+            onClick={() =>
+              logout({ logoutParams: { returnTo: window.location.origin } })
+            }
+            type="button"
+          >
+            Log out
+          </button>
+        </div>
       </header>
 
       {/* KPI cards */}
