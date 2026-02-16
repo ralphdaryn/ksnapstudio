@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/* Mobile-first, BEM */
+.header {
+  --h-pad: 1rem;
+  --max-w: 1200px;
+  --gap: 1.25rem;
+  position: relative; /* ⬅️ create stacking context */
+  z-index: 1000; /* ⬅️ ensure above hero backgrounds */
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+.header__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0.75rem var(--h-pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+.header__brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.header__logo {
+  display: block;
+  height: 40px;
+  width: auto;
+}
+.header {
+  /* Hamburger toggle */
+}
+.header__toggle {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0.5rem;
+  cursor: pointer;
+  line-height: 0;
+}
+.header__burger {
+  position: relative;
+  display: inline-block;
+  width: 26px;
+  height: 2px;
+  background: #111;
+}
+.header__burger::before, .header__burger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 26px;
+  height: 2px;
+  background: #111;
+}
+.header__burger::before {
+  top: -7px;
+}
+.header__burger::after {
+  top: 7px;
+}
+.header {
+  /* Nav (mobile collapsed by default) */
+}
+.header__nav {
+  position: absolute;
+  inset: 64px 0 auto 0; /* drops below header on mobile */
+  background: #fff;
+  border-top: 1px solid #eee;
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.header__nav--open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.header__list {
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem var(--h-pad);
+  display: grid;
+  gap: 0.5rem;
+}
+.header__link {
+  display: block;
+  padding: 0.5rem 0.25rem;
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;
+}
+.header__link:hover, .header__link:focus {
+  text-decoration: underline;
+  outline: none;
+}
+.header {
+  /* Desktop */
+}
+@media (min-width: 768px) {
+  .header__toggle {
+    display: none;
+  }
+  .header__nav {
+    position: static;
+    inset: auto;
+    border-top: 0;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    background: transparent;
+  }
+  .header__list {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0;
+  }
+  .header__link {
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+  }
+  .header__link:hover, .header__link:focus {
+    background: #f4f4f5;
+    text-decoration: none;
+  }
+}/*# sourceMappingURL=Header.css.map */

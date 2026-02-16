@@ -1,0 +1,314 @@
+@charset "UTF-8";
+.dashboard {
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 16px 18px 60px;
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  color: #000;
+  /* 🎨 KSnapStudio Accent */
+  --accent: #37c9a0;
+  --accentSoft: rgba(55, 201, 160, 0.2);
+  /* Base UI tokens */
+  --bg: #ffffff;
+  --line: rgba(0, 0, 0, 0.08);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Header */
+.dashboard__header {
+  margin-bottom: 18px;
+}
+
+.dashboard__eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  font-weight: 800;
+  opacity: 0.7;
+  margin: 0;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.dashboard__title {
+  margin: 10px 0 6px;
+  font-size: clamp(26px, 4vw, 38px);
+  letter-spacing: -0.02em;
+  color: #000;
+}
+
+.dashboard__sub {
+  margin: 0;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.dashboard__sub--error {
+  color: #b42318;
+  opacity: 0.95;
+  font-weight: 700;
+}
+
+/* KPI grid */
+.dashboard__kpis {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 16px;
+}
+
+.dashboard__kpi {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.dashboard__kpiLabel {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  opacity: 0.75;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.dashboard__kpiValue {
+  margin: 10px 0 0;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #000;
+}
+
+/* Sections */
+.dashboard__section {
+  margin-top: 28px;
+}
+
+.dashboard__h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: #000;
+}
+
+.dashboard__panel {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.dashboard__label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  opacity: 0.75;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.dashboard__value {
+  margin: 10px 0 0;
+  font-size: 18px;
+  font-weight: 900;
+  color: #000;
+}
+
+.dashboard__empty {
+  margin: 10px 0 0;
+  opacity: 0.75;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Groups */
+.dashboard__group {
+  margin-top: 14px;
+}
+
+.dashboard__groupTitle {
+  margin: 14px 0 8px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Lists */
+.dashboard__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.dashboard__listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%; /* ✅ fills the panel */
+  min-width: 0; /* ✅ prevents flex overflow/cutoff on mobile */
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--line);
+}
+
+/* Mono text */
+.dashboard__mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 13px;
+  opacity: 0.92;
+  color: rgba(0, 0, 0, 0.85);
+  min-width: 0; /* ✅ allows shrinking within flex row */
+  flex: 1 1 auto; /* ✅ take remaining space */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Hint under label */
+.dashboard__hint {
+  display: block;
+  opacity: 0.7;
+  font-size: 12px;
+  margin-top: 4px;
+  line-height: 1.35;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* Badges */
+.dashboard__badge {
+  font-size: 12px;
+  font-weight: 900;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--accentSoft);
+  border: 1px solid var(--accent);
+  color: rgba(0, 0, 0, 0.9);
+  flex: 0 0 auto; /* ✅ never shrink */
+}
+
+/* Buttons */
+.dashboard__btn {
+  border: 1px solid var(--accent);
+  background: var(--accentSoft);
+  color: rgba(0, 0, 0, 0.9);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.dashboard__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard__btn--ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+}
+
+/* Layout */
+.dashboard__topRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Conversions grid */
+.dashboard__conversions {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* Overlay Loader */
+.dashboard__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+}
+
+.dashboard__overlayCard {
+  background: white;
+  padding: 22px 26px;
+  border-radius: 18px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.dashboard__overlayText {
+  margin-top: 10px;
+  font-weight: 800;
+}
+
+/* Spinner */
+.dashboard__spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 4px solid var(--accentSoft);
+  border-top-color: var(--accent);
+  animation: dashboardSpin 0.9s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes dashboardSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* ✅ Tablet polish */
+@media (max-width: 960px) {
+  .dashboard {
+    width: min(1100px, 94vw);
+    padding: 14px 16px 54px;
+  }
+  .dashboard__kpis {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  .dashboard__conversions {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+/* ✅ Mobile fixes */
+@media (max-width: 640px) {
+  .dashboard {
+    width: 100%;
+    padding: 12px 12px 50px;
+  }
+  .dashboard__topRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dashboard__btn--ghost {
+    width: 100%;
+  }
+  /* ✅ Mobile list items: allow wrapping so it uses full width cleanly */
+  .dashboard__listItem {
+    align-items: flex-start;
+    padding: 12px;
+  }
+  .dashboard__mono {
+    white-space: normal; /* ✅ wrap instead of forcing ellipsis */
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-word; /* ✅ prevents long paths from overflowing */
+  }
+  .dashboard__hint {
+    word-break: break-word;
+  }
+}/*# sourceMappingURL=Dashboard.css.map */

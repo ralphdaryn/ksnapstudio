@@ -1,0 +1,107 @@
+/* src/styles/_mixins.scss */
+/* Breakpoints (mobile-first) */
+/* Screen-reader only (a11y) */
+/* Centered container helper */
+.gallery {
+  min-height: 100vh;
+  background: #f0f6f7;
+  color: #111;
+  /* --- Scrollbar styling (page-matching) --- */
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(17, 17, 17, 0.28) rgba(255, 255, 255, 0.55);
+  /* WebKit (Chrome/Edge/Safari) */
+}
+.gallery::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.gallery::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+}
+.gallery::-webkit-scrollbar-thumb {
+  background: rgba(17, 17, 17, 0.22);
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+}
+.gallery::-webkit-scrollbar-thumb:hover {
+  background: rgba(17, 17, 17, 0.32);
+}
+.gallery__section {
+  padding: 2.25rem 0;
+}
+@media (min-width: 768px) {
+  .gallery__section {
+    padding: 2.75rem 0 3.25rem;
+  }
+}
+.gallery__container {
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-inline: auto;
+}
+.gallery {
+  /* --- Make title/intro/link feel evenly spaced --- */
+}
+.gallery__title {
+  font-size: clamp(1.9rem, 5vw, 2.4rem);
+  margin: 0;
+  line-height: 1.15;
+}
+.gallery__intro {
+  margin: 1rem 0;
+  color: #555;
+  max-width: 60ch;
+  line-height: 1.6;
+}
+.gallery {
+  /* Clean link (NOT a button), with subtle underline effect */
+}
+.gallery__link {
+  display: inline-block;
+  margin-top: 0.5rem; /* gives breathing room after intro */
+  margin-bottom: 0; /* separates from the embed */
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #111;
+  text-decoration: none;
+  /* subtle underline that animates in */
+  border-bottom: 1px solid rgba(17, 17, 17, 0.35);
+  padding-bottom: 2px;
+  transition: opacity 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.gallery__link:hover {
+  opacity: 0.78;
+  border-color: rgba(17, 17, 17, 0.6);
+  transform: translateY(-1px);
+}
+.gallery__link:active {
+  transform: translateY(0);
+}
+.gallery__link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.12);
+  border-bottom-color: transparent;
+  border-radius: 6px;
+}
+
+/* Full interactive Pic-Time embed for the dedicated gallery page */
+.gallery__embed {
+  margin-top: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  overflow: hidden;
+  /* Fill (most of) the viewport on all breakpoints */
+  height: 100vh;
+}
+.gallery__embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: auto;
+}/*# sourceMappingURL=Gallery.css.map */

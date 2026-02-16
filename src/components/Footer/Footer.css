@@ -1,0 +1,182 @@
+@charset "UTF-8";
+/* src/styles/_mixins.scss */
+/* Breakpoints (mobile-first) */
+/* Screen-reader only (a11y) */
+/* Centered container helper */
+.footer {
+  /* match Main tokens */
+  --max-w: 1120px;
+  --pad-x: 1rem;
+  --pad-y: 2rem;
+  /* unified footer band */
+  --footer-bg: #f0f6f7; /* same as .main --bg for seamless blend */
+  --ink: #111;
+  --muted: #555;
+  --line: #eee;
+  --ring: rgba(2, 132, 199, 0.18);
+  /* ✅ KSnap accent for the login pill */
+  --accent: #37c9a0;
+  --accentSoft: rgba(55, 201, 160, 0.18);
+  background: var(--footer-bg);
+  border-top: 1px solid var(--line);
+  width: 100%;
+}
+.footer__container {
+  max-width: var(--max-w);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--pad-x);
+  padding-right: var(--pad-x);
+  margin-inline: auto;
+  padding-block: 1.1rem; /* mobile-first spacing */
+}
+@media (min-width: 768px) {
+  .footer__container {
+    padding-block: 1.35rem;
+  }
+}
+@media (min-width: 1280px) {
+  .footer__container {
+    padding-block: 1.6rem;
+  }
+}
+.footer {
+  /* Social row: centered pill at the top of the footer */
+}
+.footer__social {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.35rem auto 0.9rem;
+  padding: 0.35rem 0.5rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.footer .footer__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: #fff;
+  transition: transform 120ms ease, background 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+.footer .footer__icon:hover {
+  transform: translateY(-1px);
+  background: #fafafa;
+  border-color: #e7e7e7;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+.footer .footer__icon:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+.footer .footer__icon svg {
+  display: block;
+}
+.footer {
+  /* ✅ Client login link (pill) */
+}
+.footer__login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: var(--accentSoft);
+  color: #0b1f1a;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+.footer__login:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  background: rgba(55, 201, 160, 0.24);
+}
+.footer__login:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+.footer {
+  /* Divider spans the full footer width */
+}
+.footer__divider {
+  height: 1px;
+  background: var(--line);
+  opacity: 0.9;
+}
+.footer {
+  /* Legal row: centered copy; no extra background band */
+}
+.footer__legal {
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  text-align: center;
+  /* background: transparent to keep the footer band solid and even */
+}
+.footer__copy {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: 0.1px;
+}
+.footer__small {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.footer {
+  /* Tablet ≥768px */
+}
+@media (min-width: 768px) {
+  .footer__social {
+    gap: 0.7rem;
+    margin: 0.4rem auto 1rem;
+    padding: 0.4rem 0.65rem;
+  }
+  .footer .footer__icon {
+    width: 42px;
+    height: 42px;
+  }
+  .footer__login {
+    height: 42px;
+    padding: 0 16px;
+    font-size: 0.92rem;
+  }
+}
+.footer {
+  /* Desktop ≥1280px */
+}
+@media (min-width: 1280px) {
+  .footer__social {
+    gap: 0.8rem;
+    margin: 0.5rem auto 1.1rem;
+    padding: 0.45rem 0.8rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+  }
+  .footer .footer__icon {
+    width: 44px;
+    height: 44px;
+  }
+  .footer__login {
+    height: 44px;
+    padding: 0 18px;
+    font-size: 0.95rem;
+  }
+}/*# sourceMappingURL=Footer.css.map */

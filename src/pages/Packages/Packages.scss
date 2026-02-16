@@ -1,15 +1,14 @@
-/* src/pages/Packages/Packages.scss */
 @use "../../styles/partials/mixins" as *;
 
 .packages {
-  /* tokens (swap for brand tokens if you like) */
+  /* tokens */
   --max-w: 1100px;
-  --page: #f7f7f8; /* page bg */
-  --surface: #ffffff; /* card */
-  --ink: #111; /* primary text */
-  --muted: #566; /* secondary text */
-  --line: #e9eaec; /* hairline */
-  --radius: 16px; /* card corners */
+  --page: #f7f7f8;
+  --surface: #ffffff;
+  --ink: #111;
+  --muted: #566;
+  --line: #e9eaec;
+  --radius: 16px;
   --ring: rgba(2, 132, 199, 0.18);
   --shadow: 0 12px 28px rgba(2, 6, 23, 0.06);
 
@@ -21,7 +20,18 @@
     margin-inline: auto;
   }
 
-  /* Intro — centered */
+  /* ✅ MOBILE BREATHING ROOM FIX */
+  @media (max-width: 640px) {
+    &__section {
+      padding-inline: 0.35rem;
+    }
+
+    &__card {
+      padding: 1.05rem 0.95rem;
+    }
+  }
+
+  /* Intro */
   &__intro {
     text-align: center;
     display: grid;
@@ -33,6 +43,7 @@
       margin-bottom: 1.6rem;
       gap: 3rem;
     }
+
     @include desktop {
       margin-bottom: 2rem;
     }
@@ -60,13 +71,14 @@
     max-width: 70ch;
   }
 
-  /* Group header — centered with soft icon */
+  /* Sections */
   &__section {
     margin-top: 1.5rem;
 
     @include tablet {
       margin-top: 1.9rem;
     }
+
     @include desktop {
       margin-top: 2.2rem;
     }
@@ -103,9 +115,10 @@
     line-height: 1;
   }
 
-  /* Grid — centered, compact cards */
+  /* Grid */
   &__grid {
-    --card-w: 320px; /* compact and content-fit */
+    --card-w: 320px;
+
     display: grid;
     grid-template-columns: repeat(
       auto-fit,
@@ -113,7 +126,7 @@
     );
     gap: 1rem;
     justify-content: center;
-    justify-items: center; /* center each card in its track */
+    justify-items: center;
     margin-inline: auto;
     padding: 0;
     list-style: none;
@@ -124,29 +137,34 @@
       display: flex;
       flex-wrap: wrap;
     }
+
     @include desktop {
       gap: 1.2rem;
-      --card-w: 360px; /* stays compact on desktop */
+      --card-w: 360px;
     }
   }
 
-  /* Card — clean border, light bg, subtle hover shadow; centered content */
+  /* Card */
   &__card {
     width: min(100%, var(--card-w));
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 1rem;
+
     display: grid;
-    grid-template-rows: auto 1fr auto; /* head | bullets | button pinned */
+    grid-template-rows: auto 1fr auto;
     gap: 0.8rem;
-    text-align: center; /* center all text */
+
+    text-align: center;
+
     transition: transform 160ms ease, box-shadow 160ms ease,
       border-color 160ms ease;
 
     @include tablet {
       padding: 1.05rem 1.15rem;
     }
+
     @include desktop {
       padding: 1.1rem 1.2rem;
     }
@@ -158,7 +176,6 @@
     }
   }
 
-  /* Head: icon + title/price + tagline */
   &__card-head {
     display: grid;
     justify-items: center;
@@ -176,7 +193,6 @@
     font-size: 1.05rem;
   }
 
-  /* Title + Price (bold); Tagline italic */
   &__name {
     margin: 0;
     font-weight: 800;
@@ -184,6 +200,7 @@
     font-size: 1.04rem;
     line-height: 1.25;
   }
+
   &__price {
     font-weight: 800;
   }
@@ -196,14 +213,14 @@
     max-width: 36ch;
   }
 
-  /* Bullets — evenly spaced; centered block with left text for readability */
+  /* Bullets */
   &__bullets {
     margin: 0.1rem 0 0;
     padding: 0;
     list-style: disc inside;
 
-    display: inline-block; /* center as a block in a centered card */
-    text-align: left; /* bullet text left for readability */
+    display: inline-block;
+    text-align: left;
     max-width: 34ch;
 
     li + li {
@@ -216,7 +233,7 @@
     line-height: 1.6;
   }
 
-  /* CTA — centered at bottom */
+  /* Button */
   &__btn {
     justify-self: center;
     width: fit-content;
@@ -224,22 +241,24 @@
     padding: 0.58rem 0.95rem;
     border-radius: 12px;
     border: 1px solid var(--ink);
+
     color: #fff;
     background: var(--ink);
     text-decoration: none;
+
     font-weight: 700;
     letter-spacing: 0.01em;
 
     &:hover {
       filter: brightness(0.96);
     }
+
     &:focus-visible {
       outline: none;
       box-shadow: 0 0 0 4px var(--ring);
     }
   }
 
-  /* Motion respect */
   @media (prefers-reduced-motion: reduce) {
     &__card {
       transition: none;
