@@ -65,6 +65,28 @@ function formatSourceHint(sourceMedium = "") {
   return "";
 }
 
+// ✅ KPI Card — MUST match your SCSS classnames
+function KpiCard({ label, value }) {
+  return (
+    <div className="dashboard__kpi">
+      <p className="dashboard__kpiLabel">{label}</p>
+      <p className="dashboard__kpiValue">{value}</p>
+    </div>
+  );
+}
+
+// ✅ Full-page overlay loader (simple + clean)
+function DashboardLoader({ label = "Loading dashboard…" }) {
+  return (
+    <div className="dashboard__overlay" role="status" aria-live="polite">
+      <div className="dashboard__overlayCard">
+        <div className="dashboard__spinner" aria-hidden="true" />
+        <p className="dashboard__overlayText">{label}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const {
     isLoading: authLoading,
@@ -75,8 +97,18 @@ export default function Dashboard() {
   } = useAuth0();
 
   const [data, setData] = useState(null);
+
+  // ✅ start loading true so overlay shows immediately
   const [status, setStatus] = useState({ loading: true, error: "" });
 
+  // ✅ Spring Boot base URL (Render in prod via env var, localhost in dev)
+  const API_BASE_URL =
+    process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
+  // ✅ KSnapStudio endpoint
+  const GA4_ENDPOINT = `${API_BASE_URL}/api/dashboard/ksnapstudio/ga4Results`;
+
+  // ✅ Load GA4 results (protected)
   useEffect(() => {
     let mounted = true;
 
@@ -84,14 +116,6 @@ export default function Dashboard() {
       try {
         setStatus({ loading: true, error: "" });
 
-        // ✅ Spring Boot base URL (set in Netlify env vars for this client site)
-        const base =
-          process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
-
-        // ✅ KSnapStudio Spring Boot endpoint (NEW ROUTE SHAPE)
-        const url = `${base}/api/dashboard/ksnapstudio/ga4Results`;
-
-        // ✅ MUST send Auth0 access token (same as StepByStep)
         const token = await getAccessTokenSilently({
           authorizationParams: {
             audience:
@@ -99,14 +123,13 @@ export default function Dashboard() {
           },
         });
 
-        const res = await fetch(url, {
+        const res = await fetch(GA4_ENDPOINT, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        // ✅ clearer error for 403 allowlist issues
         if (res.status === 403) {
           throw new Error(
             "Access denied (403). This account is not authorized for KSnapStudio."
@@ -115,7 +138,7 @@ export default function Dashboard() {
 
         if (!res.ok) {
           const text = await res.text().catch(() => "");
-          throw new Error(text || `Failed to load dashboard data (${res.status})`);
+          throw new Error(text || `Failed to load dashboard (${res.status}).`);
         }
 
         const json = await res.json();
@@ -126,6 +149,7 @@ export default function Dashboard() {
         }
       } catch (err) {
         if (mounted) {
+          setData(null);
           setStatus({
             loading: false,
             error: err?.message || "Unable to load analytics",
@@ -135,48 +159,54 @@ export default function Dashboard() {
     };
 
     if (isAuthenticated) load();
-    else setStatus({ loading: false, error: "" });
+    else {
+      setData(null);
+      setStatus({ loading: false, error: "" });
+    }
 
     return () => {
       mounted = false;
     };
-  }, [isAuthenticated, getAccessTokenSilently]);
+  }, [isAuthenticated, GA4_ENDPOINT, getAccessTokenSilently]);
 
+  // ✅ safe defaults
   const safe = useMemo(() => {
     const fallback = {
       users30d: 0,
       newUsers30d: 0,
       avgEngagementTime: "—",
 
-      // events (0 until your API returns these keys)
-      contactSubmits: 0,
-      galleryVisits: 0,
-      ctaClicks: 0,
-      viewContact: 0,
+      // ✅ Conversions for KSnap
       viewPackages: 0,
+      galleryVisits: 0,
+      contactSubmits: 0,
 
       topTrafficSource: "(not set)",
       topSources: [],
       topPages: [],
       rangeLabel: "Last 30 days",
     };
+
     return { ...fallback, ...(data || {}) };
   }, [data]);
 
-  // ✅ Client-friendly conversion rate = inquiries / users
+  // ✅ KSnap conversion = packages + gallery + contact
+  const totalConversions =
+    Number(safe.viewPackages || 0) +
+    Number(safe.galleryVisits || 0) +
+    Number(safe.contactSubmits || 0);
+
   const conversionRate =
     safe.users30d > 0
-      ? ((safe.contactSubmits / safe.users30d) * 100).toFixed(1)
+      ? ((totalConversions / safe.users30d) * 100).toFixed(1)
       : "0.0";
 
   /**
-   * ✅ ALWAYS show your key pages,
-   * even if GA4 hasn't collected them yet (0 views).
+   * ✅ ALWAYS show your key pages (0 if missing)
    */
   const { corePages, discoveryPages, contactPages, adminPages, otherPages } =
     useMemo(() => {
       const pages = Array.isArray(safe.topPages) ? safe.topPages : [];
-
       const byPath = new Map(
         pages.map((p) => [normalizePath(p.path), Number(p.views) || 0])
       );
@@ -234,13 +264,13 @@ export default function Dashboard() {
     }));
   }, [safe.topSources]);
 
-  // ✅ block until auth finishes to avoid weird flashes
+  const showOverlay = authLoading || status.loading;
+
+  // ✅ Auth0 still deciding
   if (authLoading) {
     return (
       <section className="dashboard">
-        <header className="dashboard__header">
-          <p className="dashboard__sub">Securing dashboard…</p>
-        </header>
+        <DashboardLoader label="Securing dashboard…" />
       </section>
     );
   }
@@ -248,7 +278,7 @@ export default function Dashboard() {
   // ✅ locked until login
   if (!isAuthenticated) {
     return (
-      <section className="dashboard">
+      <section className="dashboard dashboard__locked">
         <header className="dashboard__header">
           <p className="dashboard__eyebrow">DASHBOARD</p>
           <h1 className="dashboard__title">KSnap Studio Analytics</h1>
@@ -268,15 +298,15 @@ export default function Dashboard() {
 
   return (
     <section className="dashboard">
+      {showOverlay ? <DashboardLoader label="Loading analytics…" /> : null}
+
       <header className="dashboard__header">
         <div className="dashboard__topRow">
           <div>
             <p className="dashboard__eyebrow">DASHBOARD</p>
             <h1 className="dashboard__title">KSnap Studio Analytics</h1>
 
-            {status.loading ? (
-              <p className="dashboard__sub">Loading data…</p>
-            ) : status.error ? (
+            {status.error ? (
               <p className="dashboard__sub dashboard__sub--error">
                 Couldn’t load dashboard: {status.error}
               </p>
@@ -297,16 +327,15 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* KPI cards */}
+      {/* ✅ KPI cards */}
       <div className="dashboard__kpis">
-        <Kpi label="Users (30 days)" value={safe.users30d} />
-        <Kpi label="New users" value={safe.newUsers30d} />
-        <Kpi label="Gallery visits" value={safe.galleryVisits} />
-        <Kpi label="Inquiries received" value={safe.contactSubmits} />
-        <Kpi label="Contact page visits" value={safe.viewContact} />
-        <Kpi label="Packages page visits" value={safe.viewPackages} />
-        <Kpi label="CTA clicks" value={safe.ctaClicks} />
-        <Kpi label="Inquiry rate" value={`${conversionRate}%`} />
+        <KpiCard label="Users (30 days)" value={safe.users30d} />
+        <KpiCard label="New users" value={safe.newUsers30d} />
+        <KpiCard label="Packages views" value={safe.viewPackages} />
+        <KpiCard label="Gallery visits" value={safe.galleryVisits} />
+        <KpiCard label="Contact submits" value={safe.contactSubmits} />
+        <KpiCard label="Total conversions" value={totalConversions} />
+        <KpiCard label="Conversion rate" value={`${conversionRate}%`} />
       </div>
 
       {/* Acquisition */}
@@ -354,7 +383,7 @@ export default function Dashboard() {
             title="Discovery (Gallery / Packages / About)"
             items={discoveryPages}
           />
-          <Group title="Contact / Booking" items={contactPages} />
+          <Group title="Contact" items={contactPages} />
 
           {adminPages.some((p) => p.views > 0) ? (
             <Group title="Admin" items={adminPages} />
@@ -364,20 +393,26 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* Conversions */}
+      {/* ✅ Conversion (KSnap specific) */}
       <section className="dashboard__section">
-        <h2 className="dashboard__h2">Conversions</h2>
+        <h2 className="dashboard__h2">Conversion</h2>
 
-        <div className="dashboard__conversions">
-          <div className="dashboard__panel">
-            <p className="dashboard__label">Inquiries received</p>
-            <p className="dashboard__value">{safe.contactSubmits}</p>
+        <div className="dashboard__panel">
+          <div className="dashboard__conversions">
+            <KpiCard label="Packages views" value={safe.viewPackages} />
+            <KpiCard label="Gallery visits" value={safe.galleryVisits} />
+            <KpiCard label="Contact submits" value={safe.contactSubmits} />
+            <KpiCard label="Total conversions" value={totalConversions} />
           </div>
 
-          <div className="dashboard__panel">
-            <p className="dashboard__label">Gallery visits</p>
-            <p className="dashboard__value">{safe.galleryVisits}</p>
+          <div className="dashboard__row" style={{ marginTop: 14 }}>
+            <p className="dashboard__label">Conversion rate</p>
+            <p className="dashboard__value">{conversionRate}%</p>
           </div>
+
+          <p className="dashboard__sub" style={{ marginTop: 8 }}>
+            Conversion rate = (Packages views + Gallery visits + Contact submits) ÷ Users
+          </p>
         </div>
       </section>
     </section>
@@ -398,15 +433,6 @@ function Group({ title, items }) {
           </li>
         ))}
       </ul>
-    </div>
-  );
-}
-
-function Kpi({ label, value }) {
-  return (
-    <div className="dashboard__kpi">
-      <p className="dashboard__kpiLabel">{label}</p>
-      <p className="dashboard__kpiValue">{value}</p>
     </div>
   );
 }
