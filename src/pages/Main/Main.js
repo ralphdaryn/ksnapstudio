@@ -1,18 +1,17 @@
+// src/pages/Main/Main.jsx
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
 import PicTimeGallery from "../../components/PicTimeGallery";
-
-// Hero & testimonial images
 import hero1 from "../../assets/images/hero1.jpg";
 import hero2 from "../../assets/images/hero2.jpg";
 import hero3 from "../../assets/images/hero3.jpg";
 import testi1 from "../../assets/images/testimonial1.jpg";
 import testi2 from "../../assets/images/testimonial2.jpg";
+import aboutImg from "../../assets/images/about.jpg";
 
 const HERO_SLIDES = [hero1, hero2, hero3];
 
-// eslint-disable-next-line no-unused-vars
 const PACKAGE_CATEGORIES = [
   {
     key: "events",
@@ -85,7 +84,7 @@ export default function Main() {
     return () => clearInterval(id);
   }, []);
 
-  // Detect aspect ratios
+  // Detect aspect ratios (contain for extreme aspect ratios)
   useEffect(() => {
     let mounted = true;
 
@@ -149,15 +148,31 @@ export default function Main() {
           </p>
 
           <div className="main__cta">
-            <Link className="main__btn main__btn--primary" to="/packages">
+            <Link
+              className="main__btn main__btn--primary"
+              to="/packages"
+              onClick={() =>
+                track("cta_click", { location: "hero", label: "view_packages" })
+              }
+            >
               View Packages
             </Link>
-            <Link className="main__btn" to="/contact">
+            <Link
+              className="main__btn"
+              to="/contact"
+              onClick={() =>
+                track("cta_click", { location: "hero", label: "book_now" })
+              }
+            >
               Book Now
             </Link>
           </div>
 
-          <div className="main__hero-dots" role="tablist">
+          <div
+            className="main__hero-dots"
+            role="tablist"
+            aria-label="Hero slides"
+          >
             {HERO_SLIDES.map((_, i) => (
               <button
                 key={i}
@@ -166,8 +181,58 @@ export default function Main() {
                 }`}
                 onClick={() => goTo(i)}
                 type="button"
+                aria-label={`Go to slide ${i + 1}`}
               />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ABOUT PREVIEW */}
+      <section id="about" className="main__section">
+        <div className="main__container">
+          <div className="main__section-head">
+            <h2 className="main__section-title">About</h2>
+            <Link className="main__link main__link--inline" to="/about">
+              Learn more →
+            </Link>
+          </div>
+
+          <div className="main__about">
+            <figure className="main__about-media">
+              <img
+                className="main__about-img"
+                src={aboutImg}
+                alt="Behind the lens with K.Snap.Studio"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+
+            <article className="main__about-card">
+              <p className="main__about-text">
+                Welcome! K.Snap.Studio is my passion for photography starting out
+                in 2017 to business owner in telling your story through a camera
+                lens. My niche is creating &amp; capturing beautiful moments for
+                lifelong memories.
+              </p>
+
+              <div
+                className="main__about-pills"
+                role="list"
+                aria-label="Focus areas"
+              >
+                <span className="main__about-pill" role="listitem">
+                  Weddings
+                </span>
+                <span className="main__about-pill" role="listitem">
+                  Events
+                </span>
+                <span className="main__about-pill" role="listitem">
+                  Portraits
+                </span>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -175,11 +240,11 @@ export default function Main() {
       {/* GALLERY */}
       <section id="gallery" className="main__section main__section--alt">
         <div className="main__container">
-          <h2 className="main__section-title">Gallery</h2>
+          <div className="main__section-head">
+            <h2 className="main__section-title">Gallery</h2>
 
-          <div className="main__links">
             <a
-              className="main__link"
+              className="main__link main__link--inline"
               href="https://ksnapstudio.pic-time.com/portfolio"
               target="_blank"
               rel="noreferrer"
@@ -198,6 +263,49 @@ export default function Main() {
         </div>
       </section>
 
+      {/* PACKAGES PREVIEW */}
+      <section id="packages" className="main__section">
+        <div className="main__container">
+          <div className="main__section-head">
+            <h2 className="main__section-title">Packages</h2>
+            <Link className="main__link main__link--inline" to="/packages">
+              View all →
+            </Link>
+          </div>
+
+          <ul className="main__cards">
+            {PACKAGE_CATEGORIES.map((cat) => (
+              <li className="main__card" key={cat.key}>
+                <h3 className="main__card-title">{cat.title}</h3>
+
+                <ul className="main__card-list">
+                  {cat.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+
+                <p className="main__card-note">
+                  See full pricing &amp; details on the Packages page.
+                </p>
+
+                <Link
+                  className="main__card-btn"
+                  to="/packages"
+                  onClick={() =>
+                    track("packages_preview_click", {
+                      location: "home_packages_preview",
+                      category: cat.key,
+                    })
+                  }
+                >
+                  View Packages
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* REVIEWS */}
       <section id="reviews" className="main__section">
         <div className="main__container">
@@ -207,10 +315,14 @@ export default function Main() {
             {TESTIMONIALS.map((t) => (
               <li key={t.id} className="main__quote">
                 <figure className="main__tcard">
-                  <img src={t.img} alt={t.alt} />
-                  <figcaption>
-                    <blockquote>“{t.text}”</blockquote>
-                    <div>— {t.name}</div>
+                  <img className="main__tcard-img" src={t.img} alt={t.alt} />
+                  <span className="main__tcard-quote" aria-hidden="true">
+                    “
+                  </span>
+
+                  <figcaption className="main__tcard-body">
+                    <blockquote className="main__quote-text">{t.text}</blockquote>
+                    <div className="main__quote-meta">— {t.name}</div>
                   </figcaption>
                 </figure>
               </li>
@@ -222,9 +334,7 @@ export default function Main() {
       {/* CONTACT CTA */}
       <section id="contact" className="main__section main__section--cta">
         <div className="main__container">
-          <h2 className="main__section-title">
-            Let's capture something beautiful.
-          </h2>
+          <h2 className="main__section-title">Let's capture something beautiful.</h2>
           <p className="main__text">
             Share your date, locations, and vision. We’ll recommend the perfect
             package and timeline.

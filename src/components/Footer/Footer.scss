@@ -13,6 +13,10 @@
   --line: #eee;
   --ring: rgba(2, 132, 199, 0.18);
 
+  /* ✅ KSnap accent for the login pill */
+  --accent: #37c9a0;
+  --accentSoft: rgba(55, 201, 160, 0.18);
+
   background: var(--footer-bg);
   border-top: 1px solid var(--line);
   width: 100%;
@@ -81,6 +85,39 @@
     }
   }
 
+  /* ✅ Client login link (pill) */
+  &__login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+    padding: 0 14px;
+
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    background: var(--accentSoft);
+    color: #0b1f1a;
+
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.2px;
+    text-decoration: none;
+
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      background: rgba(55, 201, 160, 0.24);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+  }
+
   /* Divider spans the full footer width */
   &__divider {
     height: 1px;
@@ -122,6 +159,11 @@
       width: 42px;
       height: 42px;
     }
+    &__login {
+      height: 42px;
+      padding: 0 16px;
+      font-size: 0.92rem;
+    }
   }
 
   /* Desktop ≥1280px */
@@ -135,6 +177,11 @@
     .footer__icon {
       width: 44px;
       height: 44px;
+    }
+    &__login {
+      height: 44px;
+      padding: 0 18px;
+      font-size: 0.95rem;
     }
   }
 }

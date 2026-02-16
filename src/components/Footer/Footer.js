@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="footer" role="contentinfo">
       {/* Social (clean, centered) */}
       <div className="footer__container">
-        <div className="footer__social" aria-label="Social media">
+        <div className="footer__social" aria-label="Social media and client login">
           <a
             className="footer__icon"
             href="https://www.instagram.com/"
@@ -55,6 +55,11 @@ export default function Footer() {
               <path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" />
             </svg>
           </a>
+
+          {/* ✅ Client login */}
+          <a className="footer__login" href="/dashboard" aria-label="Client login">
+            Client Login
+          </a>
         </div>
       </div>
 
@@ -63,12 +68,8 @@ export default function Footer() {
 
       {/* Legal */}
       <div className="footer__container footer__legal">
-        <p className="footer__copy">
-          © {YEAR} K.Snap.Studio · All rights reserved
-        </p>
-        <p className="footer__small">
-          Serving the GTA · Weddings · Events · Portraits
-        </p>
+        <p className="footer__copy">© {YEAR} K.Snap.Studio · All rights reserved</p>
+        <p className="footer__small">Serving the GTA · Weddings · Events · Portraits</p>
       </div>
     </footer>
   );
