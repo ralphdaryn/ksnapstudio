@@ -850,3 +850,36 @@
   width: min(880px, 100%);
   margin: 0 auto;
 }
+
+/* =========================
+   GOOGLE REVIEWS CTA
+   ========================= */
+
+.main__reviewsCta {
+  margin-top: 1.25rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  text-align: center;
+  width: 100%;
+  max-width: 880px;
+}
+
+.main__reviewsNote {
+  margin: 0;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.main__reviewsFyi {
+  margin: 0;
+  font-weight: 700;
+  color: #111;
+  opacity: 0.9;
+}
+
+/* Optional polish */
+.main__btn--google {
+  border-radius: 999px;
+  padding: 0.6rem 1.1rem;
+}
