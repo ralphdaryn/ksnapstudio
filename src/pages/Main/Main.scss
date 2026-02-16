@@ -819,3 +819,34 @@
   transform: translateY(-1px);
   filter: brightness(0.98);
 }
+
+/* ✅ REVIEWS: isolated styling so it won't affect .main__container globally */
+.main__reviews {
+  display: grid;
+  justify-items: center;
+}
+
+.main__reviewsList {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+
+  width: 100%;
+  max-width: 880px;
+
+  display: grid;
+  gap: 1rem;
+
+  justify-items: center; /* centers cards */
+}
+
+.main__reviewsItem {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+}
+
+.main__tcard {
+  width: min(880px, 100%);
+  margin: 0 auto;
+}

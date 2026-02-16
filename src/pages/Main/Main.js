@@ -43,16 +43,14 @@ const TESTIMONIALS = [
   {
     id: "celina",
     name: "Celina",
-    text:
-      "We are soooooo obsessed!!! These photos are so bright and airy, and truly in the moment. Thank you for doing such an amazing job — these memories will last forever!",
+    text: "We are soooooo obsessed!!! These photos are so bright and airy, and truly in the moment. Thank you for doing such an amazing job — these memories will last forever!",
     img: testi1,
     alt: "Celina portrait for testimonial",
   },
   {
     id: "m-and-l",
     name: "M & L",
-    text:
-      "From the moment I met Kishan, my anxiety disappeared. He made me feel comfortable, directed me with ease, and turned my wedding anniversary photos into a dreamy highlight of my year.",
+    text: "From the moment I met Kishan, my anxiety disappeared. He made me feel comfortable, directed me with ease, and turned my wedding anniversary photos into a dreamy highlight of my year.",
     img: testi2,
     alt: "M & L close-up under the veil",
   },
@@ -72,14 +70,14 @@ const track = (eventName, params = {}) => {
 export default function Main() {
   const [heroIndex, setHeroIndex] = useState(0);
   const [fitModes, setFitModes] = useState(
-    Array(HERO_SLIDES.length).fill("cover")
+    Array(HERO_SLIDES.length).fill("cover"),
   );
 
   // Auto-advance hero slides
   useEffect(() => {
     const id = setInterval(
       () => setHeroIndex((i) => (i + 1) % HERO_SLIDES.length),
-      5000
+      5000,
     );
     return () => clearInterval(id);
   }, []);
@@ -96,7 +94,7 @@ export default function Main() {
             resolve({ idx, w: img.naturalWidth, h: img.naturalHeight });
           img.onerror = () => resolve({ idx, w: 0, h: 0 });
           img.src = src;
-        })
+        }),
     );
 
     Promise.all(loaders).then((results) => {
@@ -130,9 +128,7 @@ export default function Main() {
               className={`main__hero-slide ${
                 idx === heroIndex ? "main__hero-slide--active" : ""
               } ${
-                fitModes[idx] === "contain"
-                  ? "main__hero-slide--contain"
-                  : ""
+                fitModes[idx] === "contain" ? "main__hero-slide--contain" : ""
               }`}
               style={{ backgroundImage: `url(${src})` }}
             />
@@ -211,10 +207,10 @@ export default function Main() {
 
             <article className="main__about-card">
               <p className="main__about-text">
-                Welcome! K.Snap.Studio is my passion for photography starting out
-                in 2017 to business owner in telling your story through a camera
-                lens. My niche is creating &amp; capturing beautiful moments for
-                lifelong memories.
+                Welcome! K.Snap.Studio is my passion for photography starting
+                out in 2017 to business owner in telling your story through a
+                camera lens. My niche is creating &amp; capturing beautiful
+                moments for lifelong memories.
               </p>
 
               <div
@@ -308,12 +304,12 @@ export default function Main() {
 
       {/* REVIEWS */}
       <section id="reviews" className="main__section">
-        <div className="main__container">
+        <div className="main__container main__reviews">
           <h2 className="main__section-title">Reviews & Testimonials</h2>
 
-          <ul className="main__quotes">
+          <ul className="main__reviewsList">
             {TESTIMONIALS.map((t) => (
-              <li key={t.id} className="main__quote">
+              <li key={t.id} className="main__reviewsItem">
                 <figure className="main__tcard">
                   <img className="main__tcard-img" src={t.img} alt={t.alt} />
                   <span className="main__tcard-quote" aria-hidden="true">
@@ -321,7 +317,9 @@ export default function Main() {
                   </span>
 
                   <figcaption className="main__tcard-body">
-                    <blockquote className="main__quote-text">{t.text}</blockquote>
+                    <blockquote className="main__quote-text">
+                      {t.text}
+                    </blockquote>
                     <div className="main__quote-meta">— {t.name}</div>
                   </figcaption>
                 </figure>
@@ -334,7 +332,9 @@ export default function Main() {
       {/* CONTACT CTA */}
       <section id="contact" className="main__section main__section--cta">
         <div className="main__container">
-          <h2 className="main__section-title">Let's capture something beautiful.</h2>
+          <h2 className="main__section-title">
+            Let's capture something beautiful.
+          </h2>
           <p className="main__text">
             Share your date, locations, and vision. We’ll recommend the perfect
             package and timeline.
