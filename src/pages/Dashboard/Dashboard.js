@@ -1,4 +1,4 @@
-// src/pages/Dashboard/Dashboard.js
+// src/pages/Dashboard/Dashboard.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import "./Dashboard.scss";
 
@@ -9,9 +9,7 @@ import "./Dashboard.scss";
 const CORE_PAGES = ["/", "/homepage"];
 const DISCOVERY_PAGES = ["/gallery", "/packages", "/about"];
 const CONTACT_PAGES = ["/contact"];
-
-// Optional: show admin traffic
-const ADMIN_PAGES = ["/dashboard"];
+const ADMIN_PAGES = ["/dashboard"]; // optional
 
 /** ✅ Normalize GA4 paths so grouping works */
 function normalizePath(rawPath = "") {
@@ -77,18 +75,32 @@ export default function Dashboard() {
       try {
         setStatus({ loading: true, error: "" });
 
-        const res = await fetch("/.netlify/functions/ga4Results", {
+        // ✅ Spring Boot base URL (set in Netlify env vars for this client site)
+        const base =
+          process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
+        // ✅ KSnap Studio Spring Boot endpoint (NEW ROUTE SHAPE)
+        const url = `${base}/api/dashboard/ksnapstudio/ga4Results`;
+
+        const res = await fetch(url, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
+
+          // ✅ If your API is protected by Auth0, you MUST send a token:
+          // headers: {
+          //   "Content-Type": "application/json",
+          //   Authorization: `Bearer ${token}`,
+          // }
         });
 
         if (!res.ok) {
           const payload = await res.json().catch(() => null);
-          const msg = payload?.error || (await res.text());
+          const msg = payload?.message || payload?.error || (await res.text());
           throw new Error(msg || "Failed to load dashboard data");
         }
 
         const json = await res.json();
+
         if (mounted) {
           setData(json);
           setStatus({ loading: false, error: "" });
@@ -115,7 +127,7 @@ export default function Dashboard() {
       newUsers30d: 0,
       avgEngagementTime: "—",
 
-      // ✅ Events
+      // events (0 until your API returns these keys)
       contactSubmits: 0,
       galleryVisits: 0,
       ctaClicks: 0,
@@ -312,7 +324,9 @@ function Group({ title, items }) {
       <ul className="dashboard__list">
         {items.map((p) => (
           <li key={p.path} className="dashboard__listItem">
-            <span className="dashboard__mono">{formatPathForClient(p.path)}</span>
+            <span className="dashboard__mono">
+              {formatPathForClient(p.path)}
+            </span>
             <span className="dashboard__badge">{p.views}</span>
           </li>
         ))}
