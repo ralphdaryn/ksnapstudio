@@ -286,10 +286,15 @@ export default function Dashboard() {
 
           <button
             className="dashboard__btn"
-            onClick={() => loginWithRedirect()}
+            onClick={() =>
+              loginWithRedirect({
+                // ✅ prevents redirecting to homepage after login
+                appState: { returnTo: "/dashboard" },
+              })
+            }
             type="button"
           >
-            Log in to view metrics
+            View metrics
           </button>
         </header>
       </section>
@@ -411,7 +416,8 @@ export default function Dashboard() {
           </div>
 
           <p className="dashboard__sub" style={{ marginTop: 8 }}>
-            Conversion rate = (Packages views + Gallery visits + Contact submits) ÷ Users
+            Conversion rate = (Packages views + Gallery visits + Contact submits)
+            ÷ Users
           </p>
         </div>
       </section>
@@ -426,9 +432,7 @@ function Group({ title, items }) {
       <ul className="dashboard__list">
         {items.map((p) => (
           <li key={p.path} className="dashboard__listItem">
-            <span className="dashboard__mono">
-              {formatPathForClient(p.path)}
-            </span>
+            <span className="dashboard__mono">{formatPathForClient(p.path)}</span>
             <span className="dashboard__badge">{p.views}</span>
           </li>
         ))}

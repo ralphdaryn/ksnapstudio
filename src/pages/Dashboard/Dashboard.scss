@@ -155,6 +155,9 @@
   justify-content: space-between;
   gap: 12px;
 
+  width: 100%;     /* ✅ fills the panel */
+  min-width: 0;    /* ✅ prevents flex overflow/cutoff on mobile */
+
   padding: 10px 12px;
   border-radius: 14px;
 
@@ -166,16 +169,20 @@
 .dashboard__mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
+
   font-size: 13px;
   opacity: 0.92;
   color: rgba(0, 0, 0, 0.85);
 
+  min-width: 0;         /* ✅ allows shrinking within flex row */
+  flex: 1 1 auto;       /* ✅ take remaining space */
+
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 72%;
 }
 
+/* Hint under label */
 .dashboard__hint {
   display: block;
   opacity: 0.7;
@@ -196,7 +203,7 @@
   border: 1px solid var(--accent);
   color: rgba(0, 0, 0, 0.9);
 
-  flex-shrink: 0;
+  flex: 0 0 auto; /* ✅ never shrink */
 }
 
 /* Buttons */
@@ -279,13 +286,52 @@
   }
 }
 
-/* Responsive */
+/* ✅ Tablet polish */
+@media (max-width: 960px) {
+  .dashboard {
+    width: min(1100px, 94vw);
+    padding: 14px 16px 54px;
+  }
+
+  .dashboard__kpis {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .dashboard__conversions {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* ✅ Mobile fixes */
 @media (max-width: 640px) {
+  .dashboard {
+    width: 100%;
+    padding: 12px 12px 50px;
+  }
+
   .dashboard__topRow {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .dashboard__btn--ghost {
     width: 100%;
+  }
+
+  /* ✅ Mobile list items: allow wrapping so it uses full width cleanly */
+  .dashboard__listItem {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .dashboard__mono {
+    white-space: normal;     /* ✅ wrap instead of forcing ellipsis */
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-word;  /* ✅ prevents long paths from overflowing */
+  }
+
+  .dashboard__hint {
+    word-break: break-word;
   }
 }
