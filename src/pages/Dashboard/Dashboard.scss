@@ -8,6 +8,9 @@
 
   color: #000;
 
+  /* ✅ FIX: prevents black background on mobile / logged-out state */
+  background: #fff;
+
   /* 🎨 KSnapStudio Accent */
   --accent: #37c9a0;
   --accentSoft: rgba(55, 201, 160, 0.2);
@@ -16,6 +19,24 @@
   --bg: #ffffff;
   --line: rgba(0, 0, 0, 0.08);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* ✅ Logged-out layout polish */
+.dashboard__locked {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.dashboard__locked .dashboard__header {
+  width: min(560px, 92vw);
+  margin: 0;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow);
 }
 
 /* Header */
@@ -155,8 +176,8 @@
   justify-content: space-between;
   gap: 12px;
 
-  width: 100%;     /* ✅ fills the panel */
-  min-width: 0;    /* ✅ prevents flex overflow/cutoff on mobile */
+  width: 100%;
+  min-width: 0;
 
   padding: 10px 12px;
   border-radius: 14px;
@@ -167,22 +188,23 @@
 
 /* Mono text */
 .dashboard__mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 
   font-size: 13px;
   opacity: 0.92;
   color: rgba(0, 0, 0, 0.85);
 
-  min-width: 0;         /* ✅ allows shrinking within flex row */
-  flex: 1 1 auto;       /* ✅ take remaining space */
+  min-width: 0;
+  flex: 1 1 auto;
 
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* Hint under label */
+/* Hint */
 .dashboard__hint {
   display: block;
   opacity: 0.7;
@@ -192,7 +214,7 @@
   color: rgba(0, 0, 0, 0.65);
 }
 
-/* Badges */
+/* Badge */
 .dashboard__badge {
   font-size: 12px;
   font-weight: 900;
@@ -203,7 +225,7 @@
   border: 1px solid var(--accent);
   color: rgba(0, 0, 0, 0.9);
 
-  flex: 0 0 auto; /* ✅ never shrink */
+  flex: 0 0 auto;
 }
 
 /* Buttons */
@@ -245,7 +267,7 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-/* Overlay Loader */
+/* Overlay */
 .dashboard__overlay {
   position: fixed;
   inset: 0;
@@ -286,23 +308,15 @@
   }
 }
 
-/* ✅ Tablet polish */
+/* Tablet */
 @media (max-width: 960px) {
   .dashboard {
     width: min(1100px, 94vw);
     padding: 14px 16px 54px;
   }
-
-  .dashboard__kpis {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-
-  .dashboard__conversions {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
 }
 
-/* ✅ Mobile fixes */
+/* Mobile */
 @media (max-width: 640px) {
   .dashboard {
     width: 100%;
@@ -318,17 +332,16 @@
     width: 100%;
   }
 
-  /* ✅ Mobile list items: allow wrapping so it uses full width cleanly */
   .dashboard__listItem {
     align-items: flex-start;
     padding: 12px;
   }
 
   .dashboard__mono {
-    white-space: normal;     /* ✅ wrap instead of forcing ellipsis */
+    white-space: normal;
     overflow: visible;
     text-overflow: unset;
-    word-break: break-word;  /* ✅ prevents long paths from overflowing */
+    word-break: break-word;
   }
 
   .dashboard__hint {
