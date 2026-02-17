@@ -119,7 +119,8 @@ export default function Dashboard() {
         const token = await getAccessTokenSilently({
           authorizationParams: {
             audience:
-              process.env.REACT_APP_AUTH0_AUDIENCE || "https://rd-dashboard-api",
+              process.env.REACT_APP_AUTH0_AUDIENCE ||
+              "https://rd-dashboard-api",
           },
         });
 
@@ -132,7 +133,7 @@ export default function Dashboard() {
 
         if (res.status === 403) {
           throw new Error(
-            "Access denied (403). This account is not authorized for KSnapStudio."
+            "Access denied (403). This account is not authorized for KSnapStudio.",
           );
         }
 
@@ -208,7 +209,7 @@ export default function Dashboard() {
     useMemo(() => {
       const pages = Array.isArray(safe.topPages) ? safe.topPages : [];
       const byPath = new Map(
-        pages.map((p) => [normalizePath(p.path), Number(p.views) || 0])
+        pages.map((p) => [normalizePath(p.path), Number(p.views) || 0]),
       );
 
       const core = CORE_PAGES.map(normalizePath).map((path) => ({
@@ -288,7 +289,11 @@ export default function Dashboard() {
             className="dashboard__btn"
             onClick={() =>
               loginWithRedirect({
-                // ✅ prevents redirecting to homepage after login
+                // ✅ Force Auth0 to return to /dashboard (prevents landing on /)
+                authorizationParams: {
+                  redirect_uri: `${window.location.origin}/dashboard`,
+                },
+                // ✅ Still keep appState for our callback
                 appState: { returnTo: "/dashboard" },
               })
             }
@@ -358,7 +363,10 @@ export default function Dashboard() {
               <p className="dashboard__groupTitle">Top sources (sessions)</p>
               <ul className="dashboard__list">
                 {topSourcesSafe.map((s, idx) => (
-                  <li key={`${s.source}-${idx}`} className="dashboard__listItem">
+                  <li
+                    key={`${s.source}-${idx}`}
+                    className="dashboard__listItem"
+                  >
                     <span className="dashboard__mono">
                       {s.label}
                       {s.hint ? (
@@ -394,7 +402,9 @@ export default function Dashboard() {
             <Group title="Admin" items={adminPages} />
           ) : null}
 
-          {otherPages.length ? <Group title="Other" items={otherPages} /> : null}
+          {otherPages.length ? (
+            <Group title="Other" items={otherPages} />
+          ) : null}
         </div>
       </section>
 
@@ -416,8 +426,8 @@ export default function Dashboard() {
           </div>
 
           <p className="dashboard__sub" style={{ marginTop: 8 }}>
-            Conversion rate = (Packages views + Gallery visits + Contact submits)
-            ÷ Users
+            Conversion rate = (Packages views + Gallery visits + Contact
+            submits) ÷ Users
           </p>
         </div>
       </section>
@@ -432,7 +442,9 @@ function Group({ title, items }) {
       <ul className="dashboard__list">
         {items.map((p) => (
           <li key={p.path} className="dashboard__listItem">
-            <span className="dashboard__mono">{formatPathForClient(p.path)}</span>
+            <span className="dashboard__mono">
+              {formatPathForClient(p.path)}
+            </span>
             <span className="dashboard__badge">{p.views}</span>
           </li>
         ))}

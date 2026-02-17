@@ -15,9 +15,9 @@ function Auth0ProviderWithRedirect({ children }) {
     process.env.REACT_APP_AUTH0_AUDIENCE || "https://rd-dashboard-api";
 
   const onRedirectCallback = (appState) => {
-    // ✅ After login, send user back to /dashboard (or wherever they came from)
-    const target = appState?.returnTo || window.location.pathname;
-    window.history.replaceState({}, document.title, target);
+    // ✅ always go back to dashboard unless something else was set
+    const target = appState?.returnTo || "/dashboard";
+    window.location.replace(`${window.location.origin}${target}`);
   };
 
   return (
