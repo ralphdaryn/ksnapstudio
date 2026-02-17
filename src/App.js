@@ -1,5 +1,5 @@
 // src/App.jsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Main from "./pages/Main/Main";
 import Packages from "./pages/Packages/Packages";
@@ -11,7 +11,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <>
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />
@@ -22,6 +22,6 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
