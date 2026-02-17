@@ -16,6 +16,9 @@
   color: var(--ink);
   background: var(--bg);
 
+  /* ✅ prevents horizontal scroll if anything nudges the viewport */
+  overflow-x: hidden;
+
   /* center the content area */
   &__container {
     @include container(var(--max-w), var(--pad-x));
@@ -259,7 +262,7 @@
     padding: 1rem;
 
     display: grid;
-    gap: 0.85rem;
+    gap: 2.5rem;
     text-align: center;
 
     transition:
@@ -313,9 +316,9 @@
     align-items: center;
     justify-content: center;
 
-    width: 200px; /* ✅ fixed width (same for all) */
-    height: 44px; /* ✅ fixed height */
-    padding: 0; /* ✅ prevents text-length padding differences */
+    width: 200px;
+    height: 44px;
+    padding: 0;
 
     border-radius: 10px;
     border: 1px solid #111;
@@ -329,7 +332,7 @@
   }
 
   /* =========================
-     ABOUT PREVIEW (better scaling + centering)
+     ABOUT PREVIEW (fix overflow)
      ========================= */
   &__about {
     display: grid;
@@ -338,14 +341,17 @@
     align-items: start;
     margin-top: 0.75rem;
 
-    /* centered feel on mobile */
     justify-items: center;
+
+    /* ✅ tiny breathing room so card never touches screen edge */
+    padding-inline: 0.25rem;
 
     @include tablet {
       grid-template-columns: 5fr 7fr;
       gap: 1.25rem;
       justify-items: stretch;
       align-items: center;
+      padding-inline: 0;
     }
 
     @include desktop {
@@ -375,7 +381,6 @@
     object-fit: cover;
     object-position: center;
 
-    /* clamp so it never looks huge */
     max-height: 360px;
 
     transition: transform 0.5s ease;
@@ -395,27 +400,33 @@
     }
   }
 
+  /* ✅ UPDATED: stops outline/shadow from pushing off-screen */
   &__about-card {
     width: 100%;
     max-width: 640px;
+
     background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 100%);
     border: 1px solid var(--line);
     border-radius: 16px;
+
     padding: 1rem;
     box-shadow: 0 16px 42px rgba(0, 0, 0, 0.08);
 
+    box-sizing: border-box;
+    overflow: hidden;
+
     outline: 1px solid rgba(17, 17, 17, 0.05);
-    outline-offset: 6px;
+    outline-offset: 2px;
 
     @include tablet {
       padding: 1.25rem;
-      outline-offset: 8px;
+      outline-offset: 6px;
       max-width: 100%;
     }
 
     @include desktop {
       padding: 1.5rem;
-      outline-offset: 10px;
+      outline-offset: 8px;
     }
   }
 
@@ -515,19 +526,13 @@
   }
 
   /* =========================
-     GALLERY RULES (your request)
-     - hide iframe on mobile
-     - show iframe on tablet/desktop
-     - add gap on mobile static images
-     - hide static on tablet/desktop
+     GALLERY RULES
      ========================= */
 
-  /* Hide ALL iframes inside gallery on mobile */
   #gallery iframe {
     display: none;
   }
 
-  /* Show iframes on tablet+ and clamp size */
   @include tablet {
     #gallery iframe {
       display: block;
@@ -546,21 +551,18 @@
     }
   }
 
-  /* Mobile static preview images spacing */
   .main__gallery-static {
     display: grid;
-    gap: 0.9rem; /* ✅ a little more breathing room */
+    gap: 0.9rem;
     margin-top: 1rem;
   }
 
-  /* Hide static preview on tablet+ */
   @include tablet {
     .main__gallery-static {
       display: none;
     }
   }
 
-  /* Make sure static images look good */
   .main__gallery-static-img {
     width: 100%;
     height: auto;
@@ -820,15 +822,28 @@
   filter: brightness(0.98);
 }
 
-/* ✅ REVIEWS: isolated styling so it won't affect .main__container globally */
-.main__reviews {
+/* =========================
+   ✅ REVIEWS (centered + no container conflicts)
+   ========================= */
+
+/* Center ONLY the reviews section container */
+#reviews .main__container {
   display: grid;
   justify-items: center;
 }
 
+/* The renamed wrapper (was main__reviewsWrap) */
+.main__reviews {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+/* Cards grid */
 .main__reviewsList {
   list-style: none;
-  margin: 0.5rem 0 0;
+  margin: 0.75rem 0 0;
   padding: 0;
 
   width: 100%;
@@ -837,7 +852,15 @@
   display: grid;
   gap: 1rem;
 
-  justify-items: center; /* centers cards */
+  justify-items: center;
+
+  @include tablet {
+    gap: 1.25rem;
+  }
+
+  @include desktop {
+    gap: 1.5rem;
+  }
 }
 
 .main__reviewsItem {
@@ -846,15 +869,13 @@
   justify-items: center;
 }
 
+/* Keep your tcard unchanged, just ensure it centers */
 .main__tcard {
   width: min(880px, 100%);
   margin: 0 auto;
 }
 
-/* =========================
-   GOOGLE REVIEWS CTA
-   ========================= */
-
+/* GOOGLE REVIEWS CTA */
 .main__reviewsCta {
   margin-top: 1.25rem;
   display: grid;
@@ -878,7 +899,6 @@
   opacity: 0.9;
 }
 
-/* Optional polish */
 .main__btn--google {
   border-radius: 999px;
   padding: 0.6rem 1.1rem;

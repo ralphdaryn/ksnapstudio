@@ -305,7 +305,8 @@ export default function Main() {
       {/* REVIEWS */}
       <section id="reviews" className="main__section">
         <div className="main__container">
-          <div className="main__reviewsWrap">
+          {/* ✅ renamed wrapper class (was main__reviewsWrap) */}
+          <div className="main__reviews">
             <h2 className="main__section-title">Reviews & Testimonials</h2>
 
             <ul className="main__reviewsList">
@@ -346,33 +347,6 @@ export default function Main() {
                   })
                 }
               >
-                <svg
-                  className="btn-icon"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="9"
-                    fill="none"
-                    stroke="currentColor"
-                  />
-                  <path
-                    d="M12 7.5c2 0 3.5 1.2 3.5 3h-3.2"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M16 12a4 4 0 1 1-1.2-2.9"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                  />
-                </svg>
                 View Google Reviews →
               </a>
 
