@@ -9,6 +9,7 @@ import hero3 from "../../assets/images/hero3.jpg";
 import testi1 from "../../assets/images/testimonial1.jpg";
 import testi2 from "../../assets/images/testimonial2.jpg";
 import aboutImg from "../../assets/images/about.jpg";
+import { track } from "../../utils/ga4";
 
 const HERO_SLIDES = [hero1, hero2, hero3];
 
@@ -56,28 +57,17 @@ const TESTIMONIALS = [
   },
 ];
 
-// ✅ GA4 event helper (safe + no install needed)
-const track = (eventName, params = {}) => {
-  try {
-    if (typeof window !== "undefined" && typeof window.gtag === "function") {
-      window.gtag("event", eventName, params);
-    }
-  } catch {
-    // fail silently
-  }
-};
-
 export default function Main() {
   const [heroIndex, setHeroIndex] = useState(0);
   const [fitModes, setFitModes] = useState(
-    Array(HERO_SLIDES.length).fill("cover"),
+    Array(HERO_SLIDES.length).fill("cover")
   );
 
   // Auto-advance hero slides
   useEffect(() => {
     const id = setInterval(
       () => setHeroIndex((i) => (i + 1) % HERO_SLIDES.length),
-      5000,
+      5000
     );
     return () => clearInterval(id);
   }, []);
@@ -94,7 +84,7 @@ export default function Main() {
             resolve({ idx, w: img.naturalWidth, h: img.naturalHeight });
           img.onerror = () => resolve({ idx, w: 0, h: 0 });
           img.src = src;
-        }),
+        })
     );
 
     Promise.all(loaders).then((results) => {
@@ -127,9 +117,7 @@ export default function Main() {
               key={idx}
               className={`main__hero-slide ${
                 idx === heroIndex ? "main__hero-slide--active" : ""
-              } ${
-                fitModes[idx] === "contain" ? "main__hero-slide--contain" : ""
-              }`}
+              } ${fitModes[idx] === "contain" ? "main__hero-slide--contain" : ""}`}
               style={{ backgroundImage: `url(${src})` }}
             />
           ))}
@@ -189,7 +177,11 @@ export default function Main() {
         <div className="main__container">
           <div className="main__section-head">
             <h2 className="main__section-title">About</h2>
-            <Link className="main__link main__link--inline" to="/about">
+            <Link
+              className="main__link main__link--inline"
+              to="/about"
+              onClick={() => track("nav_click", { from: "home", to: "about" })}
+            >
               Learn more →
             </Link>
           </div>
@@ -248,6 +240,7 @@ export default function Main() {
                 track("portfolio_click", {
                   location: "home_gallery_section",
                   destination: "pictime_portfolio",
+                  outbound_url: "https://ksnapstudio.pic-time.com/portfolio",
                 })
               }
             >
@@ -264,7 +257,11 @@ export default function Main() {
         <div className="main__container">
           <div className="main__section-head">
             <h2 className="main__section-title">Packages</h2>
-            <Link className="main__link main__link--inline" to="/packages">
+            <Link
+              className="main__link main__link--inline"
+              to="/packages"
+              onClick={() => track("nav_click", { from: "home", to: "packages" })}
+            >
               View all →
             </Link>
           </div>
@@ -305,7 +302,6 @@ export default function Main() {
       {/* REVIEWS */}
       <section id="reviews" className="main__section">
         <div className="main__container">
-          {/* ✅ renamed wrapper class (was main__reviewsWrap) */}
           <div className="main__reviews">
             <h2 className="main__section-title">Reviews & Testimonials</h2>
 
@@ -319,9 +315,7 @@ export default function Main() {
                     </span>
 
                     <figcaption className="main__tcard-body">
-                      <blockquote className="main__quote-text">
-                        {t.text}
-                      </blockquote>
+                      <blockquote className="main__quote-text">{t.text}</blockquote>
                       <div className="main__quote-meta">— {t.name}</div>
                     </figcaption>
                   </figure>
@@ -344,6 +338,8 @@ export default function Main() {
                   track("google_reviews_click", {
                     location: "reviews_section",
                     destination: "google_maps_reviews",
+                    outbound_url:
+                      "https://www.google.com/maps/place/K_Snap.Photography/",
                   })
                 }
               >
@@ -359,14 +355,16 @@ export default function Main() {
       {/* CONTACT CTA */}
       <section id="contact" className="main__section main__section--cta">
         <div className="main__container">
-          <h2 className="main__section-title">
-            Let's capture something beautiful.
-          </h2>
+          <h2 className="main__section-title">Let's capture something beautiful.</h2>
           <p className="main__text">
             Share your date, locations, and vision. We’ll recommend the perfect
             package and timeline.
           </p>
-          <Link className="main__btn main__btn--primary" to="/contact">
+          <Link
+            className="main__btn main__btn--primary"
+            to="/contact"
+            onClick={() => track("nav_click", { from: "home", to: "contact" })}
+          >
             Plan Your Experience
           </Link>
         </div>
