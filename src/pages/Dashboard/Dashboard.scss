@@ -1,6 +1,18 @@
+/* src/pages/Dashboard/Dashboard.scss */
+
+/* ✅ prevents padding/borders from creating overflow */
+.dashboard,
+.dashboard * {
+  box-sizing: border-box;
+}
+
 .dashboard {
   min-height: 100vh;
+
+  /* ✅ stops any horizontal spill */
+  overflow-x: hidden;
   overflow-y: auto;
+
   padding: 16px 18px 60px;
 
   width: min(1100px, 92vw);
@@ -123,6 +135,9 @@
   border-radius: 16px;
   padding: 16px;
   box-shadow: var(--shadow);
+
+  /* ✅ keeps list items contained inside panel */
+  overflow: hidden;
 }
 
 .dashboard__label {
@@ -179,6 +194,9 @@
   width: 100%;
   min-width: 0;
 
+  /* ✅ prevents long content from spilling out */
+  overflow: hidden;
+
   padding: 10px 12px;
   border-radius: 14px;
 
@@ -226,6 +244,9 @@
   color: rgba(0, 0, 0, 0.9);
 
   flex: 0 0 auto;
+
+  /* ✅ badge never forces row overflow */
+  white-space: nowrap;
 }
 
 /* Buttons */
