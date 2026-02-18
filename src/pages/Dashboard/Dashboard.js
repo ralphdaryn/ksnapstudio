@@ -101,9 +101,11 @@ export default function Dashboard() {
   // ✅ start loading true so overlay shows immediately
   const [status, setStatus] = useState({ loading: true, error: "" });
 
-  // ✅ Spring Boot base URL (Render in prod via env var, localhost in dev)
   const API_BASE_URL =
     process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
+  const AUDIENCE =
+    process.env.REACT_APP_AUTH0_AUDIENCE || "https://rd-dashboard-api";
 
   // ✅ KSnapStudio endpoint
   const GA4_ENDPOINT = `${API_BASE_URL}/api/dashboard/ksnapstudio/ga4Results`;
@@ -116,11 +118,13 @@ export default function Dashboard() {
       try {
         setStatus({ loading: true, error: "" });
 
+        // ✅ IMPORTANT:
+        // - force correct audience
+        // - do NOT request offline_access here
         const token = await getAccessTokenSilently({
           authorizationParams: {
-            audience:
-              process.env.REACT_APP_AUTH0_AUDIENCE ||
-              "https://rd-dashboard-api",
+            audience: AUDIENCE,
+            scope: "openid profile email",
           },
         });
 
@@ -133,7 +137,7 @@ export default function Dashboard() {
 
         if (res.status === 403) {
           throw new Error(
-            "Access denied (403). This account is not authorized for KSnapStudio.",
+            "Access denied (403). This account is not authorized for KSnapStudio."
           );
         }
 
@@ -168,7 +172,7 @@ export default function Dashboard() {
     return () => {
       mounted = false;
     };
-  }, [isAuthenticated, GA4_ENDPOINT, getAccessTokenSilently]);
+  }, [isAuthenticated, GA4_ENDPOINT, getAccessTokenSilently, AUDIENCE]);
 
   // ✅ safe defaults
   const safe = useMemo(() => {
@@ -209,7 +213,7 @@ export default function Dashboard() {
     useMemo(() => {
       const pages = Array.isArray(safe.topPages) ? safe.topPages : [];
       const byPath = new Map(
-        pages.map((p) => [normalizePath(p.path), Number(p.views) || 0]),
+        pages.map((p) => [normalizePath(p.path), Number(p.views) || 0])
       );
 
       const core = CORE_PAGES.map(normalizePath).map((path) => ({
@@ -289,11 +293,11 @@ export default function Dashboard() {
             className="dashboard__btn"
             onClick={() =>
               loginWithRedirect({
-                // ✅ Force Auth0 to return to /dashboard (prevents landing on /)
                 authorizationParams: {
                   redirect_uri: `${window.location.origin}/dashboard`,
+                  audience: AUDIENCE,
+                  scope: "openid profile email",
                 },
-                // ✅ Still keep appState for our callback
                 appState: { returnTo: "/dashboard" },
               })
             }
@@ -363,10 +367,7 @@ export default function Dashboard() {
               <p className="dashboard__groupTitle">Top sources (sessions)</p>
               <ul className="dashboard__list">
                 {topSourcesSafe.map((s, idx) => (
-                  <li
-                    key={`${s.source}-${idx}`}
-                    className="dashboard__listItem"
-                  >
+                  <li key={`${s.source}-${idx}`} className="dashboard__listItem">
                     <span className="dashboard__mono">
                       {s.label}
                       {s.hint ? (
@@ -402,9 +403,7 @@ export default function Dashboard() {
             <Group title="Admin" items={adminPages} />
           ) : null}
 
-          {otherPages.length ? (
-            <Group title="Other" items={otherPages} />
-          ) : null}
+          {otherPages.length ? <Group title="Other" items={otherPages} /> : null}
         </div>
       </section>
 
@@ -426,8 +425,8 @@ export default function Dashboard() {
           </div>
 
           <p className="dashboard__sub" style={{ marginTop: 8 }}>
-            Conversion rate = (Packages views + Gallery visits + Contact
-            submits) ÷ Users
+            Conversion rate = (Packages views + Gallery visits + Contact submits)
+            ÷ Users
           </p>
         </div>
       </section>
@@ -442,9 +441,7 @@ function Group({ title, items }) {
       <ul className="dashboard__list">
         {items.map((p) => (
           <li key={p.path} className="dashboard__listItem">
-            <span className="dashboard__mono">
-              {formatPathForClient(p.path)}
-            </span>
+            <span className="dashboard__mono">{formatPathForClient(p.path)}</span>
             <span className="dashboard__badge">{p.views}</span>
           </li>
         ))}

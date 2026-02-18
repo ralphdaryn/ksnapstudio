@@ -15,7 +15,6 @@ function Auth0ProviderWithRedirect({ children }) {
     process.env.REACT_APP_AUTH0_AUDIENCE || "https://rd-dashboard-api";
 
   const onRedirectCallback = (appState) => {
-    // ✅ always go back to dashboard unless something else was set
     const target = appState?.returnTo || "/dashboard";
     window.location.replace(`${window.location.origin}${target}`);
   };
@@ -25,12 +24,11 @@ function Auth0ProviderWithRedirect({ children }) {
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/dashboard`,
         audience,
+        scope: "openid profile email",
       }}
       onRedirectCallback={onRedirectCallback}
-      cacheLocation="localstorage"
-      useRefreshTokens
     >
       {children}
     </Auth0Provider>
