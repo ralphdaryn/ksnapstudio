@@ -2,9 +2,9 @@
 import React from "react";
 
 // Mobile preview images (put these in: src/assets/images/)
-import gallery1 from "../assets/images/gallery1.jpg";
-import gallery2 from "../assets/images/gallery2.jpg";
-import gallery3 from "../assets/images/gallery3.jpg";
+import gallery1 from "../../assets/images/gallery1.jpg";
+import gallery2 from "../../assets/images/gallery2.jpg";
+import gallery3 from "../../assets/images/gallery3.jpg";
 
 export default function PicTimeGallery({ variant = "preview" }) {
   const isPreview = variant === "preview";

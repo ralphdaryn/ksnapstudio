@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
-import PicTimeGallery from "../../components/PicTimeGallery";
+import PicTimeGallery from "../../components/PicTimeGallery/PicTimeGallery";
 import hero1 from "../../assets/images/hero1.jpg";
 import hero2 from "../../assets/images/hero2.jpg";
 import hero3 from "../../assets/images/hero3.jpg";

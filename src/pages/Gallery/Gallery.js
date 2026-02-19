@@ -1,5 +1,5 @@
 // src/pages/Gallery/Gallery.jsx
-import PicTimeGallery from "../../components/PicTimeGallery";
+import PicTimeGallery from "../../components/PicTimeGallery/PicTimeGallery";
 import "./Gallery.scss";
 import SEO from "../../components/SEO/SEO";
 
