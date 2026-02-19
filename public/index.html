@@ -11,7 +11,8 @@
       name="description"
       content="KSnap Studio is a Durham Region & GTA photographer for weddings, engagements, events, and portraits. Serving Pickering, Ajax, Whitby, Oshawa, Toronto & beyond. Book your photoshoot today."
     />
-    <link rel="canonical" href="https://ksnapstudio.netlify.app/" />
+    <!-- ✅ IMPORTANT: use your real domain -->
+    <link rel="canonical" href="https://ksnapstudio.ca/" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta name="color-scheme" content="light dark" />
 
@@ -61,11 +62,9 @@
       property="og:description"
       content="Weddings, engagements, events, and portraits across Durham Region & the GTA. See packages, galleries, and availability."
     />
-    <meta
-      property="og:image"
-      content="https://ksnapstudio.netlify.app/og-image.jpg"
-    />
-    <meta property="og:url" content="https://ksnapstudio.netlify.app/" />
+    <!-- ✅ IMPORTANT: use your real domain -->
+    <meta property="og:image" content="https://ksnapstudio.ca/og-image.jpg" />
+    <meta property="og:url" content="https://ksnapstudio.ca/" />
 
     <!-- Twitter / X (preview only) -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -77,10 +76,8 @@
       name="twitter:description"
       content="Weddings, engagements, events, and portraits across Durham Region & the GTA. See packages, galleries, and availability."
     />
-    <meta
-      name="twitter:image"
-      content="https://ksnapstudio.netlify.app/og-image.jpg"
-    />
+    <!-- ✅ IMPORTANT: use your real domain -->
+    <meta name="twitter:image" content="https://ksnapstudio.ca/og-image.jpg" />
 
     <!-- ==== Structured Data (JSON-LD) ==== -->
     <script type="application/ld+json">
@@ -88,18 +85,20 @@
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "KSnap Studio",
-        "url": "https://ksnapstudio.netlify.app/"
+        "url": "https://ksnapstudio.ca/"
       }
     </script>
 
+    <!-- ✅ Improved business schema (more SEO-friendly than "Photographer") -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Photographer",
-        "@id": "https://ksnapstudio.netlify.app/#business",
+        "@type": "ProfessionalService",
+        "@id": "https://ksnapstudio.ca/#business",
         "name": "KSnap Studio",
-        "url": "https://ksnapstudio.netlify.app/",
-        "description": "Durham Region & GTA photographer for weddings, engagements, events, and portraits."
+        "url": "https://ksnapstudio.ca/",
+        "description": "Durham Region & GTA photographer for weddings, engagements, events, and portraits.",
+        "areaServed": ["Durham Region", "Pickering", "Ajax", "Whitby", "Oshawa", "Toronto", "GTA"]
       }
     </script>
 
