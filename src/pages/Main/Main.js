@@ -10,6 +10,7 @@ import testi1 from "../../assets/images/testimonial1.jpg";
 import testi2 from "../../assets/images/testimonial2.jpg";
 import aboutImg from "../../assets/images/about.jpg";
 import { track } from "../../utils/ga4";
+import SEO from "../../components/SEO/SEO";
 
 const HERO_SLIDES = [hero1, hero2, hero3];
 
@@ -89,6 +90,7 @@ export default function Main() {
 
     Promise.all(loaders).then((results) => {
       if (!mounted) return;
+
       const modes = Array(HERO_SLIDES.length).fill("cover");
 
       results.forEach(({ idx, w, h }) => {
@@ -109,6 +111,12 @@ export default function Main() {
 
   return (
     <main className="main">
+      <SEO
+        title="KSnap Studio | Durham & GTA Wedding, Event & Portrait Photographer"
+        description="KSnap Studio (ksnapstudio) is a Durham Region & GTA photographer for weddings, engagements, events, and family portraits. Serving Pickering, Ajax, Whitby, Oshawa, Toronto & beyond."
+        path="/"
+      />
+
       {/* HERO */}
       <section className="main__hero">
         <div className="main__hero-carousel" aria-hidden="true">
@@ -141,6 +149,7 @@ export default function Main() {
             >
               View Packages
             </Link>
+
             <Link
               className="main__btn"
               to="/contact"
@@ -260,7 +269,9 @@ export default function Main() {
             <Link
               className="main__link main__link--inline"
               to="/packages"
-              onClick={() => track("nav_click", { from: "home", to: "packages" })}
+              onClick={() =>
+                track("nav_click", { from: "home", to: "packages" })
+              }
             >
               View all →
             </Link>
@@ -315,7 +326,9 @@ export default function Main() {
                     </span>
 
                     <figcaption className="main__tcard-body">
-                      <blockquote className="main__quote-text">{t.text}</blockquote>
+                      <blockquote className="main__quote-text">
+                        {t.text}
+                      </blockquote>
                       <div className="main__quote-meta">— {t.name}</div>
                     </figcaption>
                   </figure>
@@ -323,7 +336,6 @@ export default function Main() {
               ))}
             </ul>
 
-            {/* Google Reviews CTA */}
             <div className="main__reviewsCta" aria-label="External reviews">
               <p className="main__reviewsNote">
                 See why clients love K.Snap.Studio — real stories, real moments.
@@ -355,11 +367,14 @@ export default function Main() {
       {/* CONTACT CTA */}
       <section id="contact" className="main__section main__section--cta">
         <div className="main__container">
-          <h2 className="main__section-title">Let's capture something beautiful.</h2>
+          <h2 className="main__section-title">
+            Let's capture something beautiful.
+          </h2>
           <p className="main__text">
             Share your date, locations, and vision. We’ll recommend the perfect
             package and timeline.
           </p>
+
           <Link
             className="main__btn main__btn--primary"
             to="/contact"
