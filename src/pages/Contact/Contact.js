@@ -1,6 +1,7 @@
 // src/pages/Contact/Contact.jsx
 import { useEffect, useMemo, useState } from "react";
 import "./Contact.scss";
+import SEO from "../../components/SEO/SEO";
 
 // ✅ GA4 event helper (safe even if GA isn't installed yet)
 const track = (eventName, params = {}) => {
@@ -148,178 +149,181 @@ export default function Contact() {
   };
 
   return (
-    <main className="contact" aria-labelledby="contact-title">
-      <div className="contact__inner">
-        <header className="contact__head">
-          <h1 id="contact-title" className="contact__title">
-            Contact / Booking
-          </h1>
-          <p className="contact__lede">
-            Share a few details and I’ll get back to you with availability and
-            next steps.
-          </p>
-        </header>
+    <>
+      <SEO
+        title="Contact & Booking | KSnap Studio — Durham & GTA Photographer"
+        description="Book KSnap Studio for weddings, engagements, events, family sessions, and portraits in Durham Region & the GTA. Share your date and vision to get availability and next steps."
+        path="/contact"
+      />
 
-        <form className="contact__form" onSubmit={onSubmit} noValidate>
-          {/* Shoot type + package */}
-          <fieldset className="contact__section">
-            <label className="contact__field">
-              <span className="contact__label">I’m booking a</span>
-              <select
-                className="contact__input contact__select"
-                value={type}
-                onChange={onChangeType}
-                aria-label="Shoot type"
-              >
-                {SHOOT_TYPES.map((t) => (
-                  <option key={t.value} value={t.value}>
-                    {t.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+      <main className="contact" aria-labelledby="contact-title">
+        <div className="contact__inner">
+          <header className="contact__head">
+            <h1 id="contact-title" className="contact__title">
+              Contact / Booking
+            </h1>
+            <p className="contact__lede">
+              Share a few details and I’ll get back to you with availability and
+              next steps.
+            </p>
+          </header>
 
-            {packageOptions.length > 0 && (
+          <form className="contact__form" onSubmit={onSubmit} noValidate>
+            {/* Shoot type + package */}
+            <fieldset className="contact__section">
               <label className="contact__field">
-                <span className="contact__label">Package</span>
+                <span className="contact__label">I’m booking a</span>
                 <select
                   className="contact__input contact__select"
-                  value={pkg}
-                  onChange={(e) => setPkg(e.target.value)}
-                  aria-label="Package"
+                  value={type}
+                  onChange={onChangeType}
+                  aria-label="Shoot type"
                 >
-                  {packageOptions.map((p) => (
-                    <option key={p.value} value={p.value}>
-                      {p.label}
+                  {SHOOT_TYPES.map((t) => (
+                    <option key={t.value} value={t.value}>
+                      {t.label}
                     </option>
                   ))}
                 </select>
               </label>
-            )}
-          </fieldset>
 
-          {/* Basics — always visible */}
-          <fieldset className="contact__section">
-            <div className="contact__row contact__row--2">
+              {packageOptions.length > 0 && (
+                <label className="contact__field">
+                  <span className="contact__label">Package</span>
+                  <select
+                    className="contact__input contact__select"
+                    value={pkg}
+                    onChange={(e) => setPkg(e.target.value)}
+                    aria-label="Package"
+                  >
+                    {packageOptions.map((p) => (
+                      <option key={p.value} value={p.value}>
+                        {p.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </fieldset>
+
+            {/* Basics — always visible */}
+            <fieldset className="contact__section">
+              <div className="contact__row contact__row--2">
+                <label className="contact__field">
+                  <span className="contact__label">
+                    {type === "wedding" ? "Names" : "Name"}
+                  </span>
+                  <input
+                    className="contact__input"
+                    type="text"
+                    placeholder={type === "wedding" ? "Alex & Jamie" : "Your name"}
+                    required
+                    value={form.name}
+                    onChange={update("name")}
+                  />
+                </label>
+
+                <label className="contact__field">
+                  <span className="contact__label">Phone (optional)</span>
+                  <input
+                    className="contact__input"
+                    type="tel"
+                    placeholder="(555) 555-5555"
+                    inputMode="tel"
+                    value={form.phone}
+                    onChange={update("phone")}
+                  />
+                </label>
+              </div>
+
               <label className="contact__field">
-                <span className="contact__label">
-                  {type === "wedding" ? "Names" : "Name"}
-                </span>
+                <span className="contact__label">Email</span>
+                <input
+                  className="contact__input"
+                  type="email"
+                  placeholder="you@example.com"
+                  required
+                  value={form.email}
+                  onChange={update("email")}
+                />
+              </label>
+
+              <label className="contact__field">
+                <span className="contact__label">How did you hear about me?</span>
                 <input
                   className="contact__input"
                   type="text"
-                  placeholder={type === "wedding" ? "Alex & Jamie" : "Your name"}
-                  required
-                  value={form.name}
-                  onChange={update("name")}
+                  placeholder="Google, Instagram, friend, etc."
+                  value={form.heardFrom}
+                  onChange={update("heardFrom")}
                 />
               </label>
+            </fieldset>
 
-              <label className="contact__field">
-                <span className="contact__label">Phone (optional)</span>
-                <input
-                  className="contact__input"
-                  type="tel"
-                  placeholder="(555) 555-5555"
-                  inputMode="tel"
-                  value={form.phone}
-                  onChange={update("phone")}
-                />
-              </label>
+            {/* Wedding-only details (simplified) */}
+            {type === "wedding" ? (
+              <fieldset className="contact__section" aria-live="polite">
+                <label className="contact__field">
+                  <span className="contact__label">Wedding Date</span>
+                  <input
+                    className="contact__input"
+                    type="date"
+                    required
+                    value={form.weddingDate}
+                    onChange={update("weddingDate")}
+                  />
+                </label>
+
+                <label className="contact__field">
+                  <span className="contact__label">Ceremony Location</span>
+                  <input
+                    className="contact__input"
+                    type="text"
+                    placeholder="Venue / address"
+                    value={form.ceremonyLocation}
+                    onChange={update("ceremonyLocation")}
+                  />
+                </label>
+              </fieldset>
+            ) : (
+              <fieldset className="contact__section">
+                <label className="contact__field">
+                  <span className="contact__label">Notes (optional)</span>
+                  <textarea
+                    className="contact__textarea"
+                    rows={4}
+                    placeholder="Share vibe, ideas, or date preferences…"
+                    value={form.notes}
+                    onChange={update("notes")}
+                  />
+                </label>
+              </fieldset>
+            )}
+
+            <div className="contact__meta">
+              <p className="contact__note">I typically respond within 24 - 48 hours.</p>
+
+              {status.state !== "idle" && (
+                <p
+                  className="contact__note"
+                  style={{ marginTop: ".5rem", fontWeight: 600 }}
+                >
+                  {status.msg}
+                </p>
+              )}
             </div>
 
-            <label className="contact__field">
-              <span className="contact__label">Email</span>
-              <input
-                className="contact__input"
-                type="email"
-                placeholder="you@example.com"
-                required
-                value={form.email}
-                onChange={update("email")}
-              />
-            </label>
-
-            <label className="contact__field">
-              <span className="contact__label">How did you hear about me?</span>
-              <input
-                className="contact__input"
-                type="text"
-                placeholder="Google, Instagram, friend, etc."
-                value={form.heardFrom}
-                onChange={update("heardFrom")}
-              />
-            </label>
-          </fieldset>
-
-          {/* Wedding-only details (simplified) */}
-          {type === "wedding" ? (
-            <fieldset className="contact__section" aria-live="polite">
-              <label className="contact__field">
-                <span className="contact__label">Wedding Date</span>
-                <input
-                  className="contact__input"
-                  type="date"
-                  required
-                  value={form.weddingDate}
-                  onChange={update("weddingDate")}
-                />
-              </label>
-
-              <label className="contact__field">
-                <span className="contact__label">Ceremony Location</span>
-                <input
-                  className="contact__input"
-                  type="text"
-                  placeholder="Venue / address"
-                  value={form.ceremonyLocation}
-                  onChange={update("ceremonyLocation")}
-                />
-              </label>
-            </fieldset>
-          ) : (
-            <fieldset className="contact__section">
-              <label className="contact__field">
-                <span className="contact__label">Notes (optional)</span>
-                <textarea
-                  className="contact__textarea"
-                  rows={4}
-                  placeholder="Share vibe, ideas, or date preferences…"
-                  value={form.notes}
-                  onChange={update("notes")}
-                />
-              </label>
-            </fieldset>
-          )}
-
-          <div className="contact__meta">
-            <p className="contact__note">
-              I typically respond within 24 - 48 hours.
-            </p>
-
-            {status.state !== "idle" && (
-              <p
-                className="contact__note"
-                style={{
-                  marginTop: ".5rem",
-                  fontWeight: 600,
-                }}
-              >
-                {status.msg}
-              </p>
-            )}
-          </div>
-
-          <button
-            className="contact__btn"
-            type="submit"
-            aria-label="Send inquiry"
-            disabled={status.state === "sending"}
-          >
-            {status.state === "sending" ? "Sending..." : "Submit"}
-          </button>
-        </form>
-      </div>
-    </main>
+            <button
+              className="contact__btn"
+              type="submit"
+              aria-label="Send inquiry"
+              disabled={status.state === "sending"}
+            >
+              {status.state === "sending" ? "Sending..." : "Submit"}
+            </button>
+          </form>
+        </div>
+      </main>
+    </>
   );
 }

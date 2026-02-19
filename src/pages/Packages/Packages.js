@@ -1,6 +1,7 @@
 // src/pages/Packages/Packages.jsx
 import { useEffect } from "react";
 import "./Packages.scss";
+import SEO from "../../components/SEO/SEO";
 
 // ✅ GA4 event helper (safe even if GA isn't installed yet)
 const track = (eventName, params = {}) => {
@@ -9,7 +10,6 @@ const track = (eventName, params = {}) => {
       window.gtag("event", eventName, params);
       return;
     }
-
     if (typeof window !== "undefined" && Array.isArray(window.dataLayer)) {
       window.dataLayer.push({ event: eventName, ...params });
     }
@@ -24,7 +24,6 @@ const INTRO = {
 };
 
 const PACKAGES = [
-  // WEDDINGS
   {
     key: "weddings-half",
     icon: "💍",
@@ -46,8 +45,7 @@ const PACKAGES = [
     icon: "💍",
     title: "Full-Day Coverage",
     price: "$1,200",
-    tagline:
-      "Ideal for capturing your full wedding story from start to finish.",
+    tagline: "Ideal for capturing your full wedding story from start to finish.",
     bullets: [
       "Up to 8 hours of coverage",
       "500+ edited high-resolution images",
@@ -74,8 +72,6 @@ const PACKAGES = [
     group: "WEDDING PACKAGES",
     ctaHref: "/contact",
   },
-
-  // ENGAGEMENT
   {
     key: "engagement",
     icon: "💞",
@@ -92,8 +88,6 @@ const PACKAGES = [
     group: "ENGAGEMENT",
     ctaHref: "/contact",
   },
-
-  // FAMILY & MATERNITY
   {
     key: "family",
     icon: "👨‍👩‍👧",
@@ -110,8 +104,6 @@ const PACKAGES = [
     group: "FAMILY & MATERNITY",
     ctaHref: "/contact",
   },
-
-  // PORTRAIT
   {
     key: "portrait",
     icon: "📸",
@@ -127,15 +119,12 @@ const PACKAGES = [
     group: "PORTRAIT",
     ctaHref: "/contact",
   },
-
-  // SEASONAL
   {
     key: "seasonal",
     icon: "🎄",
     title: "SEASONAL PORTRAIT SESSION",
     price: "— $220",
-    tagline:
-      "Limited-time themed mini sessions for holidays & special seasons.",
+    tagline: "Limited-time themed mini sessions for holidays & special seasons.",
     bullets: [
       "20–30 minutes of coverage",
       "20+ edited images",
@@ -156,87 +145,90 @@ const GROUPS_ORDER = [
 ];
 
 export default function Packages() {
-  // ✅ Track page view (powers "Packages page visits")
   useEffect(() => {
     track("view_packages", { page: "packages" });
   }, []);
 
   return (
-    <main className="packages" aria-labelledby="packages-title">
-      <div className="packages__inner">
-        {/* Intro (centered) */}
-        <header className="packages__intro">
-          <h1 id="packages-title" className="packages__title">
-            Packages
-          </h1>
-          <p className="packages__intro-heading">{INTRO.heading}</p>
-          <p className="packages__intro-body">{INTRO.body}</p>
-        </header>
+    <>
+      <SEO
+        title="Packages | KSnap Studio — Durham & GTA Photographer"
+        description="Browse KSnap Studio packages for weddings, engagements, events, family sessions, portraits, and seasonal minis across Durham Region & the GTA."
+        path="/packages"
+      />
 
-        {/* Groups (in order) */}
-        {GROUPS_ORDER.map(({ key, icon }) => {
-          const items = PACKAGES.filter((p) => p.group === key);
-          if (!items.length) return null;
+      <main className="packages" aria-labelledby="packages-title">
+        <div className="packages__inner">
+          <header className="packages__intro">
+            <h1 id="packages-title" className="packages__title">
+              Packages
+            </h1>
+            <p className="packages__intro-heading">{INTRO.heading}</p>
+            <p className="packages__intro-body">{INTRO.body}</p>
+          </header>
 
-          return (
-            <section className="packages__section" key={key} aria-label={key}>
-              <h2 className="packages__section-title">
-                <span className="packages__section-badge" aria-hidden="true">
-                  <span className="packages__section-emoji">{icon}</span>
-                </span>
-                <span>{key}</span>
-              </h2>
+          {GROUPS_ORDER.map(({ key, icon }) => {
+            const items = PACKAGES.filter((p) => p.group === key);
+            if (!items.length) return null;
 
-              <ul className="packages__grid">
-                {items.map(
-                  ({ key, icon, title, price, tagline, bullets, ctaHref }) => (
-                    <li className="packages__card" key={key}>
-                      <header className="packages__card-head">
-                        <span className="packages__emoji" aria-hidden="true">
-                          {icon}
-                        </span>
-                        <h3 className="packages__name">
-                          {title}{" "}
-                          <span className="packages__price">{price}</span>
-                        </h3>
-                        {tagline && (
-                          <p className="packages__tagline">{tagline}</p>
-                        )}
-                      </header>
+            return (
+              <section className="packages__section" key={key} aria-label={key}>
+                <h2 className="packages__section-title">
+                  <span className="packages__section-badge" aria-hidden="true">
+                    <span className="packages__section-emoji">{icon}</span>
+                  </span>
+                  <span>{key}</span>
+                </h2>
 
-                      {bullets?.length ? (
-                        <ul className="packages__bullets">
-                          {bullets.map((b, i) => (
-                            <li className="packages__bullet" key={i}>
-                              {b}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
+                <ul className="packages__grid">
+                  {items.map(
+                    ({ key, icon, title, price, tagline, bullets, ctaHref }) => (
+                      <li className="packages__card" key={key}>
+                        <header className="packages__card-head">
+                          <span className="packages__emoji" aria-hidden="true">
+                            {icon}
+                          </span>
+                          <h3 className="packages__name">
+                            {title}{" "}
+                            <span className="packages__price">{price}</span>
+                          </h3>
+                          {tagline && <p className="packages__tagline">{tagline}</p>}
+                        </header>
 
-                      <a
-                        className="packages__btn"
-                        href={ctaHref || "/contact"}
-                        onClick={() =>
-                          track("cta_click", {
-                            location: "packages",
-                            label: "book_now",
-                            package_key: key,
-                            package_title: title,
-                            package_price: price,
-                          })
-                        }
-                      >
-                        Book Now
-                      </a>
-                    </li>
-                  )
-                )}
-              </ul>
-            </section>
-          );
-        })}
-      </div>
-    </main>
+                        {bullets?.length ? (
+                          <ul className="packages__bullets">
+                            {bullets.map((b, i) => (
+                              <li className="packages__bullet" key={i}>
+                                {b}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+
+                        <a
+                          className="packages__btn"
+                          href={ctaHref || "/contact"}
+                          onClick={() =>
+                            track("cta_click", {
+                              location: "packages",
+                              label: "book_now",
+                              package_key: key,
+                              package_title: title,
+                              package_price: price,
+                            })
+                          }
+                        >
+                          Book Now
+                        </a>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </section>
+            );
+          })}
+        </div>
+      </main>
+    </>
   );
 }
