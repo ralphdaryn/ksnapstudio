@@ -1,5 +1,3 @@
-/* src/pages/Dashboard/Dashboard.scss */
-
 /* ✅ prevents padding/borders from creating overflow */
 .dashboard,
 .dashboard * {
@@ -281,6 +279,85 @@
   gap: 12px;
 }
 
+/* ✅ NEW: Actions (Range + Logout) */
+.dashboard__actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ✅ NEW: Range styles */
+.dashboard__range {
+  display: grid;
+  gap: 6px;
+}
+
+.dashboard__rangeLabel {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.dashboard__rangeControl {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  box-shadow: var(--shadow);
+  padding: 2px;
+}
+
+.dashboard__rangeSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  border: 0;
+  outline: none;
+  background: transparent;
+
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.9);
+
+  padding: 10px 44px 10px 12px; /* space for chevron */
+  border-radius: 999px;
+
+  cursor: pointer;
+  line-height: 1;
+}
+
+.dashboard__rangeControl:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accentSoft), var(--shadow);
+}
+
+.dashboard__rangeChevron {
+  position: absolute;
+  right: 14px;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+
+  border-right: 2px solid rgba(0, 0, 0, 0.55);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.55);
+  transform: rotate(45deg);
+  top: 50%;
+  margin-top: -7px;
+}
+
+.dashboard__rangeControl:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
 /* Conversions grid */
 .dashboard__conversions {
   display: grid;
@@ -347,6 +424,20 @@
   .dashboard__topRow {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  /* ✅ NEW: stack actions nicely on mobile */
+  .dashboard__actions {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .dashboard__rangeControl {
+    width: 100%;
+  }
+
+  .dashboard__rangeSelect {
+    width: 100%;
   }
 
   .dashboard__btn--ghost {

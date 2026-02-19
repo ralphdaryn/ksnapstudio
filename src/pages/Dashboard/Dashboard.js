@@ -1,4 +1,3 @@
-// src/pages/Dashboard/Dashboard.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./Dashboard.scss";
@@ -98,6 +97,9 @@ export default function Dashboard() {
 
   const [data, setData] = useState(null);
 
+  // ✅ Range selector (same concept as StepByStep)
+  const [days, setDays] = useState(30);
+
   // ✅ start loading true so overlay shows immediately
   const [status, setStatus] = useState({ loading: true, error: "" });
 
@@ -107,8 +109,10 @@ export default function Dashboard() {
   const AUDIENCE =
     process.env.REACT_APP_AUTH0_AUDIENCE || "https://rd-dashboard-api";
 
-  // ✅ KSnapStudio endpoint
-  const GA4_ENDPOINT = `${API_BASE_URL}/api/dashboard/ksnapstudio/ga4Results`;
+  // ✅ KSnapStudio endpoint (now supports ?days=)
+  const GA4_ENDPOINT = `${API_BASE_URL}/api/dashboard/ksnapstudio/ga4Results?days=${encodeURIComponent(
+    days
+  )}`;
 
   // ✅ Load GA4 results (protected)
   useEffect(() => {
@@ -118,9 +122,6 @@ export default function Dashboard() {
       try {
         setStatus({ loading: true, error: "" });
 
-        // ✅ IMPORTANT:
-        // - force correct audience
-        // - do NOT request offline_access here
         const token = await getAccessTokenSilently({
           authorizationParams: {
             audience: AUDIENCE,
@@ -130,9 +131,7 @@ export default function Dashboard() {
 
         const res = await fetch(GA4_ENDPOINT, {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (res.status === 403) {
@@ -181,7 +180,7 @@ export default function Dashboard() {
       newUsers30d: 0,
       avgEngagementTime: "—",
 
-      // ✅ Conversions for KSnap
+      // ✅ Conversions for KSnap (backend can return these; fallback safe)
       viewPackages: 0,
       galleryVisits: 0,
       contactSubmits: 0,
@@ -189,11 +188,14 @@ export default function Dashboard() {
       topTrafficSource: "(not set)",
       topSources: [],
       topPages: [],
-      rangeLabel: "Last 30 days",
+      rangeLabel: `Last ${days} days`,
     };
 
-    return { ...fallback, ...(data || {}) };
-  }, [data]);
+    // if backend returns rangeLabel, keep it
+    const merged = { ...fallback, ...(data || {}) };
+    if (!merged.rangeLabel) merged.rangeLabel = `Last ${days} days`;
+    return merged;
+  }, [data, days]);
 
   // ✅ KSnap conversion = packages + gallery + contact
   const totalConversions =
@@ -329,21 +331,43 @@ export default function Dashboard() {
             )}
           </div>
 
-          <button
-            className="dashboard__btn dashboard__btn--ghost"
-            onClick={() =>
-              logout({ logoutParams: { returnTo: window.location.origin } })
-            }
-            type="button"
-          >
-            Log out
-          </button>
+          {/* ✅ UPDATED: actions wrapper + styled range select */}
+          <div className="dashboard__actions">
+            <label className="dashboard__range" aria-label="Select date range">
+              <span className="dashboard__rangeLabel">Range</span>
+
+              <div className="dashboard__rangeControl">
+                <select
+                  className="dashboard__rangeSelect"
+                  value={days}
+                  onChange={(e) => setDays(Number(e.target.value))}
+                >
+                  <option value={7}>Last 7 days</option>
+                  <option value={14}>Last 14 days</option>
+                  <option value={30}>Last 30 days</option>
+                  <option value={90}>Last 90 days</option>
+                </select>
+
+                <span className="dashboard__rangeChevron" aria-hidden="true" />
+              </div>
+            </label>
+
+            <button
+              className="dashboard__btn dashboard__btn--ghost"
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
+              type="button"
+            >
+              Log out
+            </button>
+          </div>
         </div>
       </header>
 
       {/* ✅ KPI cards */}
       <div className="dashboard__kpis">
-        <KpiCard label="Users (30 days)" value={safe.users30d} />
+        <KpiCard label={`Users (${days} days)`} value={safe.users30d} />
         <KpiCard label="New users" value={safe.newUsers30d} />
         <KpiCard label="Packages views" value={safe.viewPackages} />
         <KpiCard label="Gallery visits" value={safe.galleryVisits} />
@@ -441,7 +465,9 @@ function Group({ title, items }) {
       <ul className="dashboard__list">
         {items.map((p) => (
           <li key={p.path} className="dashboard__listItem">
-            <span className="dashboard__mono">{formatPathForClient(p.path)}</span>
+            <span className="dashboard__mono">
+              {formatPathForClient(p.path)}
+            </span>
             <span className="dashboard__badge">{p.views}</span>
           </li>
         ))}
