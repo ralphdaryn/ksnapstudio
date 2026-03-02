@@ -1,16 +1,9 @@
-# Block common bot-scanned “fake pages”
-/*.htm    /404.html   404
-/*.html   /404.html   404
-/*.shtml  /404.html   404
-/*.php    /404.html   404
-/*.asp    /404.html   404
-/*.aspx   /404.html   404
-/*.cgi    /404.html   404
+# Block bot spam URLs (must be BEFORE SPA fallback)
+/*.htm    /404.html   404!
+/*.shtml  /404.html   404!
+/*.php    /404.html   404!
+/*.asp    /404.html   404!
+/*.aspx   /404.html   404!
 
-# (Optional) stop wp scans
-/wp-admin/*     /404.html 404
-/wp-login.php   /404.html 404
-/xmlrpc.php     /404.html 404
-
-# React SPA fallback (keep LAST)
-/*    /index.html   200
+# SPA fallback (keep LAST)
+/*        /index.html 200
