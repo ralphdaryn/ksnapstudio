@@ -6,11 +6,9 @@
   color: #111;
 
   /* --- Scrollbar styling (page-matching) --- */
-  /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: rgba(17, 17, 17, 0.28) rgba(255, 255, 255, 0.55);
 
-  /* WebKit (Chrome/Edge/Safari) */
   &::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -44,7 +42,6 @@
     margin-inline: auto;
   }
 
-  /* --- Make title/intro/link feel evenly spaced --- */
   &__title {
     font-size: clamp(1.9rem, 5vw, 2.4rem);
     margin: 0;
@@ -58,17 +55,14 @@
     line-height: 1.6;
   }
 
-  /* Clean link (NOT a button), with subtle underline effect */
   &__link {
     display: inline-block;
-    margin-top: 0.5rem; /* gives breathing room after intro */
-    margin-bottom: 0; /* separates from the embed */
+    margin-top: 0.5rem;
+    margin-bottom: 0;
     font-weight: 600;
     font-size: 0.95rem;
     color: #111;
     text-decoration: none;
-
-    /* subtle underline that animates in */
     border-bottom: 1px solid rgba(17, 17, 17, 0.35);
     padding-bottom: 2px;
 
@@ -94,21 +88,122 @@
   }
 }
 
-/* Full interactive Pic-Time embed for the dedicated gallery page */
+/* Full “embed” container on gallery page (same vibe as before) */
+/* Full container — now fluid */
 .gallery__embed {
   margin-top: 1.5rem;
   border-radius: 12px;
   border: 1px solid #eee;
   overflow: hidden;
+  background: #fff;
+}
 
-  /* Fill (most of) the viewport on all breakpoints */
-  height: 100vh;
+/* Replacement inner box for removed iframe */
+.gallery__embedBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-  iframe {
-    display: block;
+/* =========================
+   Faux embed content styling
+   (same as Main.scss)
+   ========================= */
+
+.galleryEmbed__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.galleryEmbed__title {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.galleryEmbed__subtitle {
+  margin: 0.35rem 0 0;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 60ch;
+}
+
+.galleryEmbed__cta {
+  flex: 0 0 auto;
+  display: inline-block;
+  font-weight: 700;
+  color: #111;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.35);
+  padding-bottom: 2px;
+  transition: opacity 0.15s ease, transform 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    opacity: 0.78;
+    transform: translateY(-1px);
+    border-color: rgba(17, 17, 17, 0.6);
+  }
+}
+
+.galleryEmbed__grid {
+  padding: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.galleryEmbed__tile {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  background: #f7f7f7;
+
+  img {
     width: 100%;
-    height: 100%;
-    border: 0;
-    pointer-events: auto; // always interactive here
+    height: 210px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.02);
+    opacity: 0.92;
+  }
+}
+
+@include desktop {
+  .galleryEmbed__tile img {
+    height: 240px;
+  }
+}
+
+@include tablet {
+  .galleryEmbed__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .galleryEmbed__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .galleryEmbed__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .galleryEmbed__grid {
+    grid-template-columns: 1fr;
   }
 }

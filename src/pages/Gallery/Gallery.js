@@ -29,6 +29,7 @@ export default function Gallery() {
               View Full Gallery →
             </a>
 
+            {/* This renders the same faux-embed (no iframe) */}
             <PicTimeGallery variant="full" />
           </div>
         </section>
