@@ -10,7 +10,18 @@
   status = 404
   force = true
 
-# keep your SPA routing last
+[[redirects]]
+  from = "/*.php"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/*.asp"
+  to = "/404.html"
+  status = 404
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
