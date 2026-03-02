@@ -239,24 +239,7 @@ export default function Main() {
         <div className="main__container">
           <div className="main__section-head">
             <h2 className="main__section-title">Gallery</h2>
-
-            <a
-              className="main__link main__link--inline"
-              href="https://ksnapstudio.pic-time.com/portfolio"
-              target="_blank"
-              rel="noreferrer"
-              onClick={() =>
-                track("portfolio_click", {
-                  location: "home_gallery_section",
-                  destination: "pictime_portfolio",
-                  outbound_url: "https://ksnapstudio.pic-time.com/portfolio",
-                })
-              }
-            >
-              View Portfolio →
-            </a>
           </div>
-
           <PicTimeGallery variant="preview" />
         </div>
       </section>

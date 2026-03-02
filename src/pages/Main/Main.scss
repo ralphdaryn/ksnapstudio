@@ -533,40 +533,30 @@
    GALLERY RULES (NO IFRAME)
    ========================= */
 
-  /* Hide the faux-embed on mobile because you show static images there */
+  /* =========================
+   ✅ GALLERY RULES (MATCH ALL BREAKPOINTS)
+   ========================= */
+
+  /* Show the faux-embed on ALL sizes (mobile/tablet/desktop) */
   #gallery .main__gallery-embedBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    margin-top: 1rem;
+  }
+
+  /* OPTIONAL: keep the mobile static images too (if you want BOTH).
+   If you want ONLY the faux-embed everywhere, set display:none here. */
+  .main__gallery-static {
     display: none;
   }
 
-  /* Show the faux-embed on tablet/desktop with same sizing as old iframe */
-  @include tablet {
-    #gallery .main__gallery-embedBox {
-      display: flex;
-      flex-direction: column;
-
-      width: 100%;
-      border-radius: 12px;
-
-      height: 600px;
-      max-height: 820px;
-
-      background: #fff;
-      border: 1px solid var(--line);
-      overflow: hidden;
-
-      margin-top: 1rem;
-    }
-  }
-
-  @include desktop {
-    #gallery .main__gallery-embedBox {
-      height: 680px;
-      max-height: 900px;
-    }
-  }
-
-  /* Faux embed content styling */
-  .galleryEmbed__head {
+  /* Faux embed head matches everywhere */
+  #gallery .galleryEmbed__head {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -575,13 +565,21 @@
     border-bottom: 1px solid var(--line);
   }
 
-  .galleryEmbed__title {
+  /* Mobile: stack head nicely */
+  @media (max-width: 640px) {
+    #gallery .galleryEmbed__head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  #gallery .galleryEmbed__title {
     margin: 0;
     font-size: 1.05rem;
     line-height: 1.2;
   }
 
-  .galleryEmbed__subtitle {
+  #gallery .galleryEmbed__subtitle {
     margin: 0.35rem 0 0;
     color: var(--muted);
     font-size: 0.95rem;
@@ -589,7 +587,7 @@
     max-width: 60ch;
   }
 
-  .galleryEmbed__cta {
+  #gallery .galleryEmbed__cta {
     flex: 0 0 auto;
     display: inline-block;
     font-weight: 700;
@@ -609,17 +607,31 @@
     }
   }
 
-  .galleryEmbed__grid {
-    flex: 1 1 auto;
-    padding: 1rem;
-    overflow: auto;
-
+  /* ✅ GRID: no internal scroll, no fixed heights, fills naturally */
+  #gallery .galleryEmbed__grid {
+    padding: 1.25rem;
     display: grid;
+    gap: 1rem;
+
+    /* desktop default */
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
   }
 
-  .galleryEmbed__tile {
+  /* Tablet: 2 columns */
+  @media (max-width: 1024px) {
+    #gallery .galleryEmbed__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Mobile: 1 column */
+  @media (max-width: 640px) {
+    #gallery .galleryEmbed__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  #gallery .galleryEmbed__tile {
     display: block;
     border-radius: 12px;
     overflow: hidden;
@@ -628,7 +640,8 @@
 
     img {
       width: 100%;
-      height: 210px;
+      height: auto;
+      aspect-ratio: 4 / 3;
       object-fit: cover;
       display: block;
       transition:
@@ -639,12 +652,6 @@
     &:hover img {
       transform: scale(1.02);
       opacity: 0.92;
-    }
-  }
-
-  @include desktop {
-    .galleryEmbed__tile img {
-      height: 240px;
     }
   }
 

@@ -2,10 +2,9 @@
 
 .gallery {
   min-height: 100vh;
-  background: #f0f6f7; // same vibe as main page
+  background: #f0f6f7;
   color: #111;
 
-  /* --- Scrollbar styling (page-matching) --- */
   scrollbar-width: thin;
   scrollbar-color: rgba(17, 17, 17, 0.28) rgba(255, 255, 255, 0.55);
 
@@ -42,6 +41,14 @@
     margin-inline: auto;
   }
 
+  &__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
   &__title {
     font-size: clamp(1.9rem, 5vw, 2.4rem);
     margin: 0;
@@ -49,7 +56,7 @@
   }
 
   &__intro {
-    margin: 1rem 0;
+    margin: 0.8rem 0 0;
     color: #555;
     max-width: 60ch;
     line-height: 1.6;
@@ -57,8 +64,6 @@
 
   &__link {
     display: inline-block;
-    margin-top: 0.5rem;
-    margin-bottom: 0;
     font-weight: 600;
     font-size: 0.95rem;
     color: #111;
@@ -66,30 +71,17 @@
     border-bottom: 1px solid rgba(17, 17, 17, 0.35);
     padding-bottom: 2px;
 
-    transition: opacity 0.15s ease, border-color 0.15s ease,
-      transform 0.15s ease;
+    transition: opacity 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 
     &:hover {
       opacity: 0.78;
       border-color: rgba(17, 17, 17, 0.6);
       transform: translateY(-1px);
     }
-
-    &:active {
-      transform: translateY(0);
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.12);
-      border-bottom-color: transparent;
-      border-radius: 6px;
-    }
   }
 }
 
-/* Full “embed” container on gallery page (same vibe as before) */
-/* Full container — now fluid */
+/* Wrapper created by PicTimeGallery full variant */
 .gallery__embed {
   margin-top: 1.5rem;
   border-radius: 12px;
@@ -98,18 +90,13 @@
   background: #fff;
 }
 
-/* Replacement inner box for removed iframe */
 .gallery__embedBox {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* =========================
-   Faux embed content styling
-   (same as Main.scss)
-   ========================= */
-
+/* Faux embed header */
 .galleryEmbed__head {
   display: flex;
   align-items: flex-start;
@@ -141,8 +128,7 @@
   text-decoration: none;
   border-bottom: 1px solid rgba(17, 17, 17, 0.35);
   padding-bottom: 2px;
-  transition: opacity 0.15s ease, transform 0.15s ease,
-    border-color 0.15s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 
   &:hover {
     opacity: 0.78;
@@ -151,11 +137,14 @@
   }
 }
 
+/* ✅ GRID: fills space naturally, no grey empty area */
 .galleryEmbed__grid {
   padding: 1.25rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+
+  /* default desktop */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .galleryEmbed__tile {
@@ -167,7 +156,8 @@
 
   img {
     width: 100%;
-    height: 210px;
+    height: auto;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     display: block;
     transition: transform 0.2s ease, opacity 0.2s ease;
@@ -179,31 +169,21 @@
   }
 }
 
-@include desktop {
-  .galleryEmbed__tile img {
-    height: 240px;
-  }
-}
-
-@include tablet {
-  .galleryEmbed__grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 900px) {
+/* Tablet: 2 columns */
+@media (max-width: 1024px) {
   .galleryEmbed__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 520px) {
+/* Mobile: 1 column */
+@media (max-width: 640px) {
+  .galleryEmbed__grid {
+    grid-template-columns: 1fr;
+  }
+
   .galleryEmbed__head {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .galleryEmbed__grid {
-    grid-template-columns: 1fr;
   }
 }
