@@ -1,0 +1,35 @@
+[[redirects]]
+from = "/*.htm"
+to = "/404.html"
+status = 404
+force = true
+
+[[redirects]]
+from = "/*.shtml"
+to = "/404.html"
+status = 404
+force = true
+
+[[redirects]]
+from = "/*.php"
+to = "/404.html"
+status = 404
+force = true
+
+[[redirects]]
+from = "/*.asp"
+to = "/404.html"
+status = 404
+force = true
+
+[[redirects]]
+from = "/*.aspx"
+to = "/404.html"
+status = 404
+force = true
+
+# SPA fallback (keep LAST)
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
