@@ -1,9 +1,3 @@
-# Block bot spam URLs (must be BEFORE SPA fallback)
-/*.htm    /404.html   404!
-/*.shtml  /404.html   404!
-/*.php    /404.html   404!
-/*.asp    /404.html   404!
-/*.aspx   /404.html   404!
-
-# SPA fallback (keep LAST)
-/*        /index.html 200
+/*.htm   /404.html   404!
+/*.shtml /404.html   404!
+/*       /index.html 200
