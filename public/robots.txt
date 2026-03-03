@@ -1,4 +1,10 @@
 User-agent: *
-Disallow:
+Disallow: /*.htm
+Disallow: /*.shtml
+Disallow: /*.php
+Disallow: /*.asp
+Disallow: /*?
+Disallow: /wp-admin/
+Disallow: /wp-login.php
 
 Sitemap: https://ksnapstudio.ca/sitemap.xml
