@@ -1,7 +1,7 @@
-/:file.html    /404.html   404
-/:file.htm     /404.html   404
-/:file.php     /404.html   404
-/wp-admin/*    /404.html   404
-/wp-login/*    /404.html   404
-/.env          /404.html   404
-/*             /index.html 200
+# Block extension probes FIRST
+/*.html    /404.html   404
+/*.htm     /404.html   404
+/*.php     /404.html   404
+
+# SPA fallback MUST BE LAST
+/*         /index.html 200
