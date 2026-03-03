@@ -1,5 +1,5 @@
-/*.htm    /404.html   404!
-/*.shtml  /404.html   404!
-/*.php    /404.html   404!
-/*.asp    /404.html   404!
-/*        /index.html 200
+/:splat.htm    /404.html   404!
+/:splat.shtml  /404.html   404!
+/:splat.php    /404.html   404!
+/:splat.asp    /404.html   404!
+/*             /index.html 200
