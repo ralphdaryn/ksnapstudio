@@ -1,0 +1,9 @@
+# Block common probes
+/wp-admin*     404
+/wp-login*     404
+/.env          404
+/*.php         404
+/*.html        404
+
+# React SPA fallback (must be LAST)
+ /*            /index.html   200
