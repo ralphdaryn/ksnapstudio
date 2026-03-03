@@ -1,12 +1,10 @@
 # Block common probes
-/wp-admin/*    404
-/wp-login/*    404
-/.env          404
+/wp-admin/*    /404.html   404
+/wp-login/*    /404.html   404
+/.env          /404.html   404
+/*.php         /404.html   404
+/*.html        /404.html   404
+/*.htm         /404.html   404
 
-# Block extension-based probes using splats
-/*.php         404
-/*.html        404
-/*.htm         404
-
-# React SPA fallback (must be LAST)
-/*             /index.html   200
+# React SPA fallback (must be last)
+/*             /index.html 200
