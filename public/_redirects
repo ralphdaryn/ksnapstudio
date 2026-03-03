@@ -1,10 +1,7 @@
-# Block common probes
+/:file.html    /404.html   404
+/:file.htm     /404.html   404
+/:file.php     /404.html   404
 /wp-admin/*    /404.html   404
 /wp-login/*    /404.html   404
 /.env          /404.html   404
-/*.php         /404.html   404
-/*.html        /404.html   404
-/*.htm         /404.html   404
-
-# React SPA fallback (must be last)
 /*             /index.html 200
