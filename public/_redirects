@@ -1,11 +1,15 @@
 # 1) Force ALL netlify.app traffic to your real domain (Cloudflare-proxied)
 https://ksnapstudio.netlify.app/*  https://ksnapstudio.ca/:splat  301!
 
-# 2) Block extension probes anywhere (so they don’t trigger full SPA loads)
-*.shtml  /404.html  404
-*.php    /404.html  404
-*.htm    /404.html  404
-*.html   /404.html  404
+# Block extension probes (return real 404)
+:placeholder.shtml  /404.html  404
+:placeholder.php    /404.html  404
+:placeholder.htm    /404.html  404
+:placeholder.html   /404.html  404
+:placeholder.asp    /404.html  404
+:placeholder.aspx   /404.html  404
+:placeholder.jsp    /404.html  404
+:placeholder.cgi    /404.html  404
 
-# 3) SPA fallback (MUST be last)
- /*  /index.html  200
+# SPA fallback (must be last)
+/*  /index.html  200
