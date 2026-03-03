@@ -1,10 +1,12 @@
-# Block probes (return real 404)
-/(.*)\.html$   404
-/(.*)\.htm$    404
-/(.*)\.php$    404
-/\.env         404
-/wp-admin*     404
-/wp-login*     404
+# Block common probes (valid)
+/wp-admin*      404
+/wp-login*      404
+/.env           404
 
-# SPA fallback (MUST be last)
- /*            /index.html  200
+# Block extensions using regex (valid)
+/(.*)\.php$     404
+/(.*)\.html$    404
+/(.*)\.htm$     404
+
+# React SPA fallback (MUST be last)
+/*              /index.html   200
