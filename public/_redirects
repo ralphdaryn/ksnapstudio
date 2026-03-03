@@ -1,9 +1,10 @@
-# Block common probes
+# Block probes (return real 404)
+/(.*)\.html$   404
+/(.*)\.htm$    404
+/(.*)\.php$    404
+/\.env         404
 /wp-admin*     404
 /wp-login*     404
-/.env          404
-/*.php         404
-/*.html        404
 
-# React SPA fallback (must be LAST)
- /*            /index.html   200
+# SPA fallback (MUST be last)
+ /*            /index.html  200
