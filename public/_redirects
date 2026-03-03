@@ -1,12 +1,15 @@
-# Block extension probes FIRST
-/*.shtml   /404.html   404
-/*.html    /404.html   404
-/*.htm     /404.html   404
-/*.php     /404.html   404
-/*.asp     /404.html   404
-/*.aspx    /404.html   404
-/*.jsp     /404.html   404
-/*.cgi     /404.html   404
+# Block extension probes anywhere
+/*.shtml  /404.html  404
+/*/*.shtml /404.html 404
 
-# SPA fallback MUST BE LAST
-/*         /index.html 200
+/*.php    /404.html  404
+/*/*.php  /404.html  404
+
+/*.htm    /404.html  404
+/*/*.htm  /404.html  404
+
+/*.html   /404.html  404
+/*/*.html /404.html 404
+
+# SPA fallback
+/*        /index.html 200
