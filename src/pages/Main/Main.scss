@@ -16,7 +16,7 @@
   color: var(--ink);
   background: var(--bg);
 
-  /* ✅ prevents horizontal scroll if anything nudges the viewport */
+  /* prevents horizontal scroll if anything nudges the viewport */
   overflow-x: hidden;
 
   /* center the content area */
@@ -62,7 +62,10 @@
     flex-wrap: wrap;
   }
 
-  /* HERO */
+  /* =========================
+     HERO
+     ========================= */
+
   &__hero {
     position: relative;
     overflow: hidden;
@@ -79,9 +82,11 @@
     .main__tagline,
     .main__subtitle {
       color: #fff;
+
       text-shadow:
         0 1px 2px rgba(0, 0, 0, 0.6),
         0 6px 24px rgba(0, 0, 0, 0.45);
+
       -webkit-font-smoothing: antialiased;
       -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.25);
       text-wrap: balance;
@@ -165,6 +170,7 @@
     background: #fff;
     color: var(--ink);
     text-decoration: none;
+
     transition:
       transform 0.12s ease,
       box-shadow 0.12s ease,
@@ -234,19 +240,21 @@
   /* =========================
      PACKAGES PREVIEW
      ========================= */
+
   &__cards {
     list-style: none;
-    margin: 1rem 0 0;
+    width: 100%;
+    margin: 1.5rem 0 0;
     padding: 0;
 
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    align-items: stretch;
 
     @include tablet {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
-      padding: 0;
     }
 
     @include desktop {
@@ -256,94 +264,216 @@
   }
 
   &__card {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 1rem;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 
-    display: grid;
-    gap: 2.5rem;
+    padding: 1.6rem 1.3rem;
+
+    background: linear-gradient(180deg, #ffffff 0%, #fcfefe 100%);
+    border: 1px solid #e5ecec;
+    border-radius: 18px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     text-align: center;
+    overflow: hidden;
+
+    box-shadow: 0 5px 18px rgba(17, 17, 17, 0.035);
 
     transition:
-      transform 0.14s ease,
-      box-shadow 0.14s ease,
-      border-color 0.14s ease;
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 2px;
+      background: #cbd9db;
+      border-radius: 999px;
+    }
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-      border-color: #e8e8e8;
+      transform: translateY(-4px);
+      border-color: #d6e1e2;
+      box-shadow: 0 14px 32px rgba(17, 17, 17, 0.075);
     }
+
+    @media (max-width: 640px) {
+      padding: 1.5rem 1.25rem;
+    }
+
+    @include tablet {
+      padding: 1.7rem 1.4rem;
+    }
+
+    @include desktop {
+      padding: 1.75rem 1.35rem;
+    }
+  }
+
+  &__card-head {
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    gap: 0.75rem;
+  }
+
+  &__card-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    background: #f4f9f9;
+    border: 1px solid #e4ecec;
+    font-size: 1.2rem;
+    line-height: 1;
+    box-shadow: 0 3px 10px rgba(17, 17, 17, 0.025);
   }
 
   &__card-title {
-    font-size: 1.35rem;
+    width: 100%;
     margin: 0;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid #edf1f1;
+    color: var(--ink);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
     text-align: center;
+    text-wrap: balance;
+  }
 
-    @include tablet {
-      padding-bottom: 0.35rem;
-      border-bottom: 1px solid var(--line);
-    }
+  &__card-description {
+    margin: 1rem 0 0;
+    max-width: 30ch;
+    color: #626a6b;
+    font-size: 0.91rem;
+    line-height: 1.65;
+    text-align: center;
+    text-wrap: pretty;
   }
 
   &__card-list {
-    list-style: disc inside;
-    margin: 0;
-    padding: 0;
-    color: var(--muted);
+    width: 100%;
+    list-style: none;
+    margin: 1.25rem 0 1.4rem;
+    padding: 1.1rem 0 0;
+    border-top: 1px solid #f0f3f3;
 
     display: grid;
-    gap: 0.5rem;
+    gap: 0.55rem;
+    justify-items: center;
 
-    text-align: left;
-    max-width: 34ch;
-    justify-self: center;
-  }
-
-  &__card-note {
-    font-size: 0.95rem;
     color: var(--muted);
     text-align: center;
-    margin: 0;
+
+    li {
+      margin: 0;
+      padding: 0;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      text-align: center;
+
+      &::before {
+        display: none;
+      }
+    }
   }
 
   &__card-btn {
-    margin-top: 0.15rem;
+    margin-top: auto;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    width: 200px;
-    height: 44px;
-    padding: 0;
+    width: 100%;
+    max-width: 210px;
+    min-height: 43px;
+    box-sizing: border-box;
+    padding: 0.65rem 1rem;
 
-    border-radius: 10px;
     border: 1px solid #111;
-
+    border-radius: 999px;
     background: #111;
     color: #fff;
-    text-decoration: none;
-    font-weight: 600;
 
-    justify-self: center;
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+
+    transition:
+      transform 0.15s ease,
+      background 0.15s ease,
+      box-shadow 0.15s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      background: #292929;
+      box-shadow: 0 7px 17px rgba(17, 17, 17, 0.13);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #111;
+      outline-offset: 3px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    &__cards {
+      margin-top: 1.25rem;
+      gap: 1rem;
+    }
+
+    &__card-description {
+      max-width: 34ch;
+    }
+
+    &__card-list {
+      margin-bottom: 1.25rem;
+    }
+
+    &__card-btn {
+      max-width: 220px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__card,
+    &__card-btn {
+      transition: none;
+    }
+
+    &__card:hover,
+    &__card-btn:hover {
+      transform: none;
+    }
   }
 
   /* =========================
-     ABOUT PREVIEW (fix overflow)
+     ABOUT PREVIEW
      ========================= */
+
   &__about {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
     align-items: start;
     margin-top: 0.75rem;
-
     justify-items: center;
-
-    /* ✅ tiny breathing room so card never touches screen edge */
     padding-inline: 0.25rem;
 
     @include tablet {
@@ -378,12 +508,15 @@
     height: auto;
 
     aspect-ratio: 4 / 3;
+
     object-fit: cover;
+
     object-position: center;
 
     max-height: 360px;
 
     transition: transform 0.5s ease;
+
     will-change: transform;
 
     &:hover {
@@ -400,44 +533,55 @@
     }
   }
 
-  /* ✅ UPDATED: stops outline/shadow from pushing off-screen */
   &__about-card {
     width: 100%;
     max-width: 640px;
 
     background: linear-gradient(180deg, #ffffff 0%, #fdfdfd 100%);
+
     border: 1px solid var(--line);
+
     border-radius: 16px;
 
     padding: 1rem;
+
     box-shadow: 0 16px 42px rgba(0, 0, 0, 0.08);
 
     box-sizing: border-box;
+
     overflow: hidden;
 
     outline: 1px solid rgba(17, 17, 17, 0.05);
+
     outline-offset: 2px;
 
     @include tablet {
       padding: 1.25rem;
+
       outline-offset: 6px;
+
       max-width: 100%;
     }
 
     @include desktop {
       padding: 1.5rem;
+
       outline-offset: 8px;
     }
   }
 
   &__about-text {
     color: var(--muted);
+
     line-height: 1.75;
+
     margin: 0 0 0.9rem;
+
     text-align: center;
 
     @include tablet {
       text-align: left;
+
       font-size: 1.02rem;
     }
 
@@ -448,10 +592,15 @@
 
   &__about-pills {
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 0.5rem;
+
     margin: 0.25rem 0 1rem;
+
     justify-content: center;
+
     align-items: center;
 
     @include tablet {
@@ -461,31 +610,49 @@
 
   &__about-pill {
     display: inline-flex;
+
     align-items: center;
+
     gap: 0.4rem;
+
     padding: 0.35rem 0.6rem;
+
     border-radius: 999px;
+
     border: 1px solid var(--line);
+
     background: #fff;
+
     color: #222;
+
     font-size: 0.92rem;
+
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.04);
 
     &::before {
       content: "";
+
       width: 6px;
+
       height: 6px;
+
       border-radius: 999px;
+
       background: #cfd8dc;
+
       display: inline-block;
     }
   }
 
   &__about-quote {
     margin: 0.75rem 0 1rem;
+
     font-weight: 700;
+
     letter-spacing: 0.2px;
+
     color: #222;
+
     text-align: center;
 
     @include tablet {
@@ -494,19 +661,24 @@
 
     &::before {
       content: "“";
+
       margin-right: 4px;
+
       color: #d1d5db;
     }
 
     &::after {
       content: "”";
+
       margin-left: 2px;
+
       color: #d1d5db;
     }
   }
 
   &__about-cta {
     display: flex;
+
     justify-content: center;
 
     @include tablet {
@@ -516,8 +688,11 @@
 
   &__about-signoff {
     color: #606c70;
+
     margin: 0.75rem 0 0;
+
     font-size: 0.95rem;
+
     text-align: center;
 
     @include tablet {
@@ -529,72 +704,85 @@
      GALLERY RULES
      ========================= */
 
-  /* =========================
-   GALLERY RULES (NO IFRAME)
-   ========================= */
-
-  /* =========================
-   ✅ GALLERY RULES (MATCH ALL BREAKPOINTS)
-   ========================= */
-
-  /* Show the faux-embed on ALL sizes (mobile/tablet/desktop) */
   #gallery .main__gallery-embedBox {
     display: flex;
+
     flex-direction: column;
+
     width: 100%;
+
     border-radius: 12px;
+
     background: #fff;
+
     border: 1px solid var(--line);
+
     overflow: hidden;
+
     margin-top: 1rem;
   }
 
-  /* OPTIONAL: keep the mobile static images too (if you want BOTH).
-   If you want ONLY the faux-embed everywhere, set display:none here. */
   .main__gallery-static {
     display: none;
   }
 
-  /* Faux embed head matches everywhere */
   #gallery .galleryEmbed__head {
     display: flex;
+
     align-items: flex-start;
+
     justify-content: space-between;
+
     gap: 1rem;
+
     padding: 1rem 1rem 0.75rem;
+
     border-bottom: 1px solid var(--line);
   }
 
-  /* Mobile: stack head nicely */
   @media (max-width: 640px) {
     #gallery .galleryEmbed__head {
       flex-direction: column;
+
       align-items: flex-start;
     }
   }
 
   #gallery .galleryEmbed__title {
     margin: 0;
+
     font-size: 1.05rem;
+
     line-height: 1.2;
   }
 
   #gallery .galleryEmbed__subtitle {
     margin: 0.35rem 0 0;
+
     color: var(--muted);
+
     font-size: 0.95rem;
+
     line-height: 1.5;
+
     max-width: 60ch;
   }
 
   #gallery .galleryEmbed__cta {
     flex: 0 0 auto;
+
     display: inline-block;
+
     font-weight: 700;
+
     color: #111;
+
     text-decoration: none;
+
     border-bottom: 1px solid rgba(17, 17, 17, 0.35);
+
     padding-bottom: 2px;
+
     transition:
       opacity 0.15s ease,
       transform 0.15s ease,
@@ -602,29 +790,29 @@
 
     &:hover {
       opacity: 0.78;
+
       transform: translateY(-1px);
+
       border-color: rgba(17, 17, 17, 0.6);
     }
   }
 
-  /* ✅ GRID: no internal scroll, no fixed heights, fills naturally */
   #gallery .galleryEmbed__grid {
     padding: 1.25rem;
+
     display: grid;
+
     gap: 1rem;
 
-    /* desktop default */
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  /* Tablet: 2 columns */
   @media (max-width: 1024px) {
     #gallery .galleryEmbed__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  /* Mobile: 1 column */
   @media (max-width: 640px) {
     #gallery .galleryEmbed__grid {
       grid-template-columns: 1fr;
@@ -633,17 +821,26 @@
 
   #gallery .galleryEmbed__tile {
     display: block;
+
     border-radius: 12px;
+
     overflow: hidden;
+
     border: 1px solid var(--line);
+
     background: #f7f7f7;
 
     img {
       width: 100%;
+
       height: auto;
+
       aspect-ratio: 4 / 3;
+
       object-fit: cover;
+
       display: block;
+
       transition:
         transform 0.2s ease,
         opacity 0.2s ease;
@@ -651,13 +848,16 @@
 
     &:hover img {
       transform: scale(1.02);
+
       opacity: 0.92;
     }
   }
 
   .main__gallery-static {
     display: grid;
+
     gap: 0.9rem;
+
     margin-top: 1rem;
   }
 
@@ -669,40 +869,65 @@
 
   .main__gallery-static-img {
     width: 100%;
+
     height: auto;
+
     display: block;
+
     border-radius: 12px;
+
     object-fit: cover;
+
     max-height: 320px;
   }
 
-  /* Reviews / testimonials */
+  /* =========================
+     REVIEWS / TESTIMONIALS
+     ========================= */
+
   &__quotes {
     list-style: none;
+
     margin: 0.5rem 0 0;
+
     padding: 0;
+
     display: flex;
+
     flex-direction: column;
+
     gap: 1rem;
+
     width: 100%;
+
     max-width: 880px;
   }
 
   &__quote {
     padding: 0;
+
     border: 0;
+
     background: transparent;
   }
 
   &__tcard {
     position: relative;
+
     display: block;
+
     margin: 0;
+
     border-radius: 16px;
+
     overflow: hidden;
+
     background: #000;
+
     border: 1px solid var(--line);
+
     width: 100%;
+
     aspect-ratio: 3 / 4;
 
     @include tablet {
@@ -711,33 +936,49 @@
 
     @include desktop {
       aspect-ratio: 16 / 9;
+
       border: 0;
+
       box-shadow: 0 16px 42px rgba(0, 0, 0, 0.1);
     }
   }
 
   &__tcard-img {
     position: absolute;
+
     inset: 0;
+
     width: 100%;
+
     height: 100%;
+
     object-fit: cover;
+
     object-position: center;
   }
 
   &__tcard-quote {
     position: absolute;
+
     top: 0.3rem;
+
     left: 0.5rem;
+
     font-size: 3.25rem;
+
     line-height: 1;
+
     color: rgba(255, 255, 255, 0.38);
+
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+
     z-index: 1;
 
     @include tablet {
       font-size: 4rem;
+
       top: 0.2rem;
+
       left: 0.6rem;
     }
 
@@ -748,9 +989,13 @@
 
   &__tcard-body {
     position: absolute;
+
     inset: auto 0 0 0;
+
     padding: 0.9rem 0.9rem 1rem;
+
     color: #fff;
+
     z-index: 1;
 
     @include tablet {
@@ -764,86 +1009,128 @@
 
   &__quote-text {
     margin: 0 0 0.35rem;
+
     color: #fff;
+
     font-weight: 600;
+
     line-height: 1.55;
+
     letter-spacing: 0.1px;
+
     font-size: clamp(1rem, 2.8vw, 1.1rem);
+
     text-wrap: balance;
+
     display: inline;
+
     background: rgba(0, 0, 0, 0.28);
+
     padding: 0.08em 0.35em;
+
     border-radius: 6px;
+
     -webkit-box-decoration-break: clone;
+
     box-decoration-break: clone;
+
     -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.25);
+
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
 
     @include tablet {
       font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+
       padding: 0.1em 0.4em;
     }
 
     @include desktop {
       background: transparent;
+
       -webkit-text-stroke: 0;
+
       text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+
       font-size: clamp(1.1rem, 1.3vw, 1.25rem);
+
       padding: 0;
     }
   }
 
   &__quote-meta {
     font-size: 0.95rem;
+
     opacity: 0.95;
+
     color: rgba(255, 255, 255, 0.92);
   }
 
-  /* HERO background carousel */
+  /* =========================
+     HERO BACKGROUND CAROUSEL
+     ========================= */
+
   &__hero-carousel {
     position: absolute;
+
     inset: 0;
+
     z-index: 0;
+
     pointer-events: none;
   }
 
   &__hero-slide {
     position: absolute;
+
     inset: 0;
+
     background-size: cover;
+
     background-position: center;
+
     background-repeat: no-repeat;
+
     opacity: 0;
+
     transform: scale(1.02);
+
     transition:
       opacity 600ms ease,
       transform 1200ms ease;
+
     pointer-events: none;
 
     &--active {
       opacity: 1;
+
       transform: scale(1);
     }
 
     &--contain {
       background-size: contain;
+
       background-color: #000;
     }
   }
 
   &__hero > .main__container {
     position: relative;
+
     z-index: 1;
   }
 
   &__hero-dots {
     display: flex;
+
     justify-content: center;
+
     gap: 0.4rem;
+
     margin-top: 0.9rem;
 
     @include tablet {
       gap: 0.5rem;
+
       margin-top: 1.1rem;
     }
 
@@ -854,18 +1141,26 @@
 
   &__hero-dot {
     width: 8px;
+
     height: 8px;
+
     border-radius: 999px;
+
     border: 0;
+
     background: rgba(255, 255, 255, 0.55);
+
     opacity: 0.9;
+
     cursor: pointer;
+
     transition:
       transform 0.12s ease,
       background 0.12s ease;
 
     &--active {
       width: 16px;
+
       background: #fff;
     }
 
@@ -875,6 +1170,7 @@
 
     @include tablet {
       width: 9px;
+
       height: 9px;
 
       &--active {
@@ -884,6 +1180,7 @@
 
     @include desktop {
       width: 10px;
+
       height: 10px;
 
       &--active {
@@ -894,27 +1191,38 @@
 }
 
 /* Ensure header sits above hero if overlapping areas exist */
+
 .header {
   position: relative;
+
   z-index: 1000;
 }
 
-/* CTA polish */
+/* =========================
+   CTA POLISH
+   ========================= */
+
 .main__section--cta .main__section-title {
   font-weight: 800;
+
   letter-spacing: 0.2px;
+
   margin-bottom: 0.35rem;
 }
 
 .main__section--cta .main__text {
   margin-inline: auto;
+
   color: #606c70;
+
   max-width: 60ch;
 }
 
 .main__section--cta .main__btn--primary {
   margin-top: 0.35rem;
+
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+
   transition:
     transform 0.12s ease,
     box-shadow 0.12s ease,
@@ -923,37 +1231,43 @@
 
 .main__section--cta .main__btn--primary:hover {
   transform: translateY(-1px);
+
   filter: brightness(0.98);
 }
 
 /* =========================
-   ✅ REVIEWS (centered + no container conflicts)
+   REVIEWS
    ========================= */
 
-/* Center ONLY the reviews section container */
 #reviews .main__container {
   display: grid;
+
   justify-items: center;
 }
 
-/* The renamed wrapper (was main__reviewsWrap) */
 .main__reviews {
   width: 100%;
+
   display: grid;
+
   justify-items: center;
+
   text-align: center;
 }
 
-/* Cards grid */
 .main__reviewsList {
   list-style: none;
+
   margin: 0.75rem 0 0;
+
   padding: 0;
 
   width: 100%;
+
   max-width: 880px;
 
   display: grid;
+
   gap: 1rem;
 
   justify-items: center;
@@ -969,41 +1283,56 @@
 
 .main__reviewsItem {
   width: 100%;
+
   display: grid;
+
   justify-items: center;
 }
 
-/* Keep your tcard unchanged, just ensure it centers */
 .main__tcard {
   width: min(880px, 100%);
+
   margin: 0 auto;
 }
 
 /* GOOGLE REVIEWS CTA */
+
 .main__reviewsCta {
   margin-top: 1.25rem;
+
   display: grid;
+
   justify-items: center;
+
   gap: 0.6rem;
+
   text-align: center;
+
   width: 100%;
+
   max-width: 880px;
 }
 
 .main__reviewsNote {
   margin: 0;
+
   color: var(--muted);
+
   max-width: 60ch;
 }
 
 .main__reviewsFyi {
   margin: 0;
+
   font-weight: 700;
+
   color: #111;
+
   opacity: 0.9;
 }
 
 .main__btn--google {
   border-radius: 999px;
+
   padding: 0.6rem 1.1rem;
 }

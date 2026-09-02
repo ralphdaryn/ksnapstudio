@@ -1,266 +1,397 @@
 @use "../../styles/partials/mixins" as *;
 
 .packages {
-  /* tokens */
   --max-w: 1100px;
-  --page: #f7f7f8;
+
+  --page: #f8f6f3;
   --surface: #ffffff;
-  --ink: #111;
-  --muted: #566;
-  --line: #e9eaec;
-  --radius: 16px;
-  --ring: rgba(2, 132, 199, 0.18);
-  --shadow: 0 12px 28px rgba(2, 6, 23, 0.06);
+
+  --ink: #1d1d1d;
+  --muted: #6e6a66;
+
+  --accent: #8f7661;
+  --accent-light: #eee7e1;
+
+  --line: #ebe6e1;
+
+  --radius: 18px;
+
+  --shadow: 0 12px 35px rgba(28, 22, 18, 0.07);
+  --shadow-hover: 0 18px 45px rgba(28, 22, 18, 0.12);
 
   background: var(--page);
-  padding: 2rem 1rem 2.5rem;
+
+  padding: 3rem 1rem 4rem;
 
   &__inner {
     max-width: var(--max-w);
     margin-inline: auto;
   }
 
-  /* ✅ MOBILE BREATHING ROOM FIX */
-  @media (max-width: 640px) {
-    &__section {
-      padding-inline: 0.35rem;
-    }
+  /* -------------------------
+     INTRO
+  ------------------------- */
 
-    &__card {
-      padding: 1.05rem 0.95rem;
-    }
-  }
-
-  /* Intro */
   &__intro {
     text-align: center;
+
     display: grid;
     justify-items: center;
-    gap: 1.5rem;
-    margin: 0 0 1.2rem;
+
+    gap: 1rem;
+
+    margin-bottom: 3rem;
 
     @include tablet {
-      margin-bottom: 1.6rem;
-      gap: 3rem;
-    }
-
-    @include desktop {
-      margin-bottom: 2rem;
+      margin-bottom: 4rem;
     }
   }
 
   &__title {
-    font-size: clamp(1.8rem, 4.5vw, 2rem);
     margin: 0;
+
     color: var(--ink);
-    letter-spacing: 0.01em;
+
+    font-size: clamp(2.3rem, 5vw, 3.4rem);
+    font-weight: 700;
+
+    letter-spacing: -0.03em;
+
     text-wrap: balance;
   }
 
   &__intro-heading {
-    font-weight: 700;
-    font-size: clamp(1.1rem, 3.6vw, 1.35rem);
-    margin: 0.1rem 0 0;
+    margin: 0;
+
+    max-width: 650px;
+
     color: var(--ink);
+
+    font-size: clamp(1.15rem, 3vw, 1.4rem);
+    font-weight: 600;
+
+    line-height: 1.4;
   }
 
   &__intro-body {
+    max-width: 720px;
+
+    margin: 0;
+
     color: var(--muted);
-    line-height: 1.65;
-    margin: 0.25rem 0 0;
-    max-width: 70ch;
+
+    font-size: 1rem;
+    line-height: 1.8;
   }
 
-  /* Sections */
+  /* -------------------------
+     SECTIONS
+  ------------------------- */
+
   &__section {
-    margin-top: 1.5rem;
+    margin-top: 3.5rem;
 
     @include tablet {
-      margin-top: 1.9rem;
-    }
-
-    @include desktop {
-      margin-top: 2.2rem;
+      margin-top: 4.5rem;
     }
   }
 
   &__section-title {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.55rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    font-size: 0.92rem;
-    margin: 0 0 1rem;
-    text-transform: uppercase;
+    justify-content: center;
+
+    gap: 0.65rem;
+
+    margin: 0 0 1.75rem;
+
     color: var(--ink);
 
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
   }
 
   &__section-badge {
     display: inline-grid;
     place-items: center;
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 999px;
-    background: #f0f5f7;
-    border: 1px solid #e6edf1;
+
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 50%;
+
+    background: var(--accent-light);
   }
 
   &__section-emoji {
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1;
   }
 
-  /* Grid */
+  /* -------------------------
+     GRID
+  ------------------------- */
+
   &__grid {
     --card-w: 320px;
 
     display: grid;
+
     grid-template-columns: repeat(
       auto-fit,
       minmax(min(100%, var(--card-w)), 1fr)
     );
-    gap: 1rem;
+
+    gap: 1.25rem;
+
     justify-content: center;
     justify-items: center;
-    margin-inline: auto;
+
+    margin: 0;
     padding: 0;
+
     list-style: none;
 
     @include tablet {
-      gap: 1.1rem;
       --card-w: 340px;
+
       display: flex;
       flex-wrap: wrap;
+
+      gap: 1.5rem;
     }
 
     @include desktop {
-      gap: 1.2rem;
-      --card-w: 360px;
+      --card-w: 350px;
     }
   }
 
-  /* Card */
+  /* -------------------------
+     CARDS
+  ------------------------- */
+
   &__card {
     width: min(100%, var(--card-w));
+
     background: var(--surface);
+
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 1rem;
+
+    padding: 1.75rem 1.4rem;
 
     display: grid;
     grid-template-rows: auto 1fr auto;
-    gap: 0.8rem;
+
+    gap: 1.35rem;
 
     text-align: center;
 
-    transition: transform 160ms ease, box-shadow 160ms ease,
-      border-color 160ms ease;
+    box-shadow: 0 4px 18px rgba(28, 22, 18, 0.025);
 
-    @include tablet {
-      padding: 1.05rem 1.15rem;
-    }
-
-    @include desktop {
-      padding: 1.1rem 1.2rem;
-    }
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease,
+      border-color 220ms ease;
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-      border-color: #e2e6ea;
+      transform: translateY(-5px);
+
+      box-shadow: var(--shadow-hover);
+
+      border-color: #dfd5cc;
+    }
+
+    @include tablet {
+      padding: 2rem 1.6rem;
     }
   }
+
+  /* -------------------------
+     CARD HEADER
+  ------------------------- */
 
   &__card-head {
     display: grid;
     justify-items: center;
-    gap: 0.55rem;
+
+    gap: 0.75rem;
   }
 
   &__emoji {
     display: inline-grid;
     place-items: center;
-    width: 2.1rem;
-    height: 2.1rem;
-    border-radius: 12px;
-    background: #f6f8fa;
-    border: 1px solid #eef1f4;
-    font-size: 1.05rem;
+
+    width: 2.8rem;
+    height: 2.8rem;
+
+    border-radius: 50%;
+
+    background: var(--accent-light);
+
+    font-size: 1.25rem;
   }
 
   &__name {
     margin: 0;
-    font-weight: 800;
+
     color: var(--ink);
-    font-size: 1.04rem;
-    line-height: 1.25;
+
+    font-size: 1.08rem;
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    letter-spacing: 0.01em;
   }
 
   &__price {
-    font-weight: 800;
+    display: block;
+
+    margin-top: 0.4rem;
+
+    color: var(--accent);
+
+    font-size: 1.65rem;
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
   }
 
   &__tagline {
     margin: 0;
-    color: var(--muted);
-    font-style: italic;
-    line-height: 1.5;
-    max-width: 36ch;
-  }
 
-  /* Bullets */
-  &__bullets {
-    margin: 0.1rem 0 0;
-    padding: 0;
-    list-style: disc inside;
-
-    display: inline-block;
-    text-align: left;
     max-width: 34ch;
 
+    color: var(--muted);
+
+    font-size: 0.92rem;
+    font-style: italic;
+
+    line-height: 1.6;
+  }
+
+  /* -------------------------
+     BULLETS
+  ------------------------- */
+
+  &__bullets {
+    margin: 0 auto;
+
+    padding: 0;
+
+    list-style: none;
+
+    text-align: left;
+
+    width: 100%;
+    max-width: 29ch;
+
     li + li {
-      margin-top: 0.36rem;
+      margin-top: 0.65rem;
     }
   }
 
   &__bullet {
+    position: relative;
+
+    padding-left: 1.25rem;
+
     color: var(--muted);
-    line-height: 1.6;
+
+    font-size: 0.94rem;
+
+    line-height: 1.55;
+
+    &::before {
+      content: "✓";
+
+      position: absolute;
+
+      left: 0;
+      top: 0;
+
+      color: var(--accent);
+
+      font-weight: 700;
+    }
   }
 
-  /* Button */
+  /* -------------------------
+     BUTTON
+  ------------------------- */
+
   &__btn {
     justify-self: center;
-    width: fit-content;
-    margin-top: 0.2rem;
-    padding: 0.58rem 0.95rem;
-    border-radius: 12px;
+
+    min-width: 135px;
+
+    margin-top: 0.4rem;
+
+    padding: 0.75rem 1.25rem;
+
     border: 1px solid var(--ink);
+    border-radius: 999px;
+
+    background: var(--ink);
 
     color: #fff;
-    background: var(--ink);
+
     text-decoration: none;
 
-    font-weight: 700;
-    letter-spacing: 0.01em;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    letter-spacing: 0.03em;
+
+    transition:
+      transform 160ms ease,
+      background 160ms ease,
+      box-shadow 160ms ease;
 
     &:hover {
-      filter: brightness(0.96);
+      transform: translateY(-2px);
+
+      background: #35302d;
+
+      box-shadow: 0 8px 20px rgba(28, 22, 18, 0.15);
     }
 
     &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px var(--ring);
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
+  /* -------------------------
+     MOBILE
+  ------------------------- */
+
+  @media (max-width: 640px) {
+    padding-top: 2.25rem;
+
+    &__section {
+      padding-inline: 0.25rem;
+    }
+
     &__card {
+      padding: 1.6rem 1.2rem;
+    }
+
+    &__section-title {
+      margin-bottom: 1.3rem;
+    }
+  }
+
+  /* Accessibility */
+
+  @media (prefers-reduced-motion: reduce) {
+    &__card,
+    &__btn {
       transition: none;
     }
   }

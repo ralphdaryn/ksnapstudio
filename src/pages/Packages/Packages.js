@@ -1,15 +1,19 @@
 // src/pages/Packages/Packages.jsx
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 import "./Packages.scss";
+
 import SEO from "../../components/SEO/SEO";
 
-// ✅ GA4 event helper (safe even if GA isn't installed yet)
+// GA4 event helper (safe even if GA isn't installed yet)
 const track = (eventName, params = {}) => {
   try {
     if (typeof window !== "undefined" && typeof window.gtag === "function") {
       window.gtag("event", eventName, params);
       return;
     }
+
     if (typeof window !== "undefined" && Array.isArray(window.dataLayer)) {
       window.dataLayer.push({ event: eventName, ...params });
     }
@@ -20,7 +24,8 @@ const track = (eventName, params = {}) => {
 
 const INTRO = {
   heading: "Every story deserves to be captured beautifully.",
-  body: "Whether it’s your wedding day, a growing family, or a moment just for you — my packages are designed to fit your vision. Each session includes professional editing, personalized guidance, and timeless images you’ll love to relive for years to come.",
+  body:
+    "Whether it’s your wedding day, a growing family, or a moment just for you — my packages are designed to fit your vision. Each session includes professional editing, personalized guidance, and timeless images you’ll love to relive for years to come.",
 };
 
 const PACKAGES = [
@@ -76,7 +81,7 @@ const PACKAGES = [
     key: "engagement",
     icon: "💞",
     title: "ENGAGEMENT SESSION",
-    price: "— $325",
+    price: "$325",
     tagline: "Celebrate your love story before the big day.",
     bullets: [
       "1–2 hours of coverage",
@@ -89,10 +94,52 @@ const PACKAGES = [
     ctaHref: "/contact",
   },
   {
+    key: "event-2-hours",
+    icon: "🎉",
+    title: "2 HOURS",
+    price: "$350",
+    tagline: "Event Photography",
+    bullets: [
+      "2 hours of coverage",
+      "100+ edited high-resolution images",
+      "Private online gallery",
+    ],
+    group: "EVENT PHOTOGRAPHY",
+    ctaHref: "/contact",
+  },
+  {
+    key: "event-3-hours",
+    icon: "🎉",
+    title: "3 HOURS",
+    price: "$475",
+    tagline: "Event Photography",
+    bullets: [
+      "3 hours of coverage",
+      "175+ edited high-resolution images",
+      "Private online gallery",
+    ],
+    group: "EVENT PHOTOGRAPHY",
+    ctaHref: "/contact",
+  },
+  {
+    key: "event-4-hours",
+    icon: "🎉",
+    title: "4 HOURS",
+    price: "$575",
+    tagline: "Event Photography",
+    bullets: [
+      "4 hours of coverage",
+      "250+ edited high-resolution images",
+      "Private online gallery",
+    ],
+    group: "EVENT PHOTOGRAPHY",
+    ctaHref: "/contact",
+  },
+  {
     key: "family",
     icon: "👨‍👩‍👧",
     title: "FAMILY & MATERNITY SESSION",
-    price: "— $275",
+    price: "$325",
     tagline: "Capture life’s most meaningful milestones together.",
     bullets: [
       "1–1.5 hours of coverage",
@@ -108,7 +155,7 @@ const PACKAGES = [
     key: "portrait",
     icon: "📸",
     title: "PORTRAIT SESSION",
-    price: "— $250",
+    price: "$275",
     tagline: "Perfect for solo portraits, lifestyle, or branding.",
     bullets: [
       "1 hour of coverage",
@@ -123,7 +170,7 @@ const PACKAGES = [
     key: "seasonal",
     icon: "🎄",
     title: "SEASONAL PORTRAIT SESSION",
-    price: "— $220",
+    price: "$200",
     tagline: "Limited-time themed mini sessions for holidays & special seasons.",
     bullets: [
       "20–30 minutes of coverage",
@@ -139,15 +186,53 @@ const PACKAGES = [
 const GROUPS_ORDER = [
   { key: "WEDDING PACKAGES", icon: "💍" },
   { key: "ENGAGEMENT", icon: "💞" },
+  { key: "EVENT PHOTOGRAPHY", icon: "🎉" },
   { key: "FAMILY & MATERNITY", icon: "👨‍👩‍👧" },
   { key: "PORTRAIT", icon: "📸" },
   { key: "SEASONAL", icon: "🎄" },
 ];
 
+const GROUP_IDS = {
+  "WEDDING PACKAGES": "weddings",
+  ENGAGEMENT: "engagements",
+  "EVENT PHOTOGRAPHY": "events",
+  "FAMILY & MATERNITY": "family",
+  PORTRAIT: "portraits",
+  SEASONAL: "seasonal",
+};
+
 export default function Packages() {
+  const location = useLocation();
+
   useEffect(() => {
     track("view_packages", { page: "packages" });
   }, []);
+
+  useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+
+    const sectionId = location.hash.replace("#", "");
+
+    const timer = setTimeout(() => {
+      const section = document.getElementById(sectionId);
+
+      if (!section) return;
+
+      const headerOffset = 90;
+      const sectionPosition =
+        section.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: sectionPosition,
+        behavior: "smooth",
+      });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [location.hash]);
 
   return (
     <>
@@ -163,36 +248,59 @@ export default function Packages() {
             <h1 id="packages-title" className="packages__title">
               Packages
             </h1>
+
             <p className="packages__intro-heading">{INTRO.heading}</p>
             <p className="packages__intro-body">{INTRO.body}</p>
           </header>
 
           {GROUPS_ORDER.map(({ key, icon }) => {
             const items = PACKAGES.filter((p) => p.group === key);
+
             if (!items.length) return null;
 
             return (
-              <section className="packages__section" key={key} aria-label={key}>
+              <section
+                id={GROUP_IDS[key]}
+                className="packages__section"
+                key={key}
+                aria-label={key}
+              >
                 <h2 className="packages__section-title">
-                  <span className="packages__section-badge" aria-hidden="true">
+                  <span
+                    className="packages__section-badge"
+                    aria-hidden="true"
+                  >
                     <span className="packages__section-emoji">{icon}</span>
                   </span>
+
                   <span>{key}</span>
                 </h2>
 
                 <ul className="packages__grid">
                   {items.map(
-                    ({ key, icon, title, price, tagline, bullets, ctaHref }) => (
-                      <li className="packages__card" key={key}>
+                    ({
+                      key: packageKey,
+                      icon,
+                      title,
+                      price,
+                      tagline,
+                      bullets,
+                      ctaHref,
+                    }) => (
+                      <li className="packages__card" key={packageKey}>
                         <header className="packages__card-head">
                           <span className="packages__emoji" aria-hidden="true">
                             {icon}
                           </span>
+
                           <h3 className="packages__name">
                             {title}{" "}
                             <span className="packages__price">{price}</span>
                           </h3>
-                          {tagline && <p className="packages__tagline">{tagline}</p>}
+
+                          {tagline && (
+                            <p className="packages__tagline">{tagline}</p>
+                          )}
                         </header>
 
                         {bullets?.length ? (
@@ -212,7 +320,7 @@ export default function Packages() {
                             track("cta_click", {
                               location: "packages",
                               label: "book_now",
-                              package_key: key,
+                              package_key: packageKey,
                               package_title: title,
                               package_price: price,
                             })

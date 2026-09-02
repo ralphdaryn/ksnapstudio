@@ -17,22 +17,38 @@ const HERO_SLIDES = [hero1, hero2, hero3];
 const PACKAGE_CATEGORIES = [
   {
     key: "events",
+    icon: "🎉",
     title: "Events",
+    target: "/packages#events",
+    description:
+      "From intimate celebrations to larger gatherings, I’ll capture the moments, details, and genuine interactions that make your event memorable.",
     items: ["Birthdays", "Bridal Showers", "Corporate Events"],
   },
   {
     key: "weddings",
+    icon: "💍",
     title: "Weddings & Engagements",
+    target: "/packages#weddings",
+    description:
+      "Thoughtful, story-driven coverage designed to preserve the emotions, details, and unforgettable moments of your celebration.",
     items: ["Half-Day Coverage", "Full-Day Coverage", "Engagement Session"],
   },
   {
     key: "family",
+    icon: "👨‍👩‍👧",
     title: "Family & Maternity",
+    target: "/packages#family",
+    description:
+      "Relaxed and meaningful sessions focused on your connection, personality, and the special season of life you’re in.",
     items: ["Lifestyle Family Session", "Maternity Session"],
   },
   {
     key: "portraits-seasonal",
+    icon: "📸",
     title: "Portraits & Seasonal Sessions",
+    target: "/packages#portraits",
+    description:
+      "Natural, polished portraits with simple direction to help you feel comfortable and confident in front of the camera.",
     items: [
       "Individual Portraits",
       "Couples Portraits",
@@ -60,6 +76,7 @@ const TESTIMONIALS = [
 
 export default function Main() {
   const [heroIndex, setHeroIndex] = useState(0);
+
   const [fitModes, setFitModes] = useState(
     Array(HERO_SLIDES.length).fill("cover")
   );
@@ -70,6 +87,7 @@ export default function Main() {
       () => setHeroIndex((i) => (i + 1) % HERO_SLIDES.length),
       5000
     );
+
     return () => clearInterval(id);
   }, []);
 
@@ -81,9 +99,21 @@ export default function Main() {
       (src, idx) =>
         new Promise((resolve) => {
           const img = new Image();
+
           img.onload = () =>
-            resolve({ idx, w: img.naturalWidth, h: img.naturalHeight });
-          img.onerror = () => resolve({ idx, w: 0, h: 0 });
+            resolve({
+              idx,
+              w: img.naturalWidth,
+              h: img.naturalHeight,
+            });
+
+          img.onerror = () =>
+            resolve({
+              idx,
+              w: 0,
+              h: 0,
+            });
+
           img.src = src;
         })
     );
@@ -95,8 +125,12 @@ export default function Main() {
 
       results.forEach(({ idx, w, h }) => {
         if (!w || !h) return;
+
         const ar = w / h;
-        if (ar < 0.95 || ar > 2.0) modes[idx] = "contain";
+
+        if (ar < 0.95 || ar > 2.0) {
+          modes[idx] = "contain";
+        }
       });
 
       setFitModes(modes);
@@ -125,7 +159,11 @@ export default function Main() {
               key={idx}
               className={`main__hero-slide ${
                 idx === heroIndex ? "main__hero-slide--active" : ""
-              } ${fitModes[idx] === "contain" ? "main__hero-slide--contain" : ""}`}
+              } ${
+                fitModes[idx] === "contain"
+                  ? "main__hero-slide--contain"
+                  : ""
+              }`}
               style={{ backgroundImage: `url(${src})` }}
             />
           ))}
@@ -133,7 +171,11 @@ export default function Main() {
 
         <div className="main__container">
           <h1 className="main__title">K.Snap.Studio</h1>
-          <p className="main__tagline">Capturing Moments, Creating Memories</p>
+
+          <p className="main__tagline">
+            Capturing Moments, Creating Memories
+          </p>
+
           <p className="main__subtitle">
             Weddings • Events • Portraits — serving the GTA with a modern,
             story-driven approach.
@@ -144,7 +186,10 @@ export default function Main() {
               className="main__btn main__btn--primary"
               to="/packages"
               onClick={() =>
-                track("cta_click", { location: "hero", label: "view_packages" })
+                track("cta_click", {
+                  location: "hero",
+                  label: "view_packages",
+                })
               }
             >
               View Packages
@@ -154,7 +199,10 @@ export default function Main() {
               className="main__btn"
               to="/contact"
               onClick={() =>
-                track("cta_click", { location: "hero", label: "book_now" })
+                track("cta_click", {
+                  location: "hero",
+                  label: "book_now",
+                })
               }
             >
               Book Now
@@ -186,10 +234,16 @@ export default function Main() {
         <div className="main__container">
           <div className="main__section-head">
             <h2 className="main__section-title">About</h2>
+
             <Link
               className="main__link main__link--inline"
               to="/about"
-              onClick={() => track("nav_click", { from: "home", to: "about" })}
+              onClick={() =>
+                track("nav_click", {
+                  from: "home",
+                  to: "about",
+                })
+              }
             >
               Learn more →
             </Link>
@@ -222,9 +276,11 @@ export default function Main() {
                 <span className="main__about-pill" role="listitem">
                   Weddings
                 </span>
+
                 <span className="main__about-pill" role="listitem">
                   Events
                 </span>
+
                 <span className="main__about-pill" role="listitem">
                   Portraits
                 </span>
@@ -240,6 +296,7 @@ export default function Main() {
           <div className="main__section-head">
             <h2 className="main__section-title">Gallery</h2>
           </div>
+
           <PicTimeGallery variant="preview" />
         </div>
       </section>
@@ -249,11 +306,15 @@ export default function Main() {
         <div className="main__container">
           <div className="main__section-head">
             <h2 className="main__section-title">Packages</h2>
+
             <Link
               className="main__link main__link--inline"
               to="/packages"
               onClick={() =>
-                track("nav_click", { from: "home", to: "packages" })
+                track("nav_click", {
+                  from: "home",
+                  to: "packages",
+                })
               }
             >
               View all →
@@ -263,7 +324,15 @@ export default function Main() {
           <ul className="main__cards">
             {PACKAGE_CATEGORIES.map((cat) => (
               <li className="main__card" key={cat.key}>
-                <h3 className="main__card-title">{cat.title}</h3>
+                <div className="main__card-head">
+                  <span className="main__card-icon" aria-hidden="true">
+                    {cat.icon}
+                  </span>
+
+                  <h3 className="main__card-title">{cat.title}</h3>
+                </div>
+
+                <p className="main__card-description">{cat.description}</p>
 
                 <ul className="main__card-list">
                   {cat.items.map((item) => (
@@ -271,13 +340,9 @@ export default function Main() {
                   ))}
                 </ul>
 
-                <p className="main__card-note">
-                  See full pricing &amp; details on the Packages page.
-                </p>
-
                 <Link
                   className="main__card-btn"
-                  to="/packages"
+                  to={cat.target}
                   onClick={() =>
                     track("packages_preview_click", {
                       location: "home_packages_preview",
@@ -285,7 +350,7 @@ export default function Main() {
                     })
                   }
                 >
-                  View Packages
+                  See full pricing &amp; details
                 </Link>
               </li>
             ))}
@@ -303,7 +368,12 @@ export default function Main() {
               {TESTIMONIALS.map((t) => (
                 <li key={t.id} className="main__reviewsItem">
                   <figure className="main__tcard">
-                    <img className="main__tcard-img" src={t.img} alt={t.alt} />
+                    <img
+                      className="main__tcard-img"
+                      src={t.img}
+                      alt={t.alt}
+                    />
+
                     <span className="main__tcard-quote" aria-hidden="true">
                       “
                     </span>
@@ -312,6 +382,7 @@ export default function Main() {
                       <blockquote className="main__quote-text">
                         {t.text}
                       </blockquote>
+
                       <div className="main__quote-meta">— {t.name}</div>
                     </figcaption>
                   </figure>
@@ -353,6 +424,7 @@ export default function Main() {
           <h2 className="main__section-title">
             Let's capture something beautiful.
           </h2>
+
           <p className="main__text">
             Share your date, locations, and vision. We’ll recommend the perfect
             package and timeline.
@@ -361,7 +433,12 @@ export default function Main() {
           <Link
             className="main__btn main__btn--primary"
             to="/contact"
-            onClick={() => track("nav_click", { from: "home", to: "contact" })}
+            onClick={() =>
+              track("nav_click", {
+                from: "home",
+                to: "contact",
+              })
+            }
           >
             Plan Your Experience
           </Link>
