@@ -1,210 +1,579 @@
+// @use "../../styles/partials/mixins" as *;
+
+// .contact {
+//   /* tokens */
+//   --max-w: 720px;
+//   --pad-x: 1rem;
+//   --ink: #111;
+//   --muted: #5f6368;
+//   --line: #e6e6e6;
+//   --ring: rgba(17, 17, 17, 0.08);
+//   --radius: 14px;
+//   --bg: #fff;
+//   --page-bg: #fafafa;
+
+//   background: var(--page-bg);
+//   color: var(--ink);
+//   padding: 2rem 1rem;
+//   overflow-x: hidden; /* guard against tiny horizontal overflows */
+
+//   &__inner {
+//     max-width: var(--max-w);
+//     margin-inline: auto;
+//     padding-inline: var(--pad-x); /* safe gutters on small screens */
+//   }
+
+//   /* Head */
+//   &__head {
+//     margin-bottom: 0.75rem;
+//   }
+
+//   &__title {
+//     font-size: clamp(1.6rem, 3.2vw, 2rem);
+//     margin: 0 0 0.35rem;
+
+//     &::after {
+//       content: "";
+//       display: block;
+//       width: 56px;
+//       height: 2px;
+//       background: var(--line);
+//       border-radius: 2px;
+//       margin-top: 0.5rem;
+//     }
+//   }
+
+//   &__lede {
+//     margin: 0;
+//     color: var(--muted);
+//     font-size: 0.98rem;
+//   }
+
+//   /* Form card */
+//   &__form {
+//     display: grid;
+//     gap: 1rem;
+//     background: var(--bg);
+//     border: 1px solid var(--line);
+//     border-radius: var(--radius);
+//     padding: 1rem;
+//     /* ring that doesn't push outside the container */
+//     box-shadow: 0 0 0 1px var(--ring), 0 10px 26px rgba(0, 0, 0, 0.05);
+
+//     @include tablet {
+//       padding: 1.25rem;
+//       gap: 1.1rem;
+//     }
+//   }
+
+//   /* Sections */
+//   &__section {
+//     display: grid;
+//     gap: 0.75rem;
+//     padding: 0;
+//     margin: 0;
+//     border: 0;
+//   }
+
+//   &__section-title {
+//     font-size: 1rem;
+//     font-weight: 700;
+//     margin: 0 0 .75rem;
+//     padding-bottom: 0.35rem;
+//     border-bottom: 1px solid var(--line);
+//   }
+
+//   /* Grid rows */
+//   &__row {
+//     display: grid;
+//     gap: 0.75rem;
+
+//     /* critical for grid overflow on small screens */
+//     > * {
+//       min-width: 0;
+//     }
+
+//     &--2 {
+//       grid-template-columns: 1fr;
+//       @include tablet {
+//         grid-template-columns: 1fr 1fr;
+//         gap: 0.85rem;
+//       }
+//     }
+//   }
+
+//   /* Fields */
+//   &__field {
+//     display: grid;
+//     gap: 0.35rem;
+//     min-width: 0; /* prevent intrinsic overflow inside grid */
+//   }
+
+//   &__label {
+//     font-weight: 600;
+//   }
+
+//   /* Inputs */
+//   &__input,
+//   &__textarea,
+//   &__select {
+//     width: 100%;
+//     min-width: 0; /* allow shrinking within grid */
+//     border: 1px solid #ddd;
+//     border-radius: 10px;
+//     padding: 0.65rem 0.75rem;
+//     font: inherit;
+//     background: #fff;
+//     color: var(--ink);
+//     outline: none;
+//     box-sizing: border-box;
+//     transition: box-shadow 120ms ease, border-color 120ms ease;
+
+//     &:focus {
+//       border-color: #cfcfcf;
+//       box-shadow: 0 0 0 4px var(--ring);
+//     }
+
+//     &::placeholder {
+//       color: #9aa0a6;
+//     }
+//   }
+
+//   /* Make selects match inputs, keep arrow tidy on iOS */
+//   &__select {
+//     appearance: none;
+//     background-image: linear-gradient(45deg, transparent 50%, #aaa 50%),
+//       linear-gradient(135deg, #aaa 50%, transparent 50%),
+//       linear-gradient(to right, transparent, transparent);
+//     background-position: calc(100% - 18px) calc(1.1em),
+//       calc(100% - 13px) calc(1.1em), calc(100% - 2.2rem) 0.4rem;
+//     background-size: 5px 5px, 5px 5px, 1px 65%;
+//     background-repeat: no-repeat;
+//     background-clip: padding-box;
+//   }
+
+//   &__textarea {
+//     resize: vertical;
+//     min-height: 120px;
+//   }
+
+//   /* Meta */
+//   &__meta {
+//     margin-top: 0.25rem;
+//   }
+
+//   &__note {
+//     margin: 0;
+//     color: var(--muted);
+//     font-size: 0.92rem;
+//   }
+
+//   /* Submit (centered + responsive) */
+//   &__btn {
+//     justify-self: center; /* center within the grid */
+//     display: inline-flex;
+//     align-items: center;
+//     justify-content: center;
+
+//     width: 8rem;
+//     max-width: 560px; /* mobile: full width up to this cap */
+//     min-height: clamp(48px, 6vw, 56px); /* solid tap target */
+//     padding: clamp(0.5rem, .5vw, .5rem) clamp(.5rem, .5vw, .5rem);
+//     font-size: clamp(1rem, 1.6vw, 1.125rem);
+//     font-weight: 700;
+//     border-radius: 12px;
+
+//     border: 1px solid #111;
+//     color: #fff;
+//     background: #111;
+//     cursor: pointer;
+//     transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+
+//     &:hover {
+//       transform: translateY(-1px);
+//       filter: brightness(0.98);
+//       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+//     }
+
+//     &:active {
+//       transform: translateY(0);
+//       filter: none;
+//       box-shadow: none;
+//     }
+
+//     /* keep proportions on larger screens */
+//     @include tablet {
+//       max-width: 420px;
+//     }
+//     @include desktop {
+//       max-width: 360px;
+//     }
+//   }
+// }
+
 @use "../../styles/partials/mixins" as *;
 
 .contact {
-  /* tokens */
+  /* K.Snap Studio brand colors */
+
   --max-w: 720px;
+
   --pad-x: 1rem;
-  --ink: #111;
-  --muted: #5f6368;
-  --line: #e6e6e6;
-  --ring: rgba(17, 17, 17, 0.08);
+
+  --ink: #191714;
+
+  --muted: #6f685f;
+
+  --line: #ddd4c4;
+
+  --gold: #d6a84b;
+
+  --gold-light: #edc56a;
+
+  --gold-soft: rgba(214, 168, 75, 0.12);
+
+  --ring: rgba(214, 168, 75, 0.2);
+
   --radius: 14px;
-  --bg: #fff;
-  --page-bg: #fafafa;
+
+  --bg: #fffdf9;
+
+  --page-bg: #f3eee4;
 
   background: var(--page-bg);
+
   color: var(--ink);
+
   padding: 2rem 1rem;
-  overflow-x: hidden; /* guard against tiny horizontal overflows */
+
+  overflow-x: hidden;
+
+  min-height: 100vh;
 
   &__inner {
     max-width: var(--max-w);
+
     margin-inline: auto;
-    padding-inline: var(--pad-x); /* safe gutters on small screens */
+
+    padding-inline: var(--pad-x);
   }
 
   /* Head */
+
   &__head {
     margin-bottom: 0.75rem;
   }
 
   &__title {
     font-size: clamp(1.6rem, 3.2vw, 2rem);
+
     margin: 0 0 0.35rem;
+
+    color: var(--ink);
 
     &::after {
       content: "";
+
       display: block;
+
       width: 56px;
+
       height: 2px;
-      background: var(--line);
-      border-radius: 2px;
+
+      background: var(--gold);
+
+      border-radius: 999px;
+
       margin-top: 0.5rem;
     }
   }
 
   &__lede {
     margin: 0;
+
     color: var(--muted);
+
     font-size: 0.98rem;
   }
 
   /* Form card */
+
   &__form {
     display: grid;
+
     gap: 1rem;
-    background: var(--bg);
+
+    background: linear-gradient(
+      180deg,
+      #fffdf9 0%,
+      #faf7f1 100%
+    );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     padding: 1rem;
-    /* ring that doesn't push outside the container */
-    box-shadow: 0 0 0 1px var(--ring), 0 10px 26px rgba(0, 0, 0, 0.05);
+
+    box-shadow:
+      0 0 0 1px rgba(214, 168, 75, 0.08),
+      0 10px 26px rgba(45, 36, 20, 0.06);
 
     @include tablet {
       padding: 1.25rem;
+
       gap: 1.1rem;
     }
   }
 
   /* Sections */
+
   &__section {
     display: grid;
+
     gap: 0.75rem;
+
     padding: 0;
+
     margin: 0;
+
     border: 0;
   }
 
   &__section-title {
     font-size: 1rem;
+
     font-weight: 700;
-    margin: 0 0 .75rem;
+
+    margin: 0 0 0.75rem;
+
     padding-bottom: 0.35rem;
+
     border-bottom: 1px solid var(--line);
+
+    color: var(--ink);
   }
 
   /* Grid rows */
+
   &__row {
     display: grid;
+
     gap: 0.75rem;
 
-    /* critical for grid overflow on small screens */
     > * {
       min-width: 0;
     }
 
     &--2 {
       grid-template-columns: 1fr;
+
       @include tablet {
         grid-template-columns: 1fr 1fr;
+
         gap: 0.85rem;
       }
     }
   }
 
   /* Fields */
+
   &__field {
     display: grid;
+
     gap: 0.35rem;
-    min-width: 0; /* prevent intrinsic overflow inside grid */
+
+    min-width: 0;
   }
 
   &__label {
     font-weight: 600;
+
+    color: var(--ink);
   }
 
   /* Inputs */
+
   &__input,
   &__textarea,
   &__select {
     width: 100%;
-    min-width: 0; /* allow shrinking within grid */
-    border: 1px solid #ddd;
+
+    min-width: 0;
+
+    border: 1px solid #ddd2bf;
+
     border-radius: 10px;
+
     padding: 0.65rem 0.75rem;
+
     font: inherit;
-    background: #fff;
+
+    background: #ffffff;
+
     color: var(--ink);
+
     outline: none;
+
     box-sizing: border-box;
-    transition: box-shadow 120ms ease, border-color 120ms ease;
+
+    transition:
+      box-shadow 120ms ease,
+      border-color 120ms ease,
+      background 120ms ease;
+
+    &:hover {
+      border-color: #d4c5aa;
+    }
 
     &:focus {
-      border-color: #cfcfcf;
+      border-color: var(--gold);
+
       box-shadow: 0 0 0 4px var(--ring);
+
+      background: #fff;
     }
 
     &::placeholder {
-      color: #9aa0a6;
+      color: #9b9388;
     }
   }
 
-  /* Make selects match inputs, keep arrow tidy on iOS */
+  /* Select arrow */
+
   &__select {
     appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #aaa 50%),
-      linear-gradient(135deg, #aaa 50%, transparent 50%),
-      linear-gradient(to right, transparent, transparent);
-    background-position: calc(100% - 18px) calc(1.1em),
-      calc(100% - 13px) calc(1.1em), calc(100% - 2.2rem) 0.4rem;
-    background-size: 5px 5px, 5px 5px, 1px 65%;
+
+    background-image:
+      linear-gradient(
+        45deg,
+        transparent 50%,
+        #b18a42 50%
+      ),
+      linear-gradient(
+        135deg,
+        #b18a42 50%,
+        transparent 50%
+      ),
+      linear-gradient(
+        to right,
+        transparent,
+        transparent
+      );
+
+    background-position:
+      calc(100% - 18px) calc(1.1em),
+      calc(100% - 13px) calc(1.1em),
+      calc(100% - 2.2rem) 0.4rem;
+
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 65%;
+
     background-repeat: no-repeat;
+
     background-clip: padding-box;
   }
 
   &__textarea {
     resize: vertical;
+
     min-height: 120px;
   }
 
   /* Meta */
+
   &__meta {
     margin-top: 0.25rem;
   }
 
   &__note {
     margin: 0;
+
     color: var(--muted);
+
     font-size: 0.92rem;
   }
 
-  /* Submit (centered + responsive) */
+  /* Submit button */
+
   &__btn {
-    justify-self: center; /* center within the grid */
+    justify-self: center;
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
 
     width: 8rem;
-    max-width: 560px; /* mobile: full width up to this cap */
-    min-height: clamp(48px, 6vw, 56px); /* solid tap target */
-    padding: clamp(0.5rem, .5vw, .5rem) clamp(.5rem, .5vw, .5rem);
+
+    max-width: 560px;
+
+    min-height: clamp(48px, 6vw, 56px);
+
+    padding:
+      clamp(0.5rem, 0.5vw, 0.5rem)
+      clamp(0.5rem, 0.5vw, 0.5rem);
+
     font-size: clamp(1rem, 1.6vw, 1.125rem);
+
     font-weight: 700;
+
     border-radius: 12px;
 
-    border: 1px solid #111;
+    border: 1px solid #171512;
+
     color: #fff;
-    background: #111;
+
+    background: #171512;
+
     cursor: pointer;
-    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease,
+      background 0.12s ease,
+      color 0.12s ease,
+      border-color 0.12s ease;
 
     &:hover {
       transform: translateY(-1px);
-      filter: brightness(0.98);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+
+      background: var(--gold);
+
+      border-color: var(--gold);
+
+      color: #111;
+
+      box-shadow: 0 10px 24px rgba(214, 168, 75, 0.2);
     }
 
     &:active {
       transform: translateY(0);
-      filter: none;
+
       box-shadow: none;
     }
 
-    /* keep proportions on larger screens */
+    &:focus-visible {
+      outline: 2px solid var(--gold);
+
+      outline-offset: 4px;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+
+      opacity: 0.65;
+
+      transform: none;
+    }
+
     @include tablet {
       max-width: 420px;
     }
+
     @include desktop {
       max-width: 360px;
     }

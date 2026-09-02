@@ -1,134 +1,381 @@
-/* Mobile-first, BEM */
-.header {
-  --h-pad: 1rem;
-  --max-w: 1200px;
-  --gap: 1.25rem;
+// /* Mobile-first, BEM */
+// .header {
+//   --h-pad: 1rem;
+//   --max-w: 1200px;
+//   --gap: 1.25rem;
 
-  position: relative; /* ⬅️ create stacking context */
-  z-index: 1000; /* ⬅️ ensure above hero backgrounds */
-  background: #fff;
-  border-bottom: 1px solid #eee;
+//   position: relative; /* ⬅️ create stacking context */
+//   z-index: 1000; /* ⬅️ ensure above hero backgrounds */
+//   background: #fff;
+//   border-bottom: 1px solid #eee;
+
+//   &__inner {
+//     max-width: var(--max-w);
+//     margin: 0 auto;
+//     padding: 0.75rem var(--h-pad);
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     gap: var(--gap);
+//   }
+
+//   &__brand {
+//     display: inline-flex;
+//     align-items: center;
+//     text-decoration: none;
+//   }
+//   &__logo {
+//     display: block;
+//     height: 40px;
+//     width: auto;
+//   }
+
+//   /* Hamburger toggle */
+//   &__toggle {
+//     appearance: none;
+//     background: transparent;
+//     border: 0;
+//     padding: 0.5rem;
+//     cursor: pointer;
+//     line-height: 0;
+//   }
+
+//   &__burger {
+//     position: relative;
+//     display: inline-block;
+//     width: 26px;
+//     height: 2px;
+//     background: #111;
+//   }
+//   &__burger::before,
+//   &__burger::after {
+//     content: "";
+//     position: absolute;
+//     left: 0;
+//     width: 26px;
+//     height: 2px;
+//     background: #111;
+//   }
+//   &__burger::before {
+//     top: -7px;
+//   }
+//   &__burger::after {
+//     top: 7px;
+//   }
+
+//   /* Nav (mobile collapsed by default) */
+//   &__nav {
+//     position: absolute;
+//     inset: 64px 0 auto 0; /* drops below header on mobile */
+//     background: #fff;
+//     border-top: 1px solid #eee;
+//     transform: translateY(-8px);
+//     opacity: 0;
+//     pointer-events: none;
+//     transition: opacity 150ms ease, transform 150ms ease;
+//   }
+//   &__nav--open {
+//     opacity: 1;
+//     transform: translateY(0);
+//     pointer-events: auto;
+//   }
+
+//   &__list {
+//     list-style: none;
+//     margin: 0;
+//     padding: 0.75rem var(--h-pad);
+//     display: grid;
+//     gap: 0.5rem;
+//   }
+
+//   &__link {
+//     display: block;
+//     padding: 0.5rem 0.25rem;
+//     text-decoration: none;
+//     color: #111;
+//     font-weight: 500;
+//     &:hover,
+//     &:focus {
+//       text-decoration: underline;
+//       outline: none;
+//     }
+//   }
+
+//   /* Desktop */
+//   @media (min-width: 768px) {
+//     &__toggle {
+//       display: none;
+//     }
+//     &__nav {
+//       position: static;
+//       inset: auto;
+//       border-top: 0;
+//       opacity: 1;
+//       transform: none;
+//       pointer-events: auto;
+//       background: transparent;
+//     }
+//     &__list {
+//       display: flex;
+//       align-items: center;
+//       gap: 1rem;
+//       padding: 0;
+//     }
+//     &__link {
+//       padding: 0.5rem 0.75rem;
+//       border-radius: 8px;
+//       &:hover,
+//       &:focus {
+//         background: #f4f4f5;
+//         text-decoration: none;
+//       }
+//     }
+//   }
+// }
+
+@use "../../styles/partials/mixins" as *;
+
+.header {
+  --header-bg: #000000;
+  --gold: #d6a84b;
+  --gold-light: #edc56a;
+  --white: #ffffff;
+  --line: rgba(214, 168, 75, 0.26);
+
+  position: relative;
+  z-index: 1000;
+
+  width: 100%;
+
+  background: var(--header-bg);
+
+  border-bottom: 1px solid var(--line);
 
   &__inner {
-    max-width: var(--max-w);
-    margin: 0 auto;
-    padding: 0.75rem var(--h-pad);
+    width: min(1120px, calc(100% - 2rem));
+
+    margin-inline: auto;
+
+    min-height: 86px;
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
-    gap: var(--gap);
+
+    gap: 1rem;
   }
 
   &__brand {
     display: inline-flex;
+
     align-items: center;
+
+    flex: 0 0 auto;
+
     text-decoration: none;
   }
-  &__logo {
-    display: block;
-    height: 40px;
-    width: auto;
-  }
 
-  /* Hamburger toggle */
-  &__toggle {
-    appearance: none;
-    background: transparent;
-    border: 0;
-    padding: 0.5rem;
-    cursor: pointer;
+  &__brand-picture {
+    display: block;
+
     line-height: 0;
   }
 
-  &__burger {
-    position: relative;
-    display: inline-block;
-    width: 26px;
-    height: 2px;
-    background: #111;
-  }
-  &__burger::before,
-  &__burger::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 26px;
-    height: 2px;
-    background: #111;
-  }
-  &__burger::before {
-    top: -7px;
-  }
-  &__burger::after {
-    top: 7px;
+  &__logo {
+    display: block;
+
+    width: auto;
+
+    height: 72px;
+
+    object-fit: contain;
   }
 
-  /* Nav (mobile collapsed by default) */
+  &__toggle {
+    position: relative;
+
+    width: 44px;
+
+    height: 44px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    padding: 0;
+
+    border: 1px solid var(--line);
+
+    border-radius: 999px;
+
+    background: #0d0d0d;
+
+    cursor: pointer;
+  }
+
+  &__burger,
+  &__burger::before,
+  &__burger::after {
+    position: absolute;
+
+    width: 20px;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background: var(--gold-light);
+
+    content: "";
+  }
+
+  &__burger::before {
+    transform: translateY(-6px);
+  }
+
+  &__burger::after {
+    transform: translateY(6px);
+  }
+
   &__nav {
     position: absolute;
-    inset: 64px 0 auto 0; /* drops below header on mobile */
-    background: #fff;
-    border-top: 1px solid #eee;
-    transform: translateY(-8px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 150ms ease, transform 150ms ease;
+
+    top: 100%;
+
+    left: 0;
+
+    right: 0;
+
+    display: none;
+
+    background: #050505;
+
+    border-top: 1px solid var(--line);
+
+    border-bottom: 1px solid var(--line);
   }
+
   &__nav--open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+    display: block;
   }
 
   &__list {
+    width: min(1120px, calc(100% - 2rem));
+
+    margin: 0 auto;
+
+    padding: 0.75rem 0 1rem;
+
     list-style: none;
-    margin: 0;
-    padding: 0.75rem var(--h-pad);
+
     display: grid;
-    gap: 0.5rem;
+
+    gap: 0.25rem;
+  }
+
+  &__item {
+    margin: 0;
   }
 
   &__link {
     display: block;
-    padding: 0.5rem 0.25rem;
+
+    padding: 0.8rem 0.75rem;
+
+    border-radius: 8px;
+
+    color: var(--white);
+
+    font-size: 0.95rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+
     text-decoration: none;
-    color: #111;
-    font-weight: 500;
-    &:hover,
-    &:focus {
-      text-decoration: underline;
-      outline: none;
+
+    transition:
+      color 150ms ease,
+      background 150ms ease;
+
+    &:hover {
+      color: var(--gold-light);
+
+      background: rgba(214, 168, 75, 0.08);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--gold);
+
+      outline-offset: 2px;
     }
   }
 
-  /* Desktop */
-  @media (min-width: 768px) {
+  @include tablet {
+    &__inner {
+      min-height: 104px;
+    }
+
+    &__logo {
+      height: 90px;
+    }
+
     &__toggle {
       display: none;
     }
+
     &__nav {
       position: static;
-      inset: auto;
-      border-top: 0;
-      opacity: 1;
-      transform: none;
-      pointer-events: auto;
+
+      display: block;
+
+      margin-left: auto;
+
       background: transparent;
+
+      border: 0;
     }
+
     &__list {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      width: auto;
+
+      margin: 0;
+
       padding: 0;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 0.15rem;
     }
+
     &__link {
-      padding: 0.5rem 0.75rem;
-      border-radius: 8px;
-      &:hover,
-      &:focus {
-        background: #f4f4f5;
-        text-decoration: none;
-      }
+      padding: 0.7rem 0.75rem;
+    }
+  }
+
+  @include desktop {
+    &__inner {
+      min-height: 116px;
+    }
+
+    &__logo {
+      height: 104px;
+    }
+
+    &__list {
+      gap: 0.35rem;
+    }
+
+    &__link {
+      padding-inline: 0.9rem;
     }
   }
 }
