@@ -137,7 +137,7 @@ const PACKAGES = [
   },
   {
     key: "family",
-    icon: "👨‍👩‍👧",
+    icon: "👨‍👩",
     title: "FAMILY & MATERNITY SESSION",
     price: "$325",
     tagline: "Capture life’s most meaningful milestones together.",
@@ -187,7 +187,7 @@ const GROUPS_ORDER = [
   { key: "EVENT PHOTOGRAPHY", icon: "🎉" },
   { key: "WEDDING PACKAGES", icon: "💍" },
   { key: "ENGAGEMENT", icon: "💞" },
-  { key: "FAMILY & MATERNITY", icon: "👨‍👩‍👧" },
+  { key: "FAMILY & MATERNITY", icon: "👨‍👩" },
   { key: "PORTRAIT", icon: "📸" },
   { key: "SEASONAL", icon: "🎄" },
 ];
