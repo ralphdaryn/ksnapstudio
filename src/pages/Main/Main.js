@@ -78,14 +78,14 @@ export default function Main() {
   const [heroIndex, setHeroIndex] = useState(0);
 
   const [fitModes, setFitModes] = useState(
-    Array(HERO_SLIDES.length).fill("cover")
+    Array(HERO_SLIDES.length).fill("cover"),
   );
 
   // Auto-advance hero slides
   useEffect(() => {
     const id = setInterval(
       () => setHeroIndex((i) => (i + 1) % HERO_SLIDES.length),
-      5000
+      5000,
     );
 
     return () => clearInterval(id);
@@ -115,7 +115,7 @@ export default function Main() {
             });
 
           img.src = src;
-        })
+        }),
     );
 
     Promise.all(loaders).then((results) => {
@@ -160,9 +160,7 @@ export default function Main() {
               className={`main__hero-slide ${
                 idx === heroIndex ? "main__hero-slide--active" : ""
               } ${
-                fitModes[idx] === "contain"
-                  ? "main__hero-slide--contain"
-                  : ""
+                fitModes[idx] === "contain" ? "main__hero-slide--contain" : ""
               }`}
               style={{ backgroundImage: `url(${src})` }}
             />
@@ -172,9 +170,7 @@ export default function Main() {
         <div className="main__container">
           <h1 className="main__title">K.Snap.Studio</h1>
 
-          <p className="main__tagline">
-            Capturing Moments, Creating Memories
-          </p>
+          <p className="main__tagline">Capturing Moments, Creating Memories</p>
 
           <p className="main__subtitle">
             Weddings • Events • Portraits — serving the GTA with a modern,
@@ -262,10 +258,10 @@ export default function Main() {
 
             <article className="main__about-card">
               <p className="main__about-text">
-                Welcome! K.Snap.Studio is my passion for photography starting
-                out in 2017 to business owner in telling your story through a
-                camera lens. My niche is creating &amp; capturing beautiful
-                moments for lifelong memories.
+                Welcome! K.Snap.Studio is my passion for photography, starting
+                out in 2017 and growing into a business dedicated to telling
+                your story through a camera lens! What’s my niche, you ask?
+                Creating & capturing beautiful moments for lifelong memories.
               </p>
 
               <div
@@ -368,11 +364,7 @@ export default function Main() {
               {TESTIMONIALS.map((t) => (
                 <li key={t.id} className="main__reviewsItem">
                   <figure className="main__tcard">
-                    <img
-                      className="main__tcard-img"
-                      src={t.img}
-                      alt={t.alt}
-                    />
+                    <img className="main__tcard-img" src={t.img} alt={t.alt} />
 
                     <span className="main__tcard-quote" aria-hidden="true">
                       “
