@@ -35,7 +35,7 @@ const PACKAGE_CATEGORIES = [
   },
   {
     key: "family",
-    icon: "👨‍👩",
+    icon: "💕",
     title: "Family & Maternity",
     target: "/packages#family",
     description:
