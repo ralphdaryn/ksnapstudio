@@ -83,10 +83,11 @@
     align-items: flex-end;
     justify-content: center;
     width: 100%;
-    min-height: 800px;
+    box-sizing: border-box;
+    min-height: 560px;
     text-align: center;
     background: var(--bg);
-    padding: 2rem 0 2rem;
+    padding: 2.5rem 0 2rem;
     border-bottom: 1px solid var(--line);
 
     .main__title,
@@ -1183,6 +1184,8 @@
     overflow: hidden;
 
     pointer-events: none;
+
+    background: var(--bg);
   }
 
   &__hero-slide {
@@ -1217,7 +1220,7 @@
     }
 
     &--contain {
-      background-size: cover;
+      background-size: contain;
 
       background-position: center center;
 
@@ -1225,22 +1228,33 @@
     }
 
     @media (min-width: 768px) {
+      background-size: cover;
+
       background-position: center center;
 
       &--contain {
-        background-size: cover;
+        background-size: contain;
 
         background-position: center center;
       }
     }
 
     @media (min-width: 1280px) {
+      // On desktop and wider screens, always show the full hero image.
+      // This prevents landscape photos from being chopped on 1280px,
+      // 1440px, 1920px, ultrawide, and other wide displays.
+      background-size: contain;
+
       background-position: center center;
 
+      background-color: var(--bg);
+
       &--contain {
-        background-size: cover;
+        background-size: contain;
 
         background-position: center center;
+
+        background-color: var(--bg);
       }
     }
   }
